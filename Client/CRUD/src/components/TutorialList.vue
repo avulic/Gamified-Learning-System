@@ -48,72 +48,67 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
 import TutorialDataService from "@/services/TutorialDataService";
 import type Tutorial from "@/types/Tutorial";
 import type ResponseData from "@/types/ResponseData";
 
-export default defineComponent({
-    name: "tutorials-list",
-    data() {
-        return {
-            tutorials: [] as Tutorial[],
-            currentTutorial: {} as Tutorial,
-            currentIndex: -1,
-            title: "",
-        };
-    },
-    methods: {
-        retrieveTutorials() {
-            TutorialDataService.getAll()
-                .then((response: ResponseData) => {
-                    this.tutorials = response.data;
-                    console.log(response.data);
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
-        },
+var tutorials = ref<Tutorial[]>([])
+var currentTutorial = <Tutorial>{}
+var currentIndex = -1
+var title = ""
 
-        refreshList() {
-            this.retrieveTutorials();
-            this.currentTutorial = {} as Tutorial;
-            this.currentIndex = -1;
-        },
 
-        setActiveTutorial(tutorial: Tutorial, index = -1) {
-            this.currentTutorial = tutorial;
-            this.currentIndex = index;
-        },
+function retrieveTutorials() {
+    TutorialDataService.getAll()
+        .then((response: ResponseData) => {
+            tutorials = response.data;
+            console.log(response.data);
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
 
-        removeAllTutorials() {
-            TutorialDataService.deleteAll()
-                .then((response: ResponseData) => {
-                    console.log(response.data);
-                    this.refreshList();
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
-        },
+function refreshList() {
+    retrieveTutorials();
+    currentTutorial = <Tutorial>{};
+    currentIndex = -1;
+}
 
-        searchTitle() {
-            TutorialDataService.findByTitle(this.title)
-                .then((response: ResponseData) => {
-                    this.tutorials = response.data;
-                    this.setActiveTutorial({} as Tutorial);
-                    console.log(response.data);
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
-        },
-    },
-    mounted() {
-        this.retrieveTutorials();
-    },
-});
+function setActiveTutorial(tutorial: Tutorial, index = -1) {
+    currentTutorial = tutorial;
+    currentIndex = index;
+}
+
+function removeAllTutorials() {
+    TutorialDataService.deleteAll()
+        .then((response: ResponseData) => {
+            console.log(response.data);
+            refreshList();
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
+
+function searchTitle() {
+    TutorialDataService.findByTitle(title)
+        .then((response: ResponseData) => {
+            tutorials = response.data;
+            setActiveTutorial({} as Tutorial);
+            console.log(response.data);
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
+
+onMounted(() => {
+    retrieveTutorials();
+})
+
 </script>
 
 <style>
