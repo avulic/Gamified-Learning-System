@@ -1,0 +1,34 @@
+version: "3.4"
+services:
+  api:
+    build:
+      context: ./Server # Specify the path to the client directory
+      dockerfile: Dockerfile # The Dockerfile for the client
+    container_name: node_c
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./Server:/app
+  frontend:
+    build:  
+      context: ./Client/CRUD
+      dockerfile: Dockerfile
+    container_name: vue_c
+    entrypoint: /bin/sh
+    working_dir: /srv/app
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./Client/CRUD
+        target: /srv/app
+    tty: true
+  game:
+    build:
+      context: ./Client/Game_starter_3 # Specify the path to the client directory
+      dockerfile: Dockerfile # The Dockerfile for the client
+    container_name: game_c
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Client/Game_starter_3:/game
