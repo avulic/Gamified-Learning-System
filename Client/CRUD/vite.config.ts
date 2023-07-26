@@ -15,11 +15,17 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 8080, // This is the port which we will use in docker
-    // Thanks @sergiomoura for the window fix
-    // add the next lines if you're using windows and hot reload doesn't work
+    port: 8080,
     watch: {
       usePolling: true
+    },
+    proxy: { 
+      "/api": { 
+      target: "http://localhost:4000", 
+      changeOrigin: true, 
+      secure: false, 
+      rewrite: (path) => path.replace(/^\/api/, ""), 
+      }, 
     }
   }
 })

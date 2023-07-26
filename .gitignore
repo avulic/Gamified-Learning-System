@@ -29,3 +29,4 @@ coverage
 
 new 1.txt
 .env
+DB
