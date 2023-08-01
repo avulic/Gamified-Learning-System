@@ -12,6 +12,9 @@ export default class UserRoute {
         // Route for creating a new User
         this.router.post('/users', this.userController.createUser);
         
+        // Route for creating a new User
+        this.router.post('/users/bulk', this.userController.createUsers);
+
         // Route for getting all User
         this.router.get('/users', this.userController.getAllUsers);
         

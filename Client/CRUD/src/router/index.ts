@@ -14,24 +14,14 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: "/user/all",
-      name: "user",
-      component: () => import("../components/UserList.vue"),
-    },
-    {
-      path: "/user/:id",
-      name: "user-details",
-      component: () => import("../components/UserList.vue"),
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: () => import("../components/AddUser.vue"),
+      path: "/users",
+      name: "users",
+      component: () => import("../views/UserView.vue"),
     },
     {
       path: "/game",
       name: "game",
-      component: () => import("../views/GameView.vue"),
+      component: () => import("../views/AboutView.vue"),
     }
   ]
 })

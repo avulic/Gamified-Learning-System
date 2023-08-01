@@ -1,6 +1,7 @@
 export default interface User {
-    id: null;
+    id: string;
     name: string;
     username: string;
     role: string;
+    email: string;
 }

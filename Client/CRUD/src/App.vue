@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 
-
 var isMenuOpen = false
+
+const redirect = () => window.location.href = "http://localhost:3000"
 </script>
 
 <template>
   <div class="flex flex-col h-screen">
-
 
     <header class="bg-gray-800 text-white py-4 px-8 items-center">
       <div class="bg-gray-900">
@@ -26,21 +26,21 @@ var isMenuOpen = false
               </a>
               <ul class="flex items-center hidden space-x-8 lg:flex">
                 <li>
-                  <RouterLink to="/user/all" aria-label="Users" title="Users"
+                  <RouterLink to="/" aria-label="Users" title="Users"
                     class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                     Home</RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/user/all" aria-label="Users" title="Users"
+                  <RouterLink to="/users" aria-label="Users" title="Users"
                     class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                     Users</RouterLink>
                 </li>
                 <li>
-                  <a href="/" aria-label="Product pricing" title="Product pricing"
-                    class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">Pricing</a>
+                  <a @click='redirect()' aria-label="Product pricing" title="Product pricing"
+                    class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">Game</a>
                 </li>
                 <li>
-                  <a href="/" aria-label="About us" title="About us"
+                  <a href="/about" aria-label="About us" title="About us"
                     class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">About
                     us</a>
                 </li>
@@ -48,12 +48,12 @@ var isMenuOpen = false
             </div>
             <ul class="flex items-center hidden space-x-8 lg:flex">
               <li>
-                <a href="/" aria-label="Sign in" title="Sign in"
+                <a href="/sigin" aria-label="Sign in" title="Sign in"
                   class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">Sign
                   in</a>
               </li>
               <li>
-                <a href="/"
+                <a href="/signup"
                   class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                   aria-label="Sign up" title="Sign up">
                   Sign up
@@ -144,7 +144,6 @@ var isMenuOpen = false
     <div class="bg-gray-100 p-8 items-center justify-center">
       <RouterView />
     </div>
-
 
   </div>
 </template>

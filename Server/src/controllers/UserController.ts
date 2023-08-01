@@ -15,14 +15,26 @@ class UserController {
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const newUser: IUser = req.body;
-            console.log( Object.keys(this.userService)    );
             const createdUser = await this.userService.createUser(newUser);
-
             res.status(201).json(createdUser);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to create user' + err});
+            res.status(500).json({ error: 'Failed to create user' + err });
         }
     }
+
+
+    // Function to create a new users
+    public createUsers = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const newUsers: IUser[] = req.body;
+            console.log(req.body)
+            const createdUsers = await this.userService.createUsers(newUsers);
+            res.status(201).json(createdUsers);
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to create users' + err });
+        }
+    }
+
 
     // Function to get all users
     public getAllUsers = async (req: Request, res: Response): Promise<void> => {
@@ -70,7 +82,7 @@ class UserController {
         try {
             const userId = req.params.id;
             const deletedUser = await this.userService.deleteUser(userId);
-            
+
             if (!deletedUser) {
                 res.status(404).json({ error: 'User not found' });
                 return;
