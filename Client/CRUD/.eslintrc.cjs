@@ -20,6 +20,6 @@ module.exports = {
     }
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    parser: "babel-eslint"
   }
 }
