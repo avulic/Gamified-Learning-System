@@ -1,6 +1,8 @@
+const { MONGO_URI } = process.env;
+
 // Configuration for MongoDB
 export const mongoConfig = {
-    url: 'mongodb://localhost:27017/',
+    url:  'mongodb://127.0.0.1:27017/test',
 };
 
 // Configuration for SQL (e.g., MySQL)

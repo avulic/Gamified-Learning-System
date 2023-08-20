@@ -32,7 +32,7 @@
             </div>
 
             <div v-else class="flex justify-between mt-4">
-                <AddUser></AddUser>
+                <Details :currentUser="currentUser" @onSaveUser="saveUser" @onToggleDropdown="toggleDropdown"></Details>
             </div>
         </Modal>
 
@@ -117,8 +117,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, type Ref, nextTick, onBeforeMount } from 'vue'
 import UserService from '@/services/UserService'
-import type User from '@/types/User'
-import type ResponseData from '@/types/ResponseData'
+import type User from '@/types/User/User'
 
 import Details from '@/components/user/Details.vue'
 import Modal from '@/components/common/Modal.vue';
@@ -236,3 +235,4 @@ onMounted(() => {
 })
 </script>
 @/services/UserService@/services/UserService
+@/types/User/User

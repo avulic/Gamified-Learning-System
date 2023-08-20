@@ -1,93 +1,129 @@
 <template>
     <div class="p-4 bg-gray-200">
-        <div class="flex items-center">
-            <div class="mr-2">
-                <img class="w-6 h-6 rounded-full" :src="currentUser.name" />
+        <div v-if="defaultValues" class=" top-0 left-0 mt-4 ml-4">
+            <div class="flex px-3 mb-6 md:mb-0">
+                <InputSwitch name="edit" v-model="checked" class="" />
+                <div class="ml-2" for="name">Edit this user</div>
             </div>
-            <span class="font-medium">{{ currentUser.email }}</span>
         </div>
 
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-            <div class="-mx-3 md:flex mb-6">
-                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                        for="grid-first-name">
-                        First Name
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                        id="grid-first-name" type="text" :placeholder=currentUser.name>
-                    <p class="text-red text-xs italic">Please fill out this field.</p>
-                </div>
-                <div class="md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                        for="grid-last-name">
-                        Last Name
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                        id="grid-last-name" type="text" :placeholder=currentUser.name>
-                </div>
-            </div>
-            <div class="-mx-3 md:flex mb-6">
-                <div class="md:w-full px-3">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                        for="grid-password">
-                        Password
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
-                        id="grid-password" type="password" placeholder="******************">
-                    <p class="text-grey-dark text-xs italic">Make it as long and as
-                        crazy as you'd like</p>
-                </div>
-            </div>
-            <div class="-mx-3 md:flex mb-2">
-                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-                        City
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                        id="grid-city" type="text" :placeholder=currentUser.name>
-                </div>
-                <div class="md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                        Role
-                    </label>
-                    <div class="relative">
-                        <select
-                            class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
-                            id="grid-state">
-                            <option>Student</option>
-                            <option>Profesor</option>
-                        </select>
-
+        <Form @submit="onSubmit" :validation-schema="schema" class="flex flex-col items-center" v-slot="{ errors, values }">
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3">
+                        <Field name="firstName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <InputText id="username" v-model="currentUser.name" v-bind="field" type="text"
+                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" />
+                                <label for="username">First Name</label>
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <Field name="firstName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <InputText id="username" v-model="currentUser.name" v-bind="field" type="text"
+                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" />
+                                <label for="username">First Name</label>
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
                     </div>
                 </div>
-                <div class="md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
-                        Zip
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                        id="grid-zip" type="text" :placeholder=currentUser.name>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3">
+                        <Field name="firstName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <InputText id="username" v-model="currentUser.name" v-bind="field" type="text"
+                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" />
+                                <label for="username">First Name</label>
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <Field name="firstName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <InputText id="username" v-model="currentUser.name" v-bind="field" type="text"
+                                    :class="{ 'p-invalid': errorMessage }" />
+                                <label for="username">First Name</label>
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <Field name="lastName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <Dropdown v-model="selectedRole" :options="roleOptions" optionLabel="roles"
+                                    placeholder="Select a City" class="w-full md:w-14rem" />
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <Field name="firstName" v-model="currentUser.name" v-slot="{ field, errorMessage }">
+                            <span class="p-float-label ">
+                                <InputText id="username" v-model="currentUser.name" v-bind="field" type="text"
+                                    :class="{ 'p-invalid': errorMessage }" />
+                                <label for="username">First Name</label>
+                            </span>
+                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                        </Field>
+                    </div>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <button @click="$emit('saveUser')" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">Save</button>
-                <button @click="$emit('toggleDropdown', -1)"
-                    class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
-            </div>
-        </div>
+        </Form>
     </div>
-</template>    
+</template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, type Ref, nextTick, onBeforeMount } from 'vue'
 import UserService from '@/services/UserService'
-import type User from '@/types/User'
+import type User from '@/types/User/User'
 import type ResponseData from '@/types/ResponseData'
+import { Form, Field } from "vee-validate";
+import { object, string } from "yup";
+import router from '@/router';
+import AuthService from '@/services/AuthService';
+import { useToast } from 'primevue/usetoast';
+
+const loading = ref(false);
+const checked = ref(false);
+
+const schema = object({
+    firstName: string().required("First Name is required"),
+    lastName: string(),
+    password: string(),
+    city: string(),
+    role: string(),
+    zip: string(),
+});
+
+const currentUser: User = {
+    id: "",
+    name: "",
+    password: "",
+    role: "",
+    email: "",
+    username: "",
+    token: null
+};
+
+const defaultValues = false;
+const selectedRole = ref();
+
+
+
+const roleOptions = ref([
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' }
+]);
 
 defineProps<{
     currentUser: User
@@ -98,8 +134,54 @@ const emit = defineEmits<{
     onToggleDropdown: [value: number]
 }>()
 
+async function onSubmit() {
+    loading.value = true;
+    try {
+        const response = await AuthService.signUp(currentUser);
+        if (response) {
+            //currentUser.token = response;
+            //AuthService.setUserToLocalStorage(response);
+            router.push('/');
+        }
+    } catch (error) {
+        console.log(error)
+        const errorMessage = extractErrorMessage(error);
+        //message.value = errorMessage;
+        showToast(errorMessage, 'error');
+    }
+    loading.value = false;
+}
 
+const toast = useToast();
 
+function showToast(message: string, severityType: "error" | "success" | "info" | "warn") {
+    toast.add({
+        severity: severityType,
+        summary: severityType === 'error' ? 'Error' : 'Success', // Customize summary text if needed
+        detail: message,
+        life: 3000
+    });
+}
 
+function extractErrorMessage(error: any): string {
+    if (typeof error === 'string') {
+        return error;
+    }
+
+    if (error instanceof Error) {
+        return error.message;
+    }
+
+    if (error instanceof Object && 'response' in error) {
+        const responseData = error.response.data;
+        if (responseData && responseData.message) {
+            return responseData.message;
+        }
+    }
+
+    return 'An error occurred';
+}
 
 </script>
+
+@/types/User/User

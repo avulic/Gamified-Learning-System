@@ -1,11 +1,15 @@
 import ApiService from '@/services/ApiService';
-import type User from '@/types/User'
-import type ResponseData from '@/types/ResponseData'
+import type User from '@/types/User/User';
+import type UserSignUp from '@/types/User/UserSignUp';
+import type ResponseData from '@/types/ResponseData';
+import AuthService from './AuthService';
+import type { AxiosHeaderValue, AxiosRequestConfig } from 'axios';
+
 
 class UserService {
-    public async createUser(user: User): Promise<User> {
-        try{
-            const response: ResponseData = await ApiService.post<User>('/users', user);
+    public async createUser(user: UserSignUp): Promise<User> {
+        try {
+            const response: ResponseData = await ApiService.post<UserSignUp>('/users', user, this.setOptions());
             return response.data;
         } catch (error) {
             // Handle createUser specific errors if needed
@@ -14,7 +18,7 @@ class UserService {
     }
 
     public async createUsers(users: User[]): Promise<User> {
-        try{
+        try {
             const response: ResponseData = await ApiService.post<User[]>('/users', users);
             return response.data;
         } catch (error) {
@@ -48,6 +52,15 @@ class UserService {
         return response.data;
     }
 
+
+    private setOptions(): AxiosRequestConfig {
+        const authHeader = AuthService.authHeader() as AxiosHeaderValue;
+        return {
+            headers: {
+                Authorization: authHeader,
+            },
+        };
+    }
 }
 
 export default new UserService();

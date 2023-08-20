@@ -15,15 +15,23 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@storinka/dropdown": "^2.0.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/yup": "^0.32.0",
     "@vuex-orm/axios": "^0.7.0",
     "@vuex-orm/core": "^0.36.4",
     "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
     "http-commons": "^1.2.0",
+    "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^3.1.2",
     "primevue": "^3.31.0",
+    "rxjs": "^7.8.1",
+    "vee-validate": "^4.11.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
