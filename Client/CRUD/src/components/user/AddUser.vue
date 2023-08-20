@@ -63,7 +63,7 @@
                             <option>Profesor</option>
                         </select>
 
-                        <SDropdown />
+
                     </div>
                 </div>
                 <div class="md:w-1/2 px-3">
@@ -91,18 +91,19 @@
 <script setup lang="ts">
 import { defineComponent } from "vue";
 import UserService from "@/services/UserService";
-import type User from "@/types/User";
+import type UserSignUp from "@/types/User/UserSignUp";
 import type ResponseData from "@/types/ResponseData";
 
 import DropDown from "../common/DropDown.vue";
-import SDropdown from "@storinka/dropdown";
 
-var user: User = {
-    id: "",
+
+var user: UserSignUp = {
     name: "",
     username: "",
-    role: "",
-    email: ""
+    roles: "",
+    email: "",
+    password: "",
+    lastName: ""
 };
 var submitted = false;
 
@@ -110,8 +111,7 @@ const options = <string[]>["Ante", "Mate"]
 
 function saveUser() {
     UserService.createUser(user)
-        .then((response: User) => {
-            user.id = response.id;
+        .then((response: any) => {
             console.log(response);
             submitted = true;
         })
@@ -128,3 +128,4 @@ function newUser() {
 
 </script>
 
+@/types/User/User

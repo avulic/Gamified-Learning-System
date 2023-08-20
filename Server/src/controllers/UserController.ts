@@ -1,8 +1,11 @@
-
 'use Strict'
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
 import { IUser } from '../models/User';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { authConfig } from '../config/authConfig';
+import logger from '../config/loggerConfig';
 
 class UserController {
     private userService: UserService;
@@ -22,7 +25,6 @@ class UserController {
         }
     }
 
-
     // Function to create a new users
     public createUsers = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -34,7 +36,6 @@ class UserController {
             res.status(500).json({ error: 'Failed to create users' + err });
         }
     }
-
 
     // Function to get all users
     public getAllUsers = async (req: Request, res: Response): Promise<void> => {
@@ -92,6 +93,27 @@ class UserController {
             res.status(500).json({ error: 'Failed to delete user' });
         }
     }
+
+    public signInUser = async (req: Request, res: Response) => {
+        try{
+            const { username, password } = req.body;
+
+            const userSigned  = await this.userService.signIn( username, password );
+            
+            if(!userSigned){
+                res.status(401).json({ error: 'Invalid credentials' });
+                return;
+            }
+            res.status(200).json(userSigned);
+        }catch (e){
+            res.status(401).json({ error: 'Invalid credentials' });
+            return;
+        }        
+    };
+
+    public signUpUser = async (req: Request, res: Response) => {
+        this.createUser(req, res);
+    };
 }
 
 export default UserController;

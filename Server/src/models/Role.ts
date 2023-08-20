@@ -7,11 +7,12 @@ export interface IRole extends Document {
 const roleSchema: Schema = new Schema({
     name: {
         type: String,
-        required: false,
+        required: true,
         unique: true,
     },
 });
 
-const Role = model<IRole>('Role', roleSchema);
+
+const Role = model<IRole>('Role', roleSchema, 'Role');
 
 export default Role;

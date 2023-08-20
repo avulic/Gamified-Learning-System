@@ -1,10 +1,12 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
+import router from "@/router"; 
+
 
 const ApiService: AxiosInstance = axios.create({
-    baseURL: "http://localhost:4000/api",
+    baseURL: import.meta.env.VITE_DEV_BASE_URL,
     headers: {
-        "Content-type": "application/json",
+        "Content-type": "application/json"
     }
 });
 
@@ -27,8 +29,30 @@ ApiService.interceptors.response.use(
         return response;
     },
     (error) => {
-        // Handle error responses
-        return Promise.reject(error);
+        // if (400 === error.response.status) {
+        //     //router.push("/logout");
+        //     console.log("Error 400");
+        //     return Promise.resolve(error.response);
+        // } 
+        // else if (401 === error.response.status) {
+        //     router.push("/signin");
+        //     console.log("Error 401");
+        //     return Promise.resolve(error.response);
+        // } 
+        // else if (402 === error.response.status) {
+        //     //router.push("/logout");
+        //     console.log("Error 402");
+        //     return Promise.resolve(error.response);
+        // } 
+        // else if (403 === error.response.status) {
+        //     //router.push("/logout");
+        //     // logoutService.logout()
+        //     console.log("Error 403");
+        //     return Promise.resolve(error.response);
+        // } 
+        // else {
+        //     return Promise.reject(error);
+        // }
     }
 );
 
