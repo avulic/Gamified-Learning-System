@@ -1,6 +1,6 @@
 import ApiService from '@/services/ApiService';
 import type UserSignIn from '@/types/User/UserSignIn';
-import type UserSignUp from '@/types/User/UserSignUp';
+import type UserSignUp from '@/types/User/UserDetails';
 import type User from '@/types/User/User';
 import type ResponseData from '@/types/ResponseData';
 import jwt_decode, {type JwtPayload} from 'jwt-decode';

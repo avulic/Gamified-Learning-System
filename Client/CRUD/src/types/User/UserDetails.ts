@@ -1,8 +1,9 @@
-export default interface UserSignUp {
+export default interface UserDetails {
+    id: string;
     username: string;
     password: string;
     name: string;
     lastName: string;
     email: string;
-    roles: string;
+    roles: [{name: string}];
 }

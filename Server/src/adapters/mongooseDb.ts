@@ -26,7 +26,7 @@ async function initial() {
         const count = await Role.estimatedDocumentCount();
         if (count === 0) {
             await Role.create({ name: "user" });
-            await Role.create({ name: "moderator" });
+            await Role.create({ name: "profesor" });
             await Role.create({ name: "admin" });
             console.log("Roles collection initialized.");
         }

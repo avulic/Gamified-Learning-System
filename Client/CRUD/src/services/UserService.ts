@@ -1,9 +1,11 @@
 import ApiService from '@/services/ApiService';
 import type User from '@/types/User/User';
-import type UserSignUp from '@/types/User/UserSignUp';
+import type UserSignUp from '@/types/User/UserDetails';
 import type ResponseData from '@/types/ResponseData';
 import AuthService from './AuthService';
 import type { AxiosHeaderValue, AxiosRequestConfig } from 'axios';
+import type UserDetails from '@/types/User/UserDetails';
+import { throwError } from 'rxjs';
 
 
 class UserService {
@@ -32,8 +34,8 @@ class UserService {
         return response.data;
     }
 
-    public async getUserByName(userName: string): Promise<User | null> {
-        const response: ResponseData = await ApiService.get<User>(`/users/?name=${userName}`);
+    public async getUserByUserName(userName: string): Promise<User | null> {
+        const response: ResponseData = await ApiService.get<User>(`/users/?username=${userName}`);
         return response.data;
     }
 
@@ -42,16 +44,29 @@ class UserService {
         return response.data;
     }
 
-    public async updateUser(userId: string, updatedUserData: User): Promise<User | null> {
-        const response: ResponseData = await ApiService.put<User>(`/users/${userId}`, updatedUserData);
+    public async updateUser(userId: string, updatedUserData: UserDetails): Promise<UserDetails | null> {
+        try{
+            const response: ResponseData = await ApiService.put<UserDetails>(`/users/${userId}`, updatedUserData);
+            return response.data;
+        } catch(err){
+            throw new Error("Eror od servera:"+err)
+        }
+
+    }
+
+    public async deleteUser(userId: string): Promise<UserDetails | null> {
+        const response: ResponseData = await ApiService.delete<UserDetails>(`/users/${userId}`);
         return response.data;
     }
 
-    public async deleteUser(userId: string): Promise<User | null> {
-        const response: ResponseData = await ApiService.delete<User>(`/users/${userId}`);
+    public async deleteUserByUserName(userName: string): Promise<UserSignUp | null> {
+        const responseUser: ResponseData = await ApiService.get<User>(`/users/?username=${userName}`);
+        if(!responseUser.data)
+            return null;
+
+        const response: ResponseData = await ApiService.delete<User>(`/users/${responseUser.data.id}`);
         return response.data;
     }
-
 
     private setOptions(): AxiosRequestConfig {
         const authHeader = AuthService.authHeader() as AxiosHeaderValue;

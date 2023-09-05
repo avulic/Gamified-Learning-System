@@ -9,7 +9,7 @@ export interface IUser {
     username: string;
     password: string;
     salt: string;
-    rolesName: string[];
+    rolesName: IRole[];
 }
 
 export interface IUserDb extends IUser, Document {

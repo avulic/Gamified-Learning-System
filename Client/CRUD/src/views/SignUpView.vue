@@ -64,15 +64,16 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from "@/services/AuthService";
 import { object, string } from "yup";
 import { useToast } from "primevue/usetoast";
-import type UserSignUp from "@/types/User/UserSignUp";
+import type User from "@/types/User/User";
+import type UserDetails from "@/types/User/UserDetails";
 
 const loading = ref(false);
-const user = <UserSignUp>{
+const user = <UserDetails>{
     name: "",
     lastName: "",
     username: "",
     password: "",
-    roles: "",
+    roles: [{}],
     email: ""
 };
 
@@ -137,3 +138,4 @@ function clearForm() {
 </script>
 
 <style scoped></style>
+@/types/User/UserDetails

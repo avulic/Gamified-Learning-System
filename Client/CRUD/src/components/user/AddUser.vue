@@ -128,4 +128,4 @@ function newUser() {
 
 </script>
 
-@/types/User/User
+@/types/User/User@/types/User/UserDetails

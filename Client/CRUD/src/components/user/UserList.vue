@@ -15,13 +15,14 @@
                 class="py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
         </div>
 
-        <!-- Use the modal component with a v-if to show/hide it -->
-        <Modal v-if="showModal" @closeModal="showModal = false">
+        <Modal v-if="showModal" @closeModal="closeModal">
             <div v-if="!isNewUserSelected" class="flex flex-col items-center justify-center">
                 <DragDrop />
+
                 <span class="mb-2 block text-base font-medium text-[#6B7280]">
                     Or
                 </span>
+
                 <button @click="openNewUserDetails"
                     class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
                     Add one user
@@ -32,7 +33,7 @@
             </div>
 
             <div v-else class="flex justify-between mt-4">
-                <Details :currentUser="currentUser" @onSaveUser="saveUser" @onToggleDropdown="toggleDropdown"></Details>
+                <Details :currentUser="null" @onSaveUser="saveUser"></Details>
             </div>
         </Modal>
 
@@ -71,7 +72,7 @@
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
-                                        <span class="max-w-md">{{ user.role }}</span>
+                                        <span v-for="role in user.roles" class="max-w-md">{{ role.name }}</span>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <span
@@ -79,7 +80,8 @@
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            <div @click="" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                            <div @click.stop="toggleDropdown(i)"
+                                                class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -101,8 +103,8 @@
                                 <tr v-if="currentIndex === i" :key="currentIndex"
                                     class="border-b border-gray-200 hover:bg-gray-100" role="presentation">
                                     <td :colspan="Object.keys(filteredUsers[0]).length + 1">
-                                        <Details :currentUser="currentUser" @onSaveUser="saveUser"
-                                            @onToggleDropdown="toggleDropdown"></Details>
+                                        <Details :currentUser="currentUser" @onSaveUser="saveUser" @onEditUser="editUser">
+                                        </Details>
                                     </td>
                                 </tr>
                             </template>
@@ -118,14 +120,28 @@
 import { ref, computed, onMounted, type Ref, nextTick, onBeforeMount } from 'vue'
 import UserService from '@/services/UserService'
 import type User from '@/types/User/User'
+import type UserDetails from '@/types/User/UserDetails'
+import AuthService from '@/services/AuthService';
 
 import Details from '@/components/user/Details.vue'
 import Modal from '@/components/common/Modal.vue';
 import AddUser from '@/components/user/AddUser.vue';
 import DragDrop from '@/components/common/DragDrop.vue'
 
-let users = ref([]) as Ref<User[]>
-var currentUser = <User>{}
+import { useToast } from 'primevue/usetoast';
+import { useRouter } from "vue-router";
+
+
+let users = ref([]) as Ref<UserDetails[]>
+var currentUser = ref(<UserDetails>{
+    id: "",
+    name: "",
+    lastName: "",
+    username: "",
+    password: "",
+    roles: [{}],
+    email: ""
+});
 
 var title = ref('')
 var currentIndex = ref(-1)
@@ -135,11 +151,12 @@ const showModal = ref(false);
 var isImportSelected = ref(true);
 var isNewUserSelected = ref(false);
 
-
+const loading = ref(false);
+const toast = useToast();
 
 // Function to retrieve users from the API
-function retrieveUsers() {
-    UserService.getAllUsers()
+async function retrieveUsers() {
+    await UserService.getAllUsers()
         .then((response: any) => {
             users.value = response
             console.log(response.values)
@@ -151,22 +168,37 @@ function retrieveUsers() {
 
 async function refreshList() {
     await retrieveUsers()
-    currentUser = <User>{}
     currentIndex.value = -1
 }
 
-function setActiveTutorial(index: number) {
-    if (currentIndex.value === index) {
-        currentIndex.value = -1
-    } else {
-        currentIndex.value = index
-        currentUser = users.value[index]
+
+async function saveUser(user: UserDetails) {
+    loading.value = true;
+    try {
+        await UserService.createUser(user);
+        showToast("Import successful!", "success");
+    } catch (error) {
+        const errorMessage = extractErrorMessage(error);
+        showToast(errorMessage, "error");
     }
+    loading.value = false;
 }
 
-function deleteUser(userId: string) {
-    UserService.deleteUser(userId)
-        .then((response: User | null) => {
+async function editUser(user: UserDetails) {
+    loading.value = true;
+    try {
+        await UserService.updateUser(currentUser.value.id, user);
+        showToast("Edit successful!", "success");
+    } catch (error) {
+        const errorMessage = extractErrorMessage(error);
+        showToast(errorMessage, "error");
+    }
+    loading.value = false;
+}
+
+function deleteUser(id: string) {
+    UserService.deleteUser(id)
+        .then((response: UserDetails | null) => {
             refreshList()
             console.log(response)
         })
@@ -175,15 +207,32 @@ function deleteUser(userId: string) {
         })
 }
 
-function saveUser() {
-    UserService.updateUser(currentUser.id, currentUser)
-        .then((response: User | null) => {
-            refreshList()
-        })
-        .catch((e: Error) => {
-            console.log('Erro on delete ' + e)
-        })
+
+function showToast(message: string, severityType: "error" | "success" | "info" | "warn") {
+    toast.add({
+        severity: severityType,
+        summary: severityType === "error" ? "Error" : "Success",
+        detail: message,
+        life: 10000,
+    });
 }
+
+function extractErrorMessage(error: any): string {
+    if (typeof error === "string") {
+        return error;
+    }
+    if (error instanceof Error) {
+        return error.message;
+    }
+    if (error instanceof Object && "response" in error) {
+        const responseData = error.response.data;
+        if (responseData && responseData.message) {
+            return responseData.message;
+        }
+    }
+    return "An error occurred";
+}
+
 
 const filteredUsers = computed(() => {
     const term = searchTerm.value.toLowerCase().trim()
@@ -192,14 +241,17 @@ const filteredUsers = computed(() => {
     return users.value.filter(
         (user) =>
             user.name.toLowerCase().includes(term) ||
-            user.username.toLowerCase().includes(term) ||
-            user.role.toLowerCase().includes(term)
+            user.username.toLowerCase().includes(term)
     )
 })
 
 function toggleDropdown(index: number) {
-    setActiveTutorial(index)
-    //currentIndex.value = currentIndex.value === index ? -1 : index;
+    currentIndex.value = currentIndex.value === index ? -1 : index;
+    setActiveUser(index);
+}
+
+function setActiveUser(index: number) {
+    currentUser.value = users.value[index]
 }
 
 // Function to open the file input when "Upload CSV" button is clicked
@@ -223,16 +275,17 @@ const onFileChange = (event: Event) => {
 const openNewUserDetails = () => {
     isImportSelected.value = false;
     isNewUserSelected.value = true;
-
 };
 
-
-
-
+const closeModal = () => {
+    showModal.value = false;
+    isImportSelected.value = true;
+    isNewUserSelected.value = false;
+}
 
 onMounted(() => {
     retrieveUsers()
 })
 </script>
 @/services/UserService@/services/UserService
-@/types/User/User
+@/types/User/User@/types/User/UserDetails

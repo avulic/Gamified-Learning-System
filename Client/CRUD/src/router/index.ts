@@ -20,7 +20,7 @@ const router = createRouter({
             path: '/users',
             name: 'users',
             component: () => import('../views/UserView.vue'),
-            meta: { authorize: [Role.Admin] }
+            meta: { authorize: [] }
         },
         {
             path: '/signin',

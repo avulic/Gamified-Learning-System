@@ -19,7 +19,7 @@
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                                 Home</RouterLink>
                         </li>
-                        <li v-if="isAdmin">
+                        <li><!-- <li v-if="isAdmin"> -->
                             <RouterLink :to="{ name: 'users' }" aria-label="Users" title="Users"
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                                 Users</RouterLink>

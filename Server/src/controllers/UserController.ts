@@ -1,7 +1,7 @@
 'use Strict'
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
-import { IUser } from '../models/User';
+import { IUser, IUserDb } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authConfig } from '../config/authConfig';
@@ -66,7 +66,7 @@ class UserController {
     public updateUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const userId = req.params.id;
-            const updatedUserData: IUser = req.body;
+            const updatedUserData: IUserDb = req.body;
             const updatedUser = await this.userService.updateUser(userId, updatedUserData);
             if (!updatedUser) {
                 res.status(404).json({ error: 'User not found' });
