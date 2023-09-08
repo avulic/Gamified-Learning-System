@@ -1,0 +1,19 @@
+name = 'My RPG Game'
+
+modules = [
+   '@rpgjs/save',
+   '@rpgjs/chat',
+   '@rpgjs/plugin-emotion-bubbles',
+    './main',
+    '@rpgjs/mobile-gui',
+    '@rpgjs/default-gui',
+    '@rpgjs/gamepad',
+    './login_module'
+]
+
+[login_module]
+    mongodb = "mongodb://127.0.0.1:27017/test"
+
+[start]
+    graphic = 'hero'
+    hitbox = [16, 16]

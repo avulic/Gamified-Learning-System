@@ -1,0 +1,30 @@
+{
+    "name": "my-game",
+    "scripts": {
+        "build": "rpgjs build",
+        "dev": "rpgjs dev",
+        "start": "node dist/server/main.mjs"
+    },
+    "engines": {
+        "node": ">=14"
+    },
+    "dependencies": {
+        "@rpgjs/chat": "^4.0.0-rc.12",
+        "@rpgjs/client": "4.0.0-rc.12",
+        "@rpgjs/default-gui": "^4.0.0-rc.12",
+        "@rpgjs/gamepad": "^4.0.0-rc.12",
+        "@rpgjs/mobile-gui": "^4.0.0-rc.12",
+        "@rpgjs/plugin-emotion-bubbles": "^4.0.0-rc.12",
+        "@rpgjs/save": "^4.0.0-rc.12",
+        "@rpgjs/server": "4.0.0-rc.12",
+        "@rpgjs/standalone": "4.0.0-rc.12",
+        "@rpgjs/types": "4.0.0-rc.12",
+        "mongoose": "^7.5.0",
+        "mongoose-bcrypt": "^1.10.1",
+        "socket.io-client": "4.7.2"
+    },
+    "devDependencies": {
+        "@rpgjs/compiler": "4.0.0-rc.12",
+        "typescript": "5.2.2"
+    }
+}
