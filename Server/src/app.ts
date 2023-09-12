@@ -6,6 +6,10 @@ import  UserController  from "./controllers/UserController";
 import  UserService  from "./services/UserService";
 import  UserRoute from "./routes/UserRoutes";
 
+import  TaskController  from "./controllers/TaskController";
+import  TaskService  from "./services/TaskService";
+import  TaskRoute from "./routes/TaskRoutes";
+
 import mongooseDb from "./adapters/mongooseDb";
 
 class App {
@@ -35,6 +39,12 @@ class App {
     const userRoute = new UserRoute(userController);
 
     this.app.use("/api", userRoute.router);
+
+    const taskService = new TaskService();
+    const taskController = new TaskController(taskService);
+    const taskRoute = new TaskRoute(taskController);
+
+    this.app.use("/api", taskRoute.router);
   }
 }
 

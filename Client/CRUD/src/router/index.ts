@@ -23,6 +23,11 @@ const router = createRouter({
             meta: { authorize: [] }
         },
         {
+            path: '/tasks',
+            name: 'tasks',
+            component: () => import('../views/TaskView.vue'),
+        },
+        {
             path: '/signin',
             name: 'signin',
             component: () => import('../views/SignInView.vue')
