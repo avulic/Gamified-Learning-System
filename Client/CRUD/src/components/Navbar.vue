@@ -33,6 +33,11 @@
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                                 About us</RouterLink>
                         </li>
+                        <li>
+                            <RouterLink :to="{ name: 'tasks' }" aria-label="Tasks" title="Tasks"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Tasks</RouterLink>
+                        </li>
                     </ul>
                 </div>
                 <ul v-if="!currentUser" class="flex items-center hidden space-x-8 lg:flex">

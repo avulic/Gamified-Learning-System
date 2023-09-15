@@ -148,11 +148,8 @@ class UserService {
     public updateUser = async (userId: string, updatedUserData: any): Promise<IUser | null> => {  
         try {   
             const roleIds: string[] = await this.getRoleIds(updatedUserData.roles);
-            console.log("🚀 ~ file: UserService.ts:151 ~ UserService ~ updateUser= ~ roleIds:", roleIds)
             updatedUserData.roles = roleIds; 
-            
             var user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
-            
             return user;
         } catch (err: any) { 
             console.log("Error updating user:", err);
