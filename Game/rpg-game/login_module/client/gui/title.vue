@@ -3,8 +3,8 @@
         <div class="title" v-if="step == 'title'">
             <h1>{{ title }}</h1>
         </div>
-        <rpgLogin v-if="page == 'title'" class="margin-bottom" />
-        <rpgCreatAccount v-if="page == 'create'" @back="page = 'login'" />
+        <rpgLogin v-if="page == 'login'" class="margin-bottom" @create="page = 'create'" />
+        <rpgCreatAccount v-if="page == 'create'" @login="page = 'login'" />
         <rpgSelectSubject :user="user" v-if="page == 'select'" />
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
         return {
             step: 'title',
             title: 'Login',
-            page: 'title',
+            page: 'login',
             user: {}
         }
     },

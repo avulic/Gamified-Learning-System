@@ -8,7 +8,7 @@
                 v-model="user.password">
             <input type="password" placeholder="Confirm Password" required v-model="confirmPassword">
             <button class="btn-success login">Create</button>
-            <button class="css-button-3d--grey" type="button" @click="$emit('back')">Back</button>
+            <button class="css-button-3d--grey" type="button" @click="$emit('login')">Back</button>
         </form>
     </rpg-window>
 </template>

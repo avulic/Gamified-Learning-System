@@ -1,0 +1,13 @@
+{
+    "maps": [
+        {
+            "fileName": "maps/simplemap4.tmx",
+            "height": 1280,
+            "width": 1280,
+            "x": 2560,
+            "y": 0
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

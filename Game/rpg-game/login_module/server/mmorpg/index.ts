@@ -183,7 +183,7 @@ RpgPlayer.prototype.save = function (): string {
                         if (start.map) 
                             await player.changeMap(start.map)
                         else 
-                            await player.changeMap('simplemap2')
+                            await player.changeMap('simplemap4')
                     }
                 }
                 else {

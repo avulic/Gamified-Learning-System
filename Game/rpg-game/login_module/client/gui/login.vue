@@ -5,7 +5,7 @@
             <input type="text" placeholder="Nickname" v-model="user.nickname">
             <input type="password" placeholder="Password" v-model="user.password">
             <button class="btn-success login">Login</button>
-            <button class="css-button-3d--grey" type="button" @click="page = 'create'">Create account</button>
+            <button class="css-button-3d--grey" type="button" @click="openCreate">Create account</button>
         </form>
     </rpg-window>
 </template>
@@ -56,6 +56,9 @@ export default {
                 position: 'top',
                 type: 'error'
             })
+        },
+        openCreate() {
+            this.$emit('create')
         }
     }
 }
