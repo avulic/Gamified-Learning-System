@@ -4,12 +4,24 @@
 <head>
     <meta charset="utf-8">
     <title>RPG Game</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimum-scale=1, width=device-width, height=device-height">
+    <meta name="viewport"
+        content="initial-scale=1, maximum-scale=1, user-scalable=no, minimum-scale=1, width=device-width, height=device-height">
+    <link href="/dist/output.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="rpg"></div>
-    
+    <div id="container" class="flex h-screen">
+        <div hidden class="w-1/2 bg-white p-4 overflow-y-auto">
+            <div id="TaskList" class="px-4 py-5">
+                
+            </div>
+        </div>
+
+        <div id="rpg" class="w-1/2 bg-black">
+            
+        </div>
+    </div>
+
     <style>
         body,
         html {
@@ -19,7 +31,7 @@
 
         body {
             margin: 0;
-            background-color: black; 
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -27,7 +39,7 @@
 
         #rpg {
             position: relative;
-            
+
         }
 
         @media (min-width: 800px) {

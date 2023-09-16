@@ -4,11 +4,11 @@ modules = [
    '@rpgjs/save',
    '@rpgjs/chat',
    '@rpgjs/plugin-emotion-bubbles',
-    './main',
+    './src/main',
     '@rpgjs/mobile-gui',
     '@rpgjs/default-gui',
-    '@rpgjs/gamepad',
-    './login_module'
+    './src/login_module',
+    './src/edit_events_module'
 ]
 
 [login_module]
