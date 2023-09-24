@@ -1,0 +1,12 @@
+{
+    "namespace": "chat_module",
+    "server": {
+        "type": "object",
+        "properties": {
+        },
+        "required": [
+        ]
+    },
+    "client": {},
+    "*": {}
+}

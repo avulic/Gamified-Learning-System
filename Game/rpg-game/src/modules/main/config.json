@@ -1,0 +1,12 @@
+{
+    "namespace": "main",
+    "server": {
+        "type": "object",
+        "properties": {
+        },
+        "required": [
+        ]
+    },
+    "client": {},
+    "*": {}
+}

@@ -2,13 +2,12 @@ name = 'My RPG Game'
 
 modules = [
    '@rpgjs/save',
-   '@rpgjs/chat',
    '@rpgjs/plugin-emotion-bubbles',
-    './src/main',
-    '@rpgjs/mobile-gui',
-    '@rpgjs/default-gui',
-    './src/login_module',
-    './src/edit_events_module'
+    './src/modules/main',
+    './src/modules/login_module',
+    './src/modules/menu_module',
+    './src/modules/edit_events_module',
+    './src/modules/chat_module'
 ]
 
 [login_module]
