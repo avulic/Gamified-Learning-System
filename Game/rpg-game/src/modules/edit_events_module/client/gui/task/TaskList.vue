@@ -76,6 +76,8 @@ import { useToast } from 'primevue/usetoast';
 import TaskService from '../../../services/TaskService'
 import type Task from '../../../types/Task'
 
+import type User from '../../../types/User/User'
+
 import TaskDetails from './Details.vue'
 import AddTask from './AddTask.vue';
 
@@ -100,7 +102,6 @@ export default {
             currentTask: <Task>{},
             searchTerm: "",
             loading: false,
-            title: "",
             currentIndex: -1,
         }
     },
@@ -155,7 +156,7 @@ export default {
                 await TaskService.createTask(task);
                 this.showToast("Task created successfully!", "success");
             } catch (error) {
-                const errorMessage = extractErrorMessage(error);
+                const errorMessage = this.extractErrorMessage(error);
                 this.showToast(errorMessage, "error");
             }
             this.loading = false;
@@ -167,7 +168,7 @@ export default {
                 await TaskService.updateTask(this.currentTask.id, task);
                 this.showToast("Task updated successfully!", "success");
             } catch (error) {
-                const errorMessage = extractErrorMessage(error);
+                const errorMessage = this.extractErrorMessage(error);
                 this.showToast(errorMessage, "error");
             }
             this.loading = false;
@@ -184,7 +185,7 @@ export default {
         },
 
         showToast(message: string, severityType: "error" | "success" | "info" | "warn") {
-            toast.add({
+            this.toast.add({
                 severity: severityType,
                 summary: severityType === "error" ? "Error" : "Success",
                 detail: message,
