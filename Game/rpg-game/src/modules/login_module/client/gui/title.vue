@@ -9,6 +9,12 @@
     </div>
 </template>
 
+<!-- <template>
+    <div class="background">
+        <CrudApp></CrudApp>
+    </div>
+</template> -->
+
 <script lang="ts">
 import { Control } from '@rpgjs/client'
 import rpgCreatAccount from './create-account.vue'

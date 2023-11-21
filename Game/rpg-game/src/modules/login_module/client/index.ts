@@ -9,7 +9,7 @@ import { sprite } from './sprite'
 
 const engine: RpgClientEngineHooks = {
     onStart(engine: RpgClientEngine){
-        console.log("Started module")
+
     }
 }
 

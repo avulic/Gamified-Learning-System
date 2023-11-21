@@ -5,9 +5,7 @@ import { RpgServer, RpgModule, RpgServerEngine, RpgPlayer, RpgWorld, RpgPlugin }
 @RpgModule<RpgServer>({
     player: {
         onConnected(player: RpgPlayer) {
-            console.log("opening")
-            const gui = player.gui('taskList')
-            gui.open()
+
         }
     }
 })

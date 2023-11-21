@@ -1,0 +1,12 @@
+{
+    "namespace": "CRUD_module",
+    "server": {
+        "type": "object",
+        "properties": {
+        },
+        "required": [
+        ]
+    },
+    "client": {},
+    "*": {}
+}

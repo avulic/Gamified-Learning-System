@@ -7,7 +7,8 @@ modules = [
     './src/modules/login_module',
     './src/modules/menu_module',
     './src/modules/edit_events_module',
-    './src/modules/chat_module'
+    './src/modules/chat_module',
+    './src/modules/CRUD_module'
 ]
 
 [login_module]
@@ -16,3 +17,6 @@ modules = [
 [start]
     graphic = 'hero'
     hitbox = [16, 16]
+
+[compilerOptions.alias]
+    "?" = "./src"
