@@ -19,6 +19,7 @@ import { RpgServer, RpgModule, RpgPlayer } from '@rpgjs/server'
             //     player.changeMap(player.server.globalConfig.start.map)
             // })
             // gui.open()
+            
         }
     }
 })

@@ -20,3 +20,6 @@ modules = [
 
 [compilerOptions.alias]
     "?" = "./src"
+
+[compilerOptions.build]
+    serverUrl = "https//world.rpgjs.dev"

@@ -115,12 +115,11 @@ RpgPlayer.prototype.save = function (): string {
             }
         },
         onConnected(player: RpgPlayer) {
-            
             var user;
 
             const clientGui = player.gui('ClientGui')
             const gui = player.gui('rpg-title-screen')
-            //const guiCrud = player.gui('CrudApp')
+            const guiCrud = player.gui('CrudApp')
 
             gui.on('login', async (body) => {
                 try {
@@ -193,8 +192,9 @@ RpgPlayer.prototype.save = function (): string {
 
             });
 
-            gui.open();
-        }
+            
+        },
+        
     }
 })
 export default class RpgServerModule { }

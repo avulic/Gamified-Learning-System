@@ -29,6 +29,11 @@
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">Game</a>
                         </li>
                         <li>
+                            <RouterLink :to="{ name: 'rpg' }" aria-label="RPG" title="RPG"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                RPG</RouterLink>
+                        </li>
+                        <li>
                             <RouterLink :to="{ name: 'about' }" aria-label="Users" title="Users"
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
                                 About us</RouterLink>
@@ -144,7 +149,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { watch, computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AuthService from '../../../../services/AuthService';
@@ -152,31 +157,66 @@ import type User from '../../../../types/User/User';
 import { Observable } from 'rxjs';
 import { Role } from '../../../../types/Role';
 
-const router = useRouter();
+import { RpgClient, RpgModule, RpgGui, RpgClientEngineHooks, RpgClientEngine } from '@rpgjs/client';
+import { inject } from 'vue';
 
-var isMenuOpen = false
-const redirect = () => window.location.href = "http://localhost:3000"
+export default {
+    name: 'Navbar',
+    inject: ['rpgGui'],
+    data() {
+        const router = useRouter();
 
-var currentUser = ref<User | null>(null);
+        const isMenuOpen = ref(false);
+        const currentUser = ref<User | null>(null);
+        return {
+            isMenuOpen,
+            currentUser,
+        };
+    },
+    beforeMount() {
+        this.obesvableUser();
+    },
+    mounted() {
+        this.displayNotification();
+    },
+    unmounted() {
+        // Your unmounted logic here
+    },
 
-onBeforeMount(() => {
-    AuthService.getUserFromLocalStorage();
-    const currentUserObservable: Observable<User | null> = AuthService.currentUserSubject.asObservable();
+    methods: {
+        displayNotification() {
+            this.rpgGui.display('rpg-notification', {
+                message: 'VUE app',
+                time: 5000,
+                position: 'top',
+                type: 'error',
+            });
+        },
 
-    currentUserObservable.subscribe((user: User | null) => {
-        currentUser.value = user;
-    });
-});
+        redirect() {
+            window.location.href = 'http://localhost:3000';
+        },
 
+        logout() {
+            AuthService.userLogOut();
+            this.router.push({ name: 'signin' });
+        },
 
-const isAdmin = computed(() => {
-    return currentUser.value?.roles && currentUser.value.roles.some(currentUserRol => currentUserRol === Role.Admin);
-});
+        obesvableUser() {
+            AuthService.getUserFromLocalStorage();
+            const currentUserObservable = AuthService.currentUserSubject.asObservable();
 
+            currentUserObservable.subscribe((user) => {
+                this.currentUser.value = user;
+            });
+        }
+    },
+    computed: {
+        isAdmin() {
+            return this.currentUser.value?.roles && this.currentUser.value.roles.some((currentUserRol) => currentUserRol === Role.Admin);
+        }
+    }
+};
 
-const logout = () => {
-    AuthService.userLogOut();
-    router.push({ name: 'signin' });
-}
 
 </script>@/types/Role

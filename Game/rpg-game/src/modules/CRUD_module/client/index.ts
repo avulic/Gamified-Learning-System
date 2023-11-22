@@ -1,4 +1,4 @@
-import { RpgClient, RpgModule, RpgGui, RpgClientEngine,RpgClientEngineHooks } from '@rpgjs/client'
+import { RpgClient, RpgModule, RpgGui, RpgClientEngine,RpgClientEngineHooks } from '@rpgjs/client';
 
 import { TheWelcome, WelcomeItem, Navbar}  from './components/index';
 
@@ -82,7 +82,10 @@ const engine: RpgClientEngineHooks = {
         Crudapp.component('MultiSelect', MultiSelect);
         Crudapp.component('InputSwitch', InputSwitch);
 
-        Crudapp.mount("#app")
+        
+    },
+    onConnected(engine: RpgClientEngine){
+        RpgGui.display('CrudApp')
     }
 }
 
@@ -90,7 +93,8 @@ const engine: RpgClientEngineHooks = {
 @RpgModule<RpgClient>({ 
     engine: engine,
     gui: [
-        App
+        App,
+        Navbar
     ],
 })
 export default class RpgClientEngineModule {}

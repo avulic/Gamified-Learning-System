@@ -1,8 +1,11 @@
-<script setup lang="ts">
+<script lang="ts">
 import { onMounted, onUpdated } from 'vue';
 
 import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router';
 import Navbar from './components/Navbar.vue';
+
+import { RpgClient, RpgModule, RpgGui, RpgClientEngineHooks, RpgClientEngine } from '@rpgjs/client';
+import { inject } from 'vue';
 
 var isMenuOpen = false;
 
@@ -12,37 +15,35 @@ const router = useRouter()
 const route = useRoute()
 let rpg;
 
-onMounted(() => {
-	rpg = document.querySelector("#rpg");
-})
 
-onUpdated(() => {
-	if (route.name == "rpg-container") {
-		document.querySelector("#rpg-container")?.append(rpg);
+export default {
+	name: 'CrudApp',
+	inject: ['rpgGui'],
+	data() {
+		return {
+
+		}
+	},
+	mounted() {
+		this.moveParent()
+	},
+	computed: {
+
+	},
+	unmounted() {
+
+	},
+	methods: {
+		moveParent() {
+			// Get the parent element
+			const parentElement = this.$el;
+			// Move the parent element to a new location in the DOM
+			const newLocation = document.getElementById('app');
+
+			newLocation?.prepend(parentElement);
+		},
 	}
-})
-
-// export default {
-// 	name: 'CrudApp',
-// 	inject: ['rpgGui'],
-// 	data() {
-// 		return {
-
-// 		}
-// 	},
-// 	mounted() {
-
-// 	},
-// 	computed: {
-
-// 	},
-// 	unmounted() {
-
-// 	},
-// 	methods: {
-
-// 	}
-// }
+}
 </script>
 
 <template>
