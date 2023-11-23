@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import TaskService from "../../../services/TaskService";
+import TaskService from "../../../../../services/TaskService";
 import type Task from "../../../types/Task";
 
 import Modal from './Modal.vue';

@@ -119,7 +119,7 @@ RpgPlayer.prototype.save = function (): string {
 
             const clientGui = player.gui('ClientGui')
             const gui = player.gui('rpg-title-screen')
-            const guiCrud = player.gui('CrudApp')
+            const guiCrud = player.gui('RPG')
 
             gui.on('login', async (body) => {
                 try {
@@ -171,9 +171,9 @@ RpgPlayer.prototype.save = function (): string {
                 
                 user = data[0]
                 const selectedSubject = data[1]
-
                 if (user.data === undefined) {
                     //Dohvati od servera data
+
 
                     player.name = user.nickname
                     if (start.hitbox) 
@@ -181,20 +181,20 @@ RpgPlayer.prototype.save = function (): string {
                     if (start.graphic) 
                         player.setGraphic(start.graphic)
                     if (start.map) 
-                        await player.changeMap(start.map)
+                        await player.changeMap('simplemap4')
                     else 
                         await player.changeMap('simplemap4')
                     }
                 else {
                     player.load(user.data)
+                    
                     player.canMove = true
+                    
                 }       
-
             });
+        gui.open()
 
-            
         },
-        
     }
 })
 export default class RpgServerModule { }

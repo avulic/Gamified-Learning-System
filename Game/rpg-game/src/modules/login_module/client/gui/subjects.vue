@@ -43,7 +43,7 @@ export default {
 
         selected(index) {
             const { value } = this.menu[index]
-
+            console.log(this.user)
             this.rpgGuiInteraction('rpg-title-screen', 'start-game', [this.user, value])
         }
     },

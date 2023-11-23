@@ -1,6 +1,8 @@
 import { RpgClient, RpgModule, RpgGui, RpgClientEngine,RpgClientEngineHooks } from '@rpgjs/client';
 
 import { TheWelcome, WelcomeItem, Navbar}  from './components/index';
+import { RpgView }  from './views/index';
+
 
 import './assets/main.css';
 import "primevue/resources/themes/lara-light-indigo/theme.css";
@@ -21,46 +23,11 @@ import InputSwitch from 'primevue/inputswitch';
 
 
 const Crudapp = createApp(App);
+
 const engine: RpgClientEngineHooks = {
     onStart(engine: RpgClientEngine) {
         const app = engine.vueApp;
         const appInstance = engine.vueInstance;
-
-        
-        // engine.vueApp.use(FloatingVue, {
-        //     container: '#tooltips',
-        //     disposeTimeout: 0,
-        // })
-
-        
-        app.component("Navbar", Navbar)
-        app.component("WelcomeItem", WelcomeItem)
-        app.component("TheWelcome", TheWelcome)
-
-
-        app.use(PrimeVue, {
-            zIndex: {
-                modal: 9999,        //dialog, sidebar
-                overlay: 9999,      //dropdown, overlaypanel
-                menu: 1000,         //overlay menus
-                tooltip: 1100,       //tooltip
-                toast: 9999
-            }
-        });
-        app.use(ToastService);
-        app.use(router);
-
-        app.component('InputText', InputText);
-        app.component('Button', Button);
-        app.component('Password', Password);
-        app.component('Toast', Toast);
-        app.component('Card', Card);
-        app.component('MultiSelect', MultiSelect);
-        app.component('InputSwitch', InputSwitch);
-
-        
-
-        Crudapp.component("CrudApp", App)
 
         Crudapp.use(PrimeVue, {
             zIndex: {
@@ -82,10 +49,16 @@ const engine: RpgClientEngineHooks = {
         Crudapp.component('MultiSelect', MultiSelect);
         Crudapp.component('InputSwitch', InputSwitch);
 
-        
+        Crudapp.component("CrudApp", App);
+        Crudapp.component("Navbar", Navbar);
+        Crudapp.component("WelcomeItem", WelcomeItem);
+        Crudapp.component("TheWelcome", TheWelcome);
+        Crudapp.component("RpgView", RpgView);
+
+        Crudapp.mount("#app");
     },
     onConnected(engine: RpgClientEngine){
-        RpgGui.display('CrudApp')
+        
     }
 }
 
@@ -94,7 +67,8 @@ const engine: RpgClientEngineHooks = {
     engine: engine,
     gui: [
         App,
-        Navbar
+        Navbar,
+        RpgView
     ],
 })
 export default class RpgClientEngineModule {}

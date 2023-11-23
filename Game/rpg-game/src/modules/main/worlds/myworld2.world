@@ -1,9 +1,9 @@
 {
     "maps": [
         {
-            "fileName": "maps/simplemap2.tmx",
-            "height": 640,
-            "width": 640,
+            "fileName": "maps/simplemap4.tmx",
+            "height": 1280,
+            "width": 1280,
             "x": 0,
             "y": 0
         }

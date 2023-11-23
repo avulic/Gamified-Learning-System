@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { ref, computed, type Ref, nextTick, onMounted } from 'vue'
-import TaskService from '../../../services/TaskService'
+import TaskService from '../../../../../services/TaskService'
 import type Task from '../../../types/Task' // Import the correct Task model and interface
 import { Form, Field } from "vee-validate";
 import { object, string } from "yup";
