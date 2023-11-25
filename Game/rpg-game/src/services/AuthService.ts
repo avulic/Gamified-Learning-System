@@ -13,7 +13,6 @@ class AuthService {
     public async signIn(user: UserSignIn): Promise<any> {
         try {
             const response: ResponseData = await ApiService.post<User>('/signin', user);
-            //console.log('Response:', response); // Add this line
             return response.data;
         } catch (error) {
             //console.error('Error during login:', error);
@@ -48,6 +47,7 @@ class AuthService {
             return;
         
         userData = jwt_decode(token);
+        console.log('Response:', userData); 
         this.currentUserSubject.next(userData);
     }
 
@@ -71,10 +71,14 @@ class AuthService {
     }
 
     public userLogedIn(): boolean {
-        this.getUserFromLocalStorage();
+        this.getUserFromLocalStorage()
+
         const user: User | null = this.getCurentUserValues();
         
-        if ( user && user.exp && user.exp < Date.now()) {
+        if(!user)
+            return false;
+        
+        if (user.exp && user.exp < Date.now()) {
             return true;
         }
 

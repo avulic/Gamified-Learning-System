@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import { RpgServer, RpgModule, RpgServerEngine, RpgPlayer, RpgWorld, RpgPlugin } from '@rpgjs/server'
 import Player from './model'
 
+import AuthService from '../../../../services/AuthService';
+
 declare module '@rpgjs/server' {
     export interface RpgPlayer {
         mongoId: string
@@ -131,7 +133,10 @@ RpgPlayer.prototype.save = function (): string {
                     })
 
                     if (playerIsAlreadyInGame) {
-                        throw new Error('PLAYER_IN_GAME')
+                        
+                        
+                            throw new Error('PLAYER_IN_GAME')
+                        
                     }
 
                     player.mongoId = mongoId
@@ -192,7 +197,8 @@ RpgPlayer.prototype.save = function (): string {
                     
                 }       
             });
-        gui.open()
+
+            gui.open()
 
         },
     }

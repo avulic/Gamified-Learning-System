@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
 });
 onMounted(() => {
     showRpg()
-    console.log(RpgGui.getAll())
+    
     RpgGui.display("rpg-title-screen")
 });
 

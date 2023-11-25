@@ -1,6 +1,7 @@
 name = 'My RPG Game'
 
 modules = [
+    './src/modules/CRUD_module',
    'rpgjs-character-select',
     './src/modules/main',
    '@rpgjs/save',
