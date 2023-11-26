@@ -112,7 +112,7 @@ class UserService {
             throw new Error('Invalid password.');
         }
 
-        const token = jwt.sign({ username: user.username,  roles: user.roles }, authConfig.secret, {
+        const token = jwt.sign({ username: user.username,  roles: user.roles }, authConfig.JWT_SECRET, {
             algorithm: 'HS256',
             expiresIn: '1h' 
         });
@@ -157,7 +157,6 @@ class UserService {
         }
     }
     
-
     public deleteUser = async (userId: string): Promise<IUser | null> => {
         return await User.findByIdAndDelete(userId);
     }

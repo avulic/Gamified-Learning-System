@@ -1,8 +1,12 @@
-const { MONGO_URI } = process.env;
+import dotenv from 'dotenv';
+dotenv.config();
+
+
+const MONGO_URI = process.env.MONGO_URI;
 
 // Configuration for MongoDB
 export const mongoConfig = {
-    url:  'mongodb://127.0.0.1:27017/test',
+    url:  MONGO_URI as string
 };
 
 // Configuration for SQL (e.g., MySQL)
