@@ -4,8 +4,9 @@
             <div class="relative flex items-center justify-between">
                 <div class="flex items-center">
                     <a href="/" aria-label="Company" title="Company" class="inline-flex items-center mr-8">
-                        <svg class="w-8 text-teal-accent-400" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2"
-                            stroke-linecap="round" stroke-miterlimit="10" stroke="currentColor" fill="none">
+                        <svg class="w-8 text-teal-accent-400" viewBox="0 0 24 24" stroke-linejoin="round"
+                            stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" stroke="currentColor"
+                            fill="none">
                             <rect x="3" y="1" width="7" height="12"></rect>
                             <rect x="3" y="17" width="7" height="6"></rect>
                             <rect x="14" y="1" width="7" height="6"></rect>
@@ -67,7 +68,8 @@
                             <path fill="currentColor"
                                 d="M23,13H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,13,23,13z">
                             </path>
-                            <path fill="currentColor" d="M23,6H1C0.4,6,0,5.6,0,5s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,6,23,6z">
+                            <path fill="currentColor"
+                                d="M23,6H1C0.4,6,0,5.6,0,5s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,6,23,6z">
                             </path>
                             <path fill="currentColor"
                                 d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z">
@@ -150,7 +152,7 @@ import { useRouter } from 'vue-router'
 import AuthService from '@/services/AuthService';
 import type User from '@/types/User/User';
 import { Observable } from 'rxjs';
-import { Role } from '@/types/Role';
+import { RoleEnum } from '@/types/Role';
 
 const router = useRouter();
 
@@ -170,7 +172,7 @@ onBeforeMount(() => {
 
 
 const isAdmin = computed(() => {
-    return currentUser.value?.roles && currentUser.value.roles.some(currentUserRol => currentUserRol === Role.Admin);
+    return currentUser.value?.roles && currentUser.value.roles.some(currentUserRol => currentUserRol === RoleEnum.Admin);
 });
 
 

@@ -35,14 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { Form, Field } from "vee-validate";
 import type UserSignIn from "@/types/User/UserSignIn";
 import AuthService from "@/services/AuthService";
-import jwt_decode, { type JwtDecodeOptions } from 'jwt-decode';
 
-import { object, string, number, date } from 'yup';
+import { object, string} from 'yup';
 import { useToast } from 'primevue/usetoast';
 
 const loading = ref(false);
@@ -59,8 +58,9 @@ const schema = object({
 async function onSubmit() {
     loading.value = true;
     try {
-        const response = await AuthService.signIn(user); // Await the signIn function
-        AuthService.setUserToLocalStorage(response.token);
+        const response = await AuthService.signIn(user);
+        console.log(response.token);
+        AuthService.setToken(response.token);
         router.push('/');
     } catch (error) {
         const errorMessage = extractErrorMessage(error);

@@ -5,7 +5,7 @@ import { IUser, IUserDb } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authConfig } from '../config/authConfig';
-import logger from '../config/loggerConfig';
+import {logger} from '../utils/logger';
 
 class UserController {
     private userService: UserService;
@@ -18,6 +18,7 @@ class UserController {
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const newUser: IUser = req.body;
+
             const createdUser = await this.userService.createUser(newUser);
             res.status(201).json(createdUser);
         } catch (err) {
@@ -41,6 +42,7 @@ class UserController {
     public getAllUsers = async (req: Request, res: Response): Promise<void> => {
         try {
             const users = await this.userService.getAllUsers();
+            
             res.status(200).json(users);
         } catch (err) {
             res.status(500).json({ error: 'Failed to fetch users' });
@@ -66,7 +68,7 @@ class UserController {
     public updateUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const userId = req.params.id;
-            const updatedUserData: IUserDb = req.body;
+            const updatedUserData: IUser = req.body;
             const updatedUser = await this.userService.updateUser(userId, updatedUserData);
             if (!updatedUser) {
                 res.status(404).json({ error: 'User not found' });
@@ -114,6 +116,7 @@ class UserController {
     public signUpUser = async (req: Request, res: Response) => {
         this.createUser(req, res);
     };
+    
 }
 
 export default UserController;

@@ -4,7 +4,7 @@ import Task from '../models/Task'; // Import the Task model
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authConfig } from '../config/authConfig';
-import logger from '../config/loggerConfig';
+import {logger} from '../utils/logger';
 
 class TaskService {
     public createTask = async (task: ITask): Promise<void> => {

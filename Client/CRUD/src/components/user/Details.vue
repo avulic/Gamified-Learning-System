@@ -6,7 +6,8 @@
                 <div class="ml-2" for="edit">Edit user</div>
             </div>
         </div>
-        <Form @submit="onSubmit" :validation-schema="schema" class="flex flex-col items-center" v-slot="{ errors, values }">
+        <Form @submit="onSubmit" :validation-schema="schema" class="flex flex-col items-center"
+            v-slot="{ errors, values }">
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/2 px-3">
@@ -47,9 +48,9 @@
                         <Field name="password" v-model="currentUser.password" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
                                 <Password id="password" v-model="currentUser.password" v-bind="field" :feedback="false"
-                                    promptLabel="Choose a password" weakLabel="Too simple" mediumLabel="Average complexity"
-                                    strongLabel="Complex password" ref="password" :class="{ 'p-invalid': errorMessage }"
-                                    :disabled="!isEditable" />
+                                    promptLabel="Choose a password" weakLabel="Too simple"
+                                    mediumLabel="Average complexity" strongLabel="Complex password" ref="password"
+                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditable" />
                                 <label for="password">Password</label>
                             </span>
                             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -58,9 +59,10 @@
                     <div class="md:w-1/2 px-3">
                         <Field name="roles" v-model="currentUser.roles" v-slot="{ field, errorMessage }">
                             <span class="p-float-label">
-                                <MultiSelect v-model="selectedOptions" v-bind="field" display="chip" :options="roleOptions"
-                                    optionLabel="name" optionValue="name" placeholder="Select roles" :maxSelectedLabels="3"
-                                    class="w-full md:w-20rem" :disabled="!isEditable" />
+                                <MultiSelect v-model="selectedOptions" v-bind="field" display="chip"
+                                    :options="roleOptions" optionLabel="name" optionValue="name"
+                                    placeholder="Select roles" :maxSelectedLabels="3" class="w-full md:w-20rem"
+                                    :disabled="!isEditable" />
                                 <label for="dropdown">Select a Roles</label>
                             </span>
                             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -80,6 +82,8 @@
             </div>
             <div>
                 <Button label="Save" type="submit" :disabled="loading || !isEditable" />
+                <Button class="text-white bg-red-700" label="Delete" type="button" @click="deleteUser"
+                    :disabled="loading || !isEditable" />
             </div>
         </Form>
     </div>
@@ -95,7 +99,7 @@ import { object, string } from "yup";
 import AuthService from '@/services/AuthService';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from "vue-router";
-import { Role } from '@/types/Role';
+import { RoleEnum } from '@/types/Role';
 
 const loading = ref(false);
 const isEditable = ref(true);
@@ -117,10 +121,10 @@ const currentUser = ref(<UserDetails>{
 
 const selectedOptions = ref();
 const roleOptions = ref([
-    { name: Role.Student },
-    { name: Role.Profesor },
-    { name: Role.Admin },
-    { name: Role.User }
+    { name: RoleEnum.Student },
+    { name: RoleEnum.Profesor },
+    { name: RoleEnum.Admin },
+    { name: RoleEnum.User }
 ]);
 
 const props = defineProps<{
@@ -130,6 +134,7 @@ const props = defineProps<{
 const emit = defineEmits<{
     onSaveUser: [user: UserDetails];
     onEditUser: [user: UserDetails];
+    onDeleteUser: [user: string];
 }>()
 
 const showEdit = computed(() => {
@@ -163,6 +168,11 @@ const onSubmit = () => {
     emit('onEditUser', currentUser.value)
 }
 
+function deleteUser() {
+    emit('onDeleteUser', currentUser.value.id)
+    console.log(currentUser.value.id)
+}
+
 function clearForm() {
     currentUser.value.username = "";
     currentUser.value.password = "";
@@ -174,4 +184,4 @@ function clearForm() {
 
 </script>
 <style scoped></style>
-    @/types/User/User@/types/User/UserDetails
+@/types/User/User@/types/User/UserDetails

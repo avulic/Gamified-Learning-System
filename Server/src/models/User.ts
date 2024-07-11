@@ -1,19 +1,19 @@
 import { model, Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { IRole } from './Role';
+import { IRole, IRoleDb, Roles } from './Role';
 
 export interface IUser {
+    id:string,
     name: string;
     lastName: string;
     email: string;
     username: string;
     password: string;
-    salt: string;
-    rolesName: IRole[];
+    roles: Roles[];
 }
 
-export interface IUserDb extends IUser, Document {
-    roles: Schema.Types.ObjectId[];
+export interface IUserDb extends Omit<IUser, "id"|"roles">, Document {
+    roles: IRoleDb[];
 }
 
 
@@ -39,22 +39,15 @@ const userSchema: Schema = new Schema({
     },
     password: {
         type: String,
-        required: true,
-        unique: false,
-    },
-    salt: {
-        type: String,
         required: false,
-        unique: false,
+        //select: false // This ensures the password isn't returned in normal queries
     },
-    roles: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Role"
-        }
-    ]
+    roles: [{
+        type: Schema.Types.ObjectId,
+        ref: "Role",
+        required: true
+    }]
 });
-
 
 // Customize toJSON method to rename _id to id in the JSON response
 userSchema.set('toJSON', {
@@ -64,23 +57,17 @@ userSchema.set('toJSON', {
     },
 });
 
-userSchema.pre('save', function (next) {
-    const user = this
-    
-    if (user.isModified("password") || user.isNew) {
-        bcrypt.genSalt(10)
-            .then(salt =>{
-                user.salt = salt;
-                bcrypt.hash(user.password, salt).then(hash=>{
-                    user.password = hash;
-                    next();
-                });
-            }) 
-            .catch(error => next(error));
-    } else {
-        return next();
+userSchema.pre('save', async function(next) {
+    const user = this;
+
+    if (user.isModified('password') || user.isNew) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+        return  next();
     }
-})
+    
+    next();
+});
 
 const User = model<IUserDb>('User', userSchema);
 

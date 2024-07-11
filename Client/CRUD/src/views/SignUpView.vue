@@ -64,16 +64,17 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from "@/services/AuthService";
 import { object, string } from "yup";
 import { useToast } from "primevue/usetoast";
-import type User from "@/types/User/User";
 import type UserDetails from "@/types/User/UserDetails";
+import {Role, RoleEnum} from "@/types/Role";
 
 const loading = ref(false);
 const user = <UserDetails>{
+    id: "",
     name: "",
     lastName: "",
     username: "",
     password: "",
-    roles: [{}],
+    roles: [RoleEnum.Admin],
     email: ""
 };
 
@@ -89,7 +90,12 @@ const toast = useToast();
 async function onSubmit() {
     loading.value = true;
     try {
-        await AuthService.signUp(user)
+        const userRespons = await AuthService.signUp(user);
+        if(!userRespons){
+            showToast("error", "error");
+            return;
+        }
+
         showToast("Registration successful! You can now log in.", "success");
         clearForm();
 

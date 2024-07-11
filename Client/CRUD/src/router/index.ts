@@ -1,6 +1,6 @@
 import AuthService from '@/services/AuthService';
 import { createRouter, createWebHistory } from 'vue-router';
-import { Role } from '@/types/Role';
+import { RoleEnum } from '@/types/Role';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

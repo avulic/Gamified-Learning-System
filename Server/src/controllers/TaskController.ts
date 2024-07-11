@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import TaskService from '../services/TaskService';
 import Task, { ITask } from '../models/Task'; // Import the correct Task model and interface
-import logger from '../config/loggerConfig';
+import {logger} from '../utils/logger';
 
 class TaskController {
     private taskService: TaskService;

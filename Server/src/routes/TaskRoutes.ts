@@ -1,6 +1,7 @@
 import express from 'express';
 import TaskController from '../controllers/TaskController';
-import { authJwt, authorizeRole } from '../middlewares/authJwt';
+import { authJwt } from '../middlewares/authJwt';
+import {  authorizeRoles } from '../middlewares/checkRole';
 
     /**
      * @swagger

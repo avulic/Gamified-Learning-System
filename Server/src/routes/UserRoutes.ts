@@ -1,6 +1,9 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
-import { authJwt, authorizeRole } from '../middlewares/authJwt';
+import { authJwt } from '../middlewares/authJwt';
+import { authorizeRoles } from '../middlewares/checkRole';
+import { Roles } from '../models/Role';
+import { asyncHandler } from '../utils/asyncHandler';
 
 /**
  * @swagger
@@ -29,16 +32,21 @@ export default class UserRoute {
          *       required: true
          *       content:
          *         application/json:
-         *           example: [{ "name": "John Doe", "email": "john@example.com", "password": "password123" }]
+         *           example: {"name": "aDoe", "lastName": "aDoe", "email": "john@example.com", "username": "aDoe","password": "anteVulic@123" }
          *     responses:
          *       201:
          *         description: Users created successfully
          *         content:
          *           application/json:
          *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
+         *       400:
+         *         description: ClientERROR
+         *         content:
+         *           application/json:
+         *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
          */
-        this.router.post('/users', this.userController.createUser);
-        
+        this.router.post('/users', asyncHandler(this.userController.createUser));
+
         /**
          * @swagger
          * /users/bulk:
@@ -59,7 +67,7 @@ export default class UserRoute {
          *           application/json:
          *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
          */
-        this.router.post('/users/bulk', this.userController.createUsers);
+        this.router.post('/users/bulk', asyncHandler(this.userController.createUsers));
 
         /**
          * @swagger
@@ -77,7 +85,7 @@ export default class UserRoute {
          *           application/json:
          *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
          */
-        this.router.get('/users', this.userController.getAllUsers);
+        this.router.get('/users', asyncHandler(this.userController.getAllUsers));
 
         /**
          * @swagger
@@ -102,7 +110,7 @@ export default class UserRoute {
          *       404:
          *         description: User not found
          */
-        this.router.get('/users/:id', this.userController.getUserById);
+        this.router.get('/users/:id', asyncHandler(this.userController.getUserById));
 
         /**
          * @swagger
@@ -117,7 +125,7 @@ export default class UserRoute {
          *         required: true
          *         description: Numeric ID of the user to update.
          *         schema:
-         *           type: integer
+         *           type: string
          *     requestBody:
          *       description: Updated user data
          *       required: true
@@ -133,7 +141,7 @@ export default class UserRoute {
          *       404:
          *         description: User not found
          */
-        this.router.put('/users/:id', this.userController.updateUser);
+        this.router.put('/users/:id', asyncHandler(this.userController.updateUser));
 
         /**
          * @swagger
@@ -158,7 +166,7 @@ export default class UserRoute {
          *       404:
          *         description: User not found
          */
-        this.router.delete('/users/:id', this.userController.deleteUser);
+        this.router.delete('/users/:id', asyncHandler(this.userController.deleteUser));
 
         /**
          * @swagger
@@ -188,53 +196,7 @@ export default class UserRoute {
          *                      $ref: '#/components/schemas/BadRequestError'
          *         
          */
-        this.router.get('/usersProtected', authJwt, authorizeRole('admin'), this.userController.getAllUsers);
-
-        /**
-         * @swagger
-         * /signin:
-         *   post:
-         *     summary: User sign-in
-         *     description: Authenticate and generate a JWT token for the user.
-         *     tags: [Users]
-         *     requestBody:
-         *       description: User credentials
-         *       required: true
-         *       content:
-         *         application/json:
-         *           example: { "username": "john_doe", "password": "password123" }
-         *     responses:
-         *       200:
-         *         description: JWT token generated successfully
-         *         content:
-         *           application/json:
-         *             example: { "token": "your-jwt-token" }
-         *       401:
-         *         description: Invalid credentials
-         */
-        this.router.post('/signin', this.userController.signInUser);
-
-        /**
-         * @swagger
-         * /signup:
-         *   post:
-         *     summary: User sign-up
-         *     description: Create a new user account.
-         *     tags: [Users]
-         *     requestBody:
-         *       description: New user data
-         *       required: true
-         *       content:
-         *         application/json:
-         *           example: { "name": "John Doe", "email": "john@example.com", "password": "password123" }
-         *     responses:
-         *       201:
-         *         description: User account created successfully
-         *         content:
-         *           application/json:
-         *             example: { "id": 1, "name": "John Doe", "email": "john@example.com" }
-         */
-        this.router.post('/signup', this.userController.signUpUser);
+        this.router.get('/usersProtected', [authJwt, authorizeRoles([Roles.Admin])], asyncHandler(this.userController.getAllUsers));
 
     }
 }
