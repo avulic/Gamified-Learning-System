@@ -9,15 +9,15 @@ export interface IModule extends Document {
     course: ICourse[];
     order: number;
     contentItems: IContentItem[];
-  }
-  
-  const ModuleSchema: Schema = new Schema({
+}
+
+const ModuleSchema: Schema = new Schema({
     title: { type: String, required: true },
     description: { type: String },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     order: { type: Number, required: true },
     contentItems: [{ type: Schema.Types.ObjectId, ref: 'ContentItem' }]
-  });
-  
-  export const Module = mongoose.model<IModule>('Module', ModuleSchema);
-  
+});
+
+export const Module = mongoose.model<IModule>('Module', ModuleSchema);
+

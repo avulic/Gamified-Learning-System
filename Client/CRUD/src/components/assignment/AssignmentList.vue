@@ -1,13 +1,13 @@
 <template>
     <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-        <!-- Replace 'New' with 'New Task' -->
+        <!-- Replace 'New' with 'New Assignment' -->
         <div class="flex justify-between">
-            <AddTask @addedNew="refreshList"></AddTask>
+            <AddAssignment @addedNew="refreshList"></AddAssignment>
             <input v-model="searchTerm" type="text" placeholder="Search"
                 class="py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
         </div>
 
-        <div v-if="filteredTasks"
+        <div v-if="filteredAssignments"
             class="min-w-screen min-h-screen bg-gray-100 items-center bg-gray-100 font-sans overflow-hidden">
             <div class="w-full">
                 <div class="bg-white shadow-md rounded my-6 overflow-x-scroll">
@@ -16,17 +16,17 @@
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6 text-left">Name</th>
                                 <th class="py-3 px-6 text-left">Description</th>
-                                <!-- Add or update table headers as needed for task list -->
+                                <!-- Add or update table headers as needed for Assignment list -->
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            <template v-for="(task, i) in filteredTasks" :key="task.id">
+                            <template v-for="(Assignment, i) in filteredAssignments" :key="Assignment.id">
                                 <tr @click="toggleDropdown(i)" class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        <span class="font-medium">{{ task.name }}</span>
+                                        <span class="font-medium">{{ Assignment.name }}</span>
                                     </td>
                                     <td class="py-3 px-6 text-left">
-                                        <span>{{ task.description }}</span>
+                                        <span>{{ Assignment.description }}</span>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
@@ -38,7 +38,7 @@
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </div>
-                                            <div @click="deleteTask(task.id)"
+                                            <div @click="deleteAssignment(Assignment.id)"
                                                 class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke="currentColor">
@@ -52,11 +52,11 @@
 
                                 <tr v-if="currentIndex === i" :key="currentIndex"
                                     class="border-b border-gray-200 hover:bg-gray-100" role="presentation">
-                                    <td :colspan="Object.keys(filteredTasks[0]).length + 1">
-                                        <!-- Replace 'Details' with 'TaskDetails' -->
-                                        <TaskDetails :currentTask="currentTask" @onSaveTask="saveTask"
-                                            @onEditTask="editTask">
-                                        </TaskDetails>
+                                    <td :colspan="Object.keys(filteredAssignments[0]).length + 1">
+                                        <!-- Replace 'Details' with 'AssignmentDetails' -->
+                                        <AssignmentDetails :currentAssignment="currentAssignment" @onSaveAssignment="saveAssignment"
+                                            @onEditAssignment="editAssignment">
+                                        </AssignmentDetails>
                                     </td>
                                 </tr>
                             </template>
@@ -74,16 +74,16 @@ import { ref, computed, onMounted, type Ref } from 'vue'
 import { useToast } from 'primevue/usetoast';
 
 
-import TaskService from '@/services/TaskService'
-import type Task from '@/types/Task'
+import AssignmentService from '@/services/AssignmentService'
+import type Assignment from '@/types/Assignment'
 
-import TaskDetails from '@/components/task/Details.vue'
-import AddTask from '@/components/task/AddTask.vue';
+import AssignmentDetails from '@/components/Assignment/Details.vue'
+import AddAssignment from '@/components/Assignment/AddAssignment.vue';
 
 const toast = useToast();
 
-let tasks = ref([]) as Ref<Task[]>
-var currentTask = ref<Task>({
+let Assignments = ref([]) as Ref<Assignment[]>
+var currentAssignment = ref<Assignment>({
     id: "",
     name: "",
     description: ""
@@ -98,11 +98,11 @@ var currentIndex = ref(-1)
 
 
 
-// Function to retrieve tasks from the API
-async function retrieveTasks() {
-    await TaskService.getAllTasks()
-        .then((response: Task[]) => {
-            tasks.value = response
+// Function to retrieve Assignments from the API
+async function retrieveAssignments() {
+    await AssignmentService.getAllAssignments()
+        .then((response: Assignment[]) => {
+            Assignments.value = response
         })
         .catch((e: Error) => {
             console.log(e)
@@ -110,15 +110,15 @@ async function retrieveTasks() {
 }
 
 async function refreshList() {
-    await retrieveTasks()
+    await retrieveAssignments()
     currentIndex.value = -1
 }
 
-async function saveTask(task: Task) {
+async function saveAssignment(Assignment: Assignment) {
     loading.value = true;
     try {
-        await TaskService.createTask(task);
-        showToast("Task created successfully!", "success");
+        await AssignmentService.createAssignment(Assignment);
+        showToast("Assignment created successfully!", "success");
     } catch (error) {
         const errorMessage = extractErrorMessage(error);
         showToast(errorMessage, "error");
@@ -126,11 +126,11 @@ async function saveTask(task: Task) {
     loading.value = false;
 }
 
-async function editTask(task: Task) {
+async function editAssignment(Assignment: Assignment) {
     loading.value = true;
     try {
-        await TaskService.updateTask(currentTask.value.id, task);
-        showToast("Task updated successfully!", "success");
+        await AssignmentService.updateAssignment(currentAssignment.value.id, Assignment);
+        showToast("Assignment updated successfully!", "success");
     } catch (error) {
         const errorMessage = extractErrorMessage(error);
         showToast(errorMessage, "error");
@@ -138,8 +138,8 @@ async function editTask(task: Task) {
     loading.value = false;
 }
 
-function deleteTask(id: string) {
-    TaskService.deleteTask(id)
+function deleteAssignment(id: string) {
+    AssignmentService.deleteAssignment(id)
         .then(() => {
             refreshList()
         })
@@ -162,33 +162,34 @@ function extractErrorMessage(error: any): string {
     return "An error occurred";
 }
 
-const filteredTasks = computed(() => {
+const filteredAssignments = computed(() => {
     const term = searchTerm.value.toLowerCase().trim()
-    if (!term) return tasks.value
+    if (!term) return Assignments.value
 
-    return tasks.value.filter(
-        (task) =>
-            task.name.toLowerCase().includes(term) ||
-            task.description.toLowerCase().includes(term)
+    return Assignments.value.filter(
+        (Assignment) =>
+            Assignment.name.toLowerCase().includes(term) ||
+            Assignment.description.toLowerCase().includes(term)
     )
 })
 
 function toggleDropdown(index: number) {
     currentIndex.value = currentIndex.value === index ? -1 : index;
-    setActiveTask(index);
+    setActiveAssignment(index);
 }
 
-function setActiveTask(index: number) {
-    currentTask.value = tasks.value[index]
+function setActiveAssignment(index: number) {
+    currentAssignment.value = Assignments.value[index]
 }
 
 
 
 onMounted(() => {
-    retrieveTasks()
+    retrieveAssignments()
 })
 
 
 </script>
 
 <style scoped></style>
+@/services/AssignmentService@/types/assignment@/types/Role

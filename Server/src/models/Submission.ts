@@ -9,6 +9,7 @@ export interface ISubmission extends Document {
     submittedAt: Date;
     content: string;
     grade?: number;
+    fileReference: string;
 }
 
 const SubmissionSchema: Schema = new Schema({
@@ -16,7 +17,8 @@ const SubmissionSchema: Schema = new Schema({
     assignment: { type: Schema.Types.ObjectId, ref: 'Assignment', required: true },
     submittedAt: { type: Date, default: Date.now },
     content: { type: String, required: true },
-    grade: { type: Number }
+    grade: { type: Number },
+    fileReference: { type: String, required: false }
 });
 
 export const Submission = mongoose.model<ISubmission>('Submission', SubmissionSchema);
