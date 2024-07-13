@@ -8,7 +8,7 @@ import { IUser } from "./User";
 export interface IProgress extends Document {
     user: IUser[];
     course: ICourse[];
-    completedModules: IModule[][];
+    completedModules: IModule[];
     lastAccessedContent: IContentItem[];
     overallProgress: number;
 }

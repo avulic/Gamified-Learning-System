@@ -2,7 +2,7 @@
     <div>
         <button @click="showModal = true"
             class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
-            New Task
+            New Assignment
             <div
                 class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30">
             </div>
@@ -11,31 +11,31 @@
 
     <Modal v-if="showModal" @closeModal="closeModal">
         <div class="flex justify-between mt-4">
-            <!-- Replace 'Details' with 'TaskDetails' -->
-            <TaskDetails :currentTask="newTask" @onSaveTask="saveNewTask"></TaskDetails>
+            <!-- Replace 'Details' with 'AssignmentDetails' -->
+            <AssignmentDetails :currentAssignment="newAssignment" @onSaveAssignment="saveNewAssignment"></AssignmentDetails>
         </div>
     </Modal>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import TaskService from "@/services/TaskService";
-import type Task from "@/types/Task";
+import AssignmentService from "@/services/AssignmentService";
+import type Assignment from "@/types/Assignment";
 
 import Modal from '@/components/common/Modal.vue';
-import TaskDetails from '@/components/task/Details.vue';
+import AssignmentDetails from '@/components/Assignment/Details.vue';
 import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 
 const emit = defineEmits<{
-    addedNew: [task: Task];
+    addedNew: [Assignment: Assignment];
 }>()
 
 const showModal = ref(false);
 var isImportSelected = ref(true);
-var isNewTaskSelected = ref(false);
+var isNewAssignmentSelected = ref(false);
 
-var newTask: Task = {
+var newAssignment: Assignment = {
     id: "",
     name: "",
     description: ""
@@ -46,14 +46,14 @@ var submitted = false;
 const closeModal = () => {
     showModal.value = false;
     isImportSelected.value = true;
-    isNewTaskSelected.value = false;
+    isNewAssignmentSelected.value = false;
 }
 
 
-async function saveNewTask(task: Task) {
-    const response = await TaskService.createTask(task);
+async function saveNewAssignment(assignment: Assignment) {
+    const response = await AssignmentService.createAssignment(assignment);
     submitted = true;
-    showToast("Task added successfully!", "success");
+    showToast("Assignment added successfully!", "success");
     emit("addedNew", response);
 }
 
@@ -65,4 +65,4 @@ function showToast(message: string, severityType: "error" | "success" | "info" |
         life: 10000,
     });
 }
-</script> 
+</script> @/services/AssignmentService@/types/assignment@/types/Role

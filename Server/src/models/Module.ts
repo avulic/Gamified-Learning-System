@@ -25,6 +25,8 @@ const ModuleSchema: Schema = new Schema({
     contentItems: [{ type: Schema.Types.ObjectId, ref: 'ContentItem' }]
 });
 
+
 const Module = mongoose.model<IModuleDb>('Module', ModuleSchema);
 
 export default Module;
+
