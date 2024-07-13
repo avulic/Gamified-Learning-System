@@ -7,7 +7,7 @@ import {  authorizeRoles } from '../middlewares/checkRole';
     /**
      * @swagger
      * tags:
-     *   name: Assignment
+     *   name: Assignments
      *   description: Operations related to Assignment
      */
 export default class AssignmentRoute {
@@ -21,127 +21,127 @@ export default class AssignmentRoute {
 
         /**
          * @swagger
-         * /tasks:
+         * /Assignments:
          *   post:
-         *     summary: Create a new task
-         *     description: Create a new task with the provided data.
-         *     tags: [Tasks]
+         *     summary: Create a new Assignment
+         *     description: Create a new Assignment with the provided data.
+         *     tags: [Assignments]
          *     requestBody:
-         *       description: Task data
+         *       description: Assignment data
          *       required: true
          *       content:
          *         application/json:
-         *           example: { "title": "Task 1", "description": "Description of Task 1" }
+         *           example: { "title": "Assignment 1", "description": "Description of Assignment 1" }
          *     responses:
          *       201:
-         *         description: Task created successfully
+         *         description: Assignment created successfully
          *         content:
          *           application/json:
-         *             example: { "id": 1, "title": "Task 1", "description": "Description of Task 1" }
+         *             example: { "id": 1, "title": "Assignment 1", "description": "Description of Assignment 1" }
          */
-        this.router.post('/tasks', this.assignmentController.createAssignment);
+        this.router.post('/assignments', this.assignmentController.createAssignment);
 
         /**
          * @swagger
-         * /tasks:
+         * /Assignments:
          *   get:
-         *     summary: Get all tasks
-         *     description: Retrieve a list of all tasks.
-         *     tags: [Tasks]
+         *     summary: Get all Assignments
+         *     description: Retrieve a list of all Assignments.
+         *     tags: [Assignments]
          *     responses:
          *       200:
-         *         description: A list of tasks
+         *         description: A list of Assignments
          *         content:
          *           application/json:
          *             example: 
          *               - id: 1
-         *                 title: Task 1
-         *                 description: Description of Task 1
+         *                 title: Assignment 1
+         *                 description: Description of Assignment 1
          *               - id: 2
-         *                 title: Task 2
-         *                 description: Description of Task 2
+         *                 title: Assignment 2
+         *                 description: Description of Assignment 2
          */
-        this.router.get('/tasks', this.assignmentController.getAllAssignments);
+        this.router.get('/assignments', this.assignmentController.getAllAssignments);
 
         /**
          * @swagger
-         * /tasks/{id}:
+         * /Assignments/{id}:
          *   get:
-         *     summary: Get a task by ID
-         *     description: Retrieve a task by its ID.
-         *     tags: [Tasks]
+         *     summary: Get a Assignment by ID
+         *     description: Retrieve a Assignment by its ID.
+         *     tags: [Assignments]
          *     parameters:
          *       - in: path
          *         name: id
          *         required: true
-         *         description: Numeric ID of the task to retrieve.
+         *         description: Numeric ID of the Assignment to retrieve.
          *         schema:
          *           type: integer
          *     responses:
          *       200:
-         *         description: The requested task
+         *         description: The requested Assignment
          *         content:
          *           application/json:
-         *             example: { "id": 1, "title": "Task 1", "description": "Description of Task 1" }
+         *             example: { "id": 1, "title": "Assignment 1", "description": "Description of Assignment 1" }
          *       404:
-         *         description: Task not found
+         *         description: Assignment not found
          */
-        this.router.get('/tasks/:id', this.assignmentController.getAssignmentById);
+        this.router.get('/assignments/:id', this.assignmentController.getAssignmentById);
 
         /**
          * @swagger
-         * /tasks/{id}:
+         * /Assignments/{id}:
          *   put:
-         *     summary: Update a task
-         *     description: Update a task with the provided data.
-         *     tags: [Tasks]
+         *     summary: Update a Assignment
+         *     description: Update a Assignment with the provided data.
+         *     tags: [Assignments]
          *     parameters:
          *       - in: path
          *         name: id
          *         required: true
-         *         description: Numeric ID of the task to update.
+         *         description: Numeric ID of the Assignment to update.
          *         schema:
          *           type: integer
          *     requestBody:
-         *       description: Updated task data
+         *       description: Updated Assignment data
          *       required: true
          *       content:
          *         application/json:
-         *           example: { "title": "Updated Task", "description": "Updated description" }
+         *           example: { "title": "Updated Assignment", "description": "Updated description" }
          *     responses:
          *       200:
-         *         description: Task updated successfully
+         *         description: Assignment updated successfully
          *         content:
          *           application/json:
-         *             example: { "id": 1, "title": "Updated Task", "description": "Updated description" }
+         *             example: { "id": 1, "title": "Updated Assignment", "description": "Updated description" }
          *       404:
-         *         description: Task not found
+         *         description: Assignment not found
          */
-        this.router.put('/tasks/:id', this.assignmentController.updateAssignment);
+        this.router.put('/assignments/:id', this.assignmentController.updateAssignment);
 
         /**
          * @swagger
-         * /tasks/{id}:
+         * /Assignments/{id}:
          *   delete:
-         *     summary: Delete a task
-         *     description: Delete a task by its ID.
-         *     tags: [Tasks]
+         *     summary: Delete a Assignment
+         *     description: Delete a Assignment by its ID.
+         *     tags: [Assignments]
          *     parameters:
          *       - in: path
          *         name: id
          *         required: true
-         *         description: Numeric ID of the task to delete.
+         *         description: Numeric ID of the Assignment to delete.
          *         schema:
          *           type: integer
          *     responses:
          *       200:
-         *         description: Task deleted successfully
+         *         description: Assignment deleted successfully
          *         content:
          *           application/json:
-         *             example: { "id": 1, "title": "Task 1", "description": "Description of Task 1" }
+         *             example: { "id": 1, "title": "Assignment 1", "description": "Description of Assignment 1" }
          *       404:
-         *         description: Task not found
+         *         description: Assignment not found
          */
-        this.router.delete('/tasks/:id', this.assignmentController.deleteAssignment);
+        this.router.delete('/assignments/:id', this.assignmentController.deleteAssignment);
     }
 }

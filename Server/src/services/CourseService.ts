@@ -9,7 +9,17 @@ import { mappedCourseToAppModel } from '../utils/ModelMapper';
 class CourseService {
     public async createCourse(courseData: Omit<ICourse, 'id'>): Promise<ICourse> {
         try {
-            const newCourse = new Course(courseData);
+            await this.isValidUserData(courseData);
+
+            const newCourseData = {
+                ...courseData,
+                instructors: courseData.instructors.map(id => new Types.ObjectId(id)),
+                enrolledStudents: courseData.enrolledStudents.map(id => new Types.ObjectId(id)),
+                modules: courseData.modules?.length != 0 ? courseData.modules?.map(id => new Types.ObjectId(id)) : [],
+                categories: courseData.categories?.length != 0 ? courseData.categories?.map(id => new Types.ObjectId(id)) : [],
+            };
+    
+            const newCourse = new Course(newCourseData);
             const savedCourse = await newCourse.save();
             logger.info('Course created successfully', { courseId: savedCourse._id });
             return mappedCourseToAppModel(savedCourse);
@@ -50,7 +60,7 @@ class CourseService {
 
     public async getAllCourses(): Promise<ICourse[]> {
         try {
-            const courses = await Course.find().populate('instructor');
+            const courses = await Course.find().populate('instructors');
             logger.debug(`Retrieved ${courses.length} courses`);
             return courses.map(course => mappedCourseToAppModel(course));
         } catch (error) {
@@ -137,6 +147,21 @@ class CourseService {
             }
             throw new ClientError('Failed to enroll student in course');
         }
+    }
+
+    private async isValidUserData(user:  Omit<ICourse, 'id'>): Promise<boolean> {
+        if (!Array.isArray(user.modules)) {
+            throw new ClientError("Array input is not accepted. Please provide a single user object.");
+        }
+        // if (typeof user !== 'object' || user === null) {
+        //     throw new ClientError("Invalid input. Please provide a valid user object.");
+        // }
+        // if (!user.name || !user.lastName || !user.email || !user.username || !user.password) {
+        //     logger.error("Error creating user", user);
+        //     throw new ClientError("Missing required user fields");
+        // }
+
+        return true;
     }
 }
 

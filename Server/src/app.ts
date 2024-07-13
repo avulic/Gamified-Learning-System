@@ -17,6 +17,9 @@ import AssignmentService from "./services/AssignmentService";
 import AssignmentRoute from "./routes/AssignmentRoute";
 import AuthController from "./controllers/AuthController";
 import AuthRoute from "./routes/AuthRoutes";
+import CourseController from "./controllers/CourseController";
+import CourseRoute from "./routes/CourseRoute";
+import CourseService from "./services/CourseService";
 
 export function createApp(): Application {
     console.log("Initializing App...");
@@ -41,11 +44,15 @@ function setRoutes(app: Application) {
     const userRoute = new UserRoute(userController);
     app.use("/api", userRoute.router);
 
-    const taskService = new TaskService();
-    const taskController = new TaskController(taskService);
-    const taskRoute = new TaskRoute(taskController);
-    app.use("/api", taskRoute.router);
+    const assignmentService = new AssignmentService();
+    const assignmentController = new AssignmentController(assignmentService);
+    const assignmentRoute = new AssignmentRoute(assignmentController);
+    app.use("/api", assignmentRoute.router);
 
+    const courseService = new CourseService();
+    const courseController = new CourseController(courseService);
+    const courseRoute = new CourseRoute(courseController);
+    app.use("/api", courseRoute.router);
 
     const authController = new AuthController(userService);
     const authRoute = new AuthRoute(authController);

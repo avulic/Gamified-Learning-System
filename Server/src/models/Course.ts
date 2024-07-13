@@ -11,19 +11,19 @@ export interface ICourse {
     description: string;
     instructors: string[];
     enrolledStudents: string[];
-    modules: string[];
+    modules?: string[];
     startDate: Date;
     endDate: Date;
     isPublished: boolean;
-    categories: string[];
+    categories?: string[];
 }
 
 // Course
 export interface ICourseDb extends Omit<ICourse, 'id'|'instructors' | 'enrolledStudents' | 'modules' | 'categories'>, Document {
     instructors:  Types.ObjectId[];
     enrolledStudents:  Types.ObjectId[];
-    modules:  Types.ObjectId[];
-    categories:  Types.ObjectId[];
+    modules?:  Types.ObjectId[] | null;
+    categories?:  Types.ObjectId[]| null;
 }
 
 const CourseSchema: Schema = new Schema({
@@ -31,11 +31,11 @@ const CourseSchema: Schema = new Schema({
     description: { type: String, required: true },
     instructors: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
     enrolledStudents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    modules: [{ type: Schema.Types.ObjectId, ref: 'Module' }],
+    modules: [{ type: Schema.Types.ObjectId, ref: 'Module', required: false }],
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     isPublished: { type: Boolean, default: false },
-    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category', required: false }]
 });
 
 const Course = mongoose.model<ICourseDb>('Course', CourseSchema);

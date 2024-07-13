@@ -30,11 +30,11 @@ export const mappedCourseToAppModel = (courseDB: ICourseDb): ICourse => ({
     description: courseDB.description,
     instructors: courseDB.instructors.map(user => user.id.toString()),
     enrolledStudents: courseDB.enrolledStudents.map((student: Types.ObjectId) => student._id.toString()),
-    modules: courseDB.modules.map((module: Types.ObjectId) => module._id.toString()),
+    modules: courseDB.modules?.map((module: Types.ObjectId) => module._id.toString()),
     startDate: courseDB.startDate,
     endDate: courseDB.endDate,
     isPublished: courseDB.isPublished,
-    categories: courseDB.categories.map((category: Types.ObjectId) => category._id.toString())
+    categories: courseDB.categories?.map((category: Types.ObjectId) => category._id.toString())
 });
 
 // export const mapCourseToDbModel = (courseDB: ICourseDb): ICourseDb => ({
