@@ -4,7 +4,7 @@ import { IUserDb } from '../models/User';
 import { IRole, Roles } from '../models/Role';
 import { IRoleDb } from '../models/Role';
 import { ICourse, ICourseDb } from '../models/Course';
-import { IModule } from '../models/Module';
+import { IModule, IModuleDb } from '../models/Module';
 import { ICategory } from '../models/Category';
 import { Types } from 'mongoose';
 
@@ -37,6 +37,10 @@ export const mappedCourseToAppModel = (courseDB: ICourseDb): ICourse => ({
     categories: courseDB.categories?.map((category: Types.ObjectId) => category._id.toString())
 });
 
-// export const mapCourseToDbModel = (courseDB: ICourseDb): ICourseDb => ({
-
-// });
+export const mappedModuleToAppModel = (moduleDB: IModuleDb): IModule => ({
+    id: moduleDB._id.toString(),
+    title: moduleDB.title,
+    description: moduleDB.description,
+    order: moduleDB.order,
+    contentItems: moduleDB.contentItems.map(contentItem => contentItem.toString()),
+});

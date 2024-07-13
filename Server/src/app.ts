@@ -20,6 +20,9 @@ import AuthRoute from "./routes/AuthRoutes";
 import CourseController from "./controllers/CourseController";
 import CourseRoute from "./routes/CourseRoute";
 import CourseService from "./services/CourseService";
+import ModuleController from "./controllers/ModuleController";
+import ModuleRoute from "./routes/ModuleRoute";
+import ModuleService from "./services/ModuleService";
 
 export function createApp(): Application {
     console.log("Initializing App...");
@@ -53,6 +56,11 @@ function setRoutes(app: Application) {
     const courseController = new CourseController(courseService);
     const courseRoute = new CourseRoute(courseController);
     app.use("/api", courseRoute.router);
+
+    const moduleService = new ModuleService();
+    const moduleController = new ModuleController(moduleService);
+    const moduleRoute = new ModuleRoute(moduleController);
+    app.use("/api", moduleRoute.router);
 
     const authController = new AuthController(userService);
     const authRoute = new AuthRoute(authController);
