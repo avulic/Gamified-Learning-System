@@ -1,26 +1,35 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { IUser } from './User';
+import mongoose, { Schema, Document, Types } from 'mongoose';
+import { IUser, IUserDb } from './User';
 import { IRoleDb } from './Role';
 import { ICategory } from './Category';
 import { IModule } from './Module';
+import { CallTrackerCall } from 'assert';
 
-// Course
-export interface ICourse extends Document {
+export interface ICourse {
+    id:string,
     title: string;
     description: string;
-    instructor: IUser[];
-    enrolledStudents: IUser[];
-    modules: IModule[];
+    instructors: string[];
+    enrolledStudents: string[];
+    modules: string[];
     startDate: Date;
     endDate: Date;
     isPublished: boolean;
-    categories: ICategory[];
+    categories: string[];
+}
+
+// Course
+export interface ICourseDb extends Omit<ICourse, 'id'|'instructors' | 'enrolledStudents' | 'modules' | 'categories'>, Document {
+    instructors:  Types.ObjectId[];
+    enrolledStudents:  Types.ObjectId[];
+    modules:  Types.ObjectId[];
+    categories:  Types.ObjectId[];
 }
 
 const CourseSchema: Schema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    instructor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    instructors: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
     enrolledStudents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     modules: [{ type: Schema.Types.ObjectId, ref: 'Module' }],
     startDate: { type: Date, required: true },
@@ -29,5 +38,6 @@ const CourseSchema: Schema = new Schema({
     categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
 });
 
-export const Course = mongoose.model<ICourse>('Course', CourseSchema);
+const Course = mongoose.model<ICourseDb>('Course', CourseSchema);
 
+export default Course;

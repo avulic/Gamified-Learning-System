@@ -12,9 +12,9 @@ import UserController from "./controllers/UserController";
 import UserService from "./services/UserService";
 import UserRoute from "./routes/UserRoutes";
 
-import TaskController from "./controllers/AssignmentController";
-import TaskService from "./services/AssignmentService";
-import TaskRoute from "./routes/AssignmentRoute";
+import AssignmentController from "./controllers/AssignmentController";
+import AssignmentService from "./services/AssignmentService";
+import AssignmentRoute from "./routes/AssignmentRoute";
 import AuthController from "./controllers/AuthController";
 import AuthRoute from "./routes/AuthRoutes";
 
