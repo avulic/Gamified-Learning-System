@@ -1,168 +1,115 @@
+// CourseService.ts
 import { Types } from 'mongoose';
-import Course, { ICourse, ICourseDb } from '../models/Course';
-import User from '../models/User';
-import { ClientError } from '../models/Errors/ClientError';
-import { NotFoundError } from '../models/Errors/NotFoundError';
-import { logger } from '../utils/logger';
-import { mappedCourseToAppModel } from '../utils/ModelMapper';
+import {CourseMapper} from '@/utils/ModelMapper'
+import { NotFoundError } from '../models/app/Errors/NotFoundError';
+import { ClientError } from '../models/app/Errors/ClientError';
+import  Logger  from '../utils/logger';
 
-class CourseService {
-    public async createCourse(courseData: Omit<ICourse, 'id'>): Promise<ICourse> {
-        try {
-            await this.isValidUserData(courseData);
+import { inject, injectable } from 'inversify';
+import { TYPES } from '@/types';
+import { ICourse, IUser } from '@/models/app';
+import { CourseResponseDto, CreateCourseDto, UpdateCourseDto } from '@/models/dto';
+import { CourseRepository } from '@/repository/CourseRepository';
+import { UserRepository } from '@/repository/UserRepository';
+import { ModuleRepository } from '@/repository/ModuleRepository';
 
-            const newCourseData = {
-                ...courseData,
-                instructors: courseData.instructors.map(id => new Types.ObjectId(id)),
-                enrolledStudents: courseData.enrolledStudents.map(id => new Types.ObjectId(id)),
-                modules: courseData.modules?.length != 0 ? courseData.modules?.map(id => new Types.ObjectId(id)) : [],
-                categories: courseData.categories?.length != 0 ? courseData.categories?.map(id => new Types.ObjectId(id)) : [],
-            };
-    
-            const newCourse = new Course(newCourseData);
-            const savedCourse = await newCourse.save();
-            logger.info('Course created successfully', { courseId: savedCourse._id });
-            return mappedCourseToAppModel(savedCourse);
-        } catch (error) {
-            logger.error('Error creating course', error);
-            throw new ClientError('Failed to create course');
-        }
+
+@injectable()
+export class CourseService {
+    constructor(
+        @inject(TYPES.CourseRepository) private courseRepository: CourseRepository,
+        @inject(TYPES.ModuleRepository) private moduleRepository: ModuleRepository,
+        @inject(TYPES.UserRepository) private userRepository: UserRepository,
+        @inject(TYPES.Logger) private logger: Logger
+    ) {}
+
+    async createCourse(newCourseData: ICourse): Promise<ICourse> {
+        // Fetch modules
+        newCourseData.modules = await Promise.all(
+            newCourseData.modulesId.map(async moduleId => {
+                const module = await this.moduleRepository.findById(moduleId);
+                if(!module)
+                    throw new NotFoundError("module not found");
+                return module;
+            })
+        );
+
+        // Fetch instructors
+        newCourseData.instructors = await Promise.all(
+            newCourseData.instructorsId.map(async instId => {
+                const instructor = await this.userRepository.findById(instId);
+                if(!instructor)
+                    throw new NotFoundError("User(instructor) not found");
+                return instructor;
+            })
+        );
+
+        const createdCourse = await this.courseRepository.create(newCourseData);
+        return createdCourse;
     }
 
-    public async getCourseById(courseId: string): Promise<ICourse> {
-        if (!Types.ObjectId.isValid(courseId)) {
-            logger.warn('Invalid course ID format', { courseId });
-            throw new ClientError('Invalid course ID format');
+    async getCourseById(id: string): Promise<ICourse> {
+        const course = await this.courseRepository.findById(id);
+        if (!course) {
+            throw new NotFoundError('Course not found');
         }
-
-        try {
-            const course = await Course.findById(courseId)
-                .populate('instructor', 'name email')
-                .populate('enrolledStudents', 'name email')
-                .populate('modules', 'title order')
-                .populate('categories', 'name');
-
-            if (!course) {
-                logger.warn('Course not found', { courseId });
-                throw new NotFoundError(`Course with ID ${courseId} not found`);
-            }
-
-            logger.info('Course retrieved successfully', { courseId });
-            return mappedCourseToAppModel(course);
-        } catch (error) {
-            if (!(error instanceof NotFoundError)) {
-                logger.error('Error fetching course', { courseId, error });
-                throw new ClientError('An error occurred while fetching the course');
-            }
-            throw error;
-        }
+        return course;
     }
 
-    public async getAllCourses(): Promise<ICourse[]> {
-        try {
-            const courses = await Course.find().populate('instructors');
-            logger.debug(`Retrieved ${courses.length} courses`);
-            return courses.map(course => mappedCourseToAppModel(course));
-        } catch (error) {
-            logger.error('Error fetching all courses', error);
-            throw new ClientError('Failed to fetch courses');
+    async updateCourse(id: string, updateCourseData: Partial<ICourse>): Promise<ICourse> {
+        const existingCourse = await this.courseRepository.findById(id);
+        if (!existingCourse) {
+            throw new NotFoundError('Course not found');
         }
+
+        // Fetch and update instructors if provided
+        if (!updateCourseData.instructors) {
+            updateCourseData.instructors = await Promise.all(
+                existingCourse.instructorsId.map(async id => {
+                    const instructor = await this.userRepository.findById(id);
+                    if(!instructor)
+                        throw new NotFoundError("User(instructor) not found");
+                    return instructor;
+                })
+            );
+        }
+
+        // Fetch and update modules if provided
+        if (!updateCourseData.modules) {
+            updateCourseData.modules = await Promise.all(
+                existingCourse.modulesId.map(async id => {
+                    const module = await this.moduleRepository.findById(id);
+                    if(!module)
+                        throw new NotFoundError("Module not found");
+                    return module;
+                })
+            );
+        }
+
+        const updatedCourse = await this.courseRepository.update(id, updateCourseData);
+        if (!updatedCourse) {
+            throw new NotFoundError("Course not updated");
+        }
+
+        return updatedCourse;
     }
 
-    public async updateCourse(courseId: string, updateData: Partial<ICourse>): Promise<ICourse> {
-        if (!Types.ObjectId.isValid(courseId)) {
-            throw new ClientError('Invalid course ID');
+    async deleteCourse(id: string): Promise<boolean> {
+        const result = await this.courseRepository.delete(id);
+        if (!result) {
+            throw new NotFoundError('Course not found');
         }
-
-        try {
-            const course = await Course.findByIdAndUpdate(courseId, updateData, { new: true, runValidators: true });
-            if (!course) {
-                logger.warn('Attempt to update non-existent course', { courseId });
-                throw new NotFoundError(`Course with ID ${courseId} not found`);
-            }
-
-            logger.info('Course updated successfully', { courseId });
-            return mappedCourseToAppModel(course);
-        } catch (error) {
-            if (!(error instanceof NotFoundError)) {
-                logger.error('Error updating course', { courseId, error });
-                throw new ClientError('Failed to update course');
-            }
-            throw error;
-        }
+        return result;
     }
 
-    public async deleteCourse(courseId: string): Promise<boolean> {
-        if (!Types.ObjectId.isValid(courseId)) {
-            throw new ClientError('Invalid course ID');
-        }
+    async getAllCourses(): Promise<ICourse[]> {
+        const courses = await this.courseRepository.findAll();
+        if(!courses)
+            throw new NotFoundError("courses not found");
 
-        try {
-            const result = await Course.findByIdAndDelete(courseId);
-            if (!result) {
-                logger.warn('Attempt to delete non-existent course', { courseId });
-                throw new NotFoundError(`Course with ID ${courseId} not found`);
-            }
-
-            logger.info('Course deleted successfully', { courseId });
-            return true;
-        } catch (error) {
-            if (!(error instanceof NotFoundError)) {
-                logger.error('Error deleting course', { courseId, error });
-                throw new ClientError('Failed to delete course');
-            }
-            throw error;
-        }
-    }
-
-    public async enrollStudent(courseId: string, studentId: string): Promise<ICourse> {
-        if (!Types.ObjectId.isValid(courseId) || !Types.ObjectId.isValid(studentId)) {
-            throw new ClientError('Invalid course ID or student ID');
-        }
-
-        try {
-            const course = await Course.findById(courseId);
-            const student = await User.findById(studentId);
-
-            if (!course) {
-                throw new NotFoundError(`Course with ID ${courseId} not found`);
-            }
-            if (!student) {
-                throw new NotFoundError(`User with ID ${studentId} not found`);
-            }
-
-            if (course.enrolledStudents.some(id => id.toString() === studentId)) {
-                throw new ClientError('Student already enrolled in this course');
-            }
-            
-            course.enrolledStudents.push(new Types.ObjectId(studentId));
-            await course.save();
-
-            logger.info('Student enrolled in course', { courseId, studentId });
-            return mappedCourseToAppModel(course);
-        } catch (error) {
-            logger.error('Error enrolling student in course', { courseId, studentId, error });
-            if (error instanceof ClientError || error instanceof NotFoundError) {
-                throw error;
-            }
-            throw new ClientError('Failed to enroll student in course');
-        }
-    }
-
-    private async isValidUserData(user:  Omit<ICourse, 'id'>): Promise<boolean> {
-        if (!Array.isArray(user.modules)) {
-            throw new ClientError("Array input is not accepted. Please provide a single user object.");
-        }
-        // if (typeof user !== 'object' || user === null) {
-        //     throw new ClientError("Invalid input. Please provide a valid user object.");
-        // }
-        // if (!user.name || !user.lastName || !user.email || !user.username || !user.password) {
-        //     logger.error("Error creating user", user);
-        //     throw new ClientError("Missing required user fields");
-        // }
-
-        return true;
+        return courses;
     }
 }
 
 export default CourseService;
+

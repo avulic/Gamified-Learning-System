@@ -63,9 +63,32 @@ function handleError(error: any): never {
     throw error;
 }
 
+/**
+ * Serialize array query parameters
+ * @param params Object containing query parameters
+ * @returns URLSearchParams
+ */
+export function serializeParams(params: Record<string, any>): URLSearchParams {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            value.forEach(item => searchParams.append(key + '[]', item));
+        } else {
+            searchParams.append(key, value);
+        }
+    });
+    return searchParams;
+}
+
 // API methods
-export const get = <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> =>
-    ApiService.get<ApiResponse<T>>(url, config).then(handleResponse).catch(handleError);
+// Then update the get function like this:
+export const get = <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+    if (config?.params) {
+        const serializedParams = serializeParams(config.params);
+        config.params = serializedParams;
+    }
+    return ApiService.get<ApiResponse<T>>(url, config).then(handleResponse).catch(handleError);
+};
 
 export const post = <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> =>
     ApiService.post<ApiResponse<T>>(url, data, config).then(handleResponse).catch(handleError);
@@ -76,4 +99,6 @@ export const put = <T>(url: string, data?: any, config?: AxiosRequestConfig): Pr
 export const del = <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> =>
     ApiService.delete<ApiResponse<T>>(url, config).then(handleResponse).catch(handleError);
 
+export const patch = <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> =>
+    ApiService.patch<ApiResponse<T>>(url, data, config).then(handleResponse).catch(handleError);
 export default ApiService;

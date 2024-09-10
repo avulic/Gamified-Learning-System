@@ -9,13 +9,15 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  publicDir: 'public',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
     }
   },
   build: {
-    sourcemap: true
+    outDir: 'dist'
   },
   server: {
     host: true,

@@ -17,10 +17,7 @@ class AuthService {
     public async signIn(user: UserSignIn): Promise<any> {
         try {
             const response = await post<User>('/signin', user);
-            console.log(response)
-            if (response.data.token) {
-                this.setToken(response.data.token);
-            }
+            
             return response.data;
         } catch (error) {
             //console.error('Error during login:', error);
@@ -73,7 +70,8 @@ class AuthService {
         if (!token) return;
 
         try {
-            userData = jwt_decode(token);
+            const tokenData:JwtToken = jwt_decode(token);
+            userData.token = tokenData;
             this.currentUserSubject.next(userData);
         } catch (error) {
             console.error('Error decoding token:', error);
@@ -109,37 +107,20 @@ class AuthService {
     }
 
     public isAuthenticated(): boolean {
-        const user = this.getCurentUserValues();
+        const user:User|null = this.getCurentUserValues();
         if (!user) return false;
 
         try {
             const currentTime = Date.now() / 1000;
 
-            if (typeof user.token === 'string') {
-                user.token
-            } 
-            if (typeof user.token === 'object') {
-                
-            }           
 
             return !!user.token.exp && user.token.exp > currentTime;
 
         } catch (error) {
             console.error('Error decoding token:', error);
             this.removeToken(); // Remove invalid token
-            return false;x
+            return false;
         }
-    }
-
-    public userLogedIn(): boolean {
-        this.getUserFromLocalStorage();
-        const user: User | null = this.getCurentUserValues();
-
-        if (user && user.token.exp && user.token.exp < Date.now()) {
-            return true;
-        }
-
-        return false;
     }
 }
 

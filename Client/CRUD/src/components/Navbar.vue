@@ -26,7 +26,7 @@
                                 Users</RouterLink>
                         </li>
                         <li>
-                            <a @click='redirect()' aria-label="Product pricing" title="Product pricing"
+                            <a @click='redirect()' aria-label="Product pricing" title="Game"
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">Game</a>
                         </li>
                         <li>
@@ -35,9 +35,34 @@
                                 About us</RouterLink>
                         </li>
                         <li>
-                            <RouterLink :to="{ name: 'tasks' }" aria-label="Tasks" title="Tasks"
+                            <RouterLink :to="{ name: 'assignment' }" aria-label="Assignment" title="Assignment"
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
-                                Tasks</RouterLink>
+                                Assignment</RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink :to="{ name: 'course' }" aria-label="Course" title="Course"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Course</RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink :to="{ name: 'module' }" aria-label="Module" title="Module"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Module</RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink :to="{ name: 'quiz' }" aria-label="Quiz" title="Quiz"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Quiz</RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink :to="{ name: 'task' }" aria-label="Task" title="Task"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Task</RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink :to="{ name: 'tile' }" aria-label="Tile" title="Tile"
+                                class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                                Task</RouterLink>
                         </li>
                     </ul>
                 </div>
@@ -172,7 +197,7 @@ onBeforeMount(() => {
 
 
 const isAdmin = computed(() => {
-    return currentUser.value?.roles && currentUser.value.roles.some(currentUserRol => currentUserRol === RoleEnum.Admin);
+    return currentUser.value?.roles && currentUser.value.roles.some(currentUserRol => currentUserRol.name === RoleEnum.Admin);
 });
 
 
