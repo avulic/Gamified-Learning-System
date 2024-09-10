@@ -14,7 +14,7 @@ dist-ssr
 coverage
 *.local
 sql
-
+Game
 /cypress/videos/
 /cypress/screenshots/
 
