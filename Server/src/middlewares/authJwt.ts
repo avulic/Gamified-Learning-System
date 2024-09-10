@@ -2,9 +2,10 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { authConfig } from '../config/authConfig';
-import { UnauthorizedError } from '../models/Errors/UnauthorizedError';
-import { ForbiddenError } from '../models/Errors/ForbiddenError';
-import { logger } from '../utils/logger';
+import { UnauthorizedError } from '../models/app/Errors/UnauthorizedError';
+import { ForbiddenError } from '../models/app/Errors/ForbiddenError';
+
+
 
 export interface CustomRequest extends Request {
     token: JwtPayload;

@@ -1,195 +1,136 @@
 <template>
-    <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-        <!-- Replace 'New' with 'New Assignment' -->
-        <div class="flex justify-between">
-            <AddAssignment @addedNew="refreshList"></AddAssignment>
-            <input v-model="searchTerm" type="text" placeholder="Search"
-                class="py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+    <div class="p-4">
+        <div class="flex justify-between mb-4">
+            <Button label="New Assignment" icon="pi pi-plus" @click="openNewAssignmentModal" class="p-button-success" />
+            <span class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+            </span>
         </div>
 
-        <div v-if="filteredAssignments"
-            class="min-w-screen min-h-screen bg-gray-100 items-center bg-gray-100 font-sans overflow-hidden">
-            <div class="w-full">
-                <div class="bg-white shadow-md rounded my-6 overflow-x-scroll">
-                    <table class="min-w-max w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Name</th>
-                                <th class="py-3 px-6 text-left">Description</th>
-                                <!-- Add or update table headers as needed for Assignment list -->
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light">
-                            <template v-for="(Assignment, i) in filteredAssignments" :key="Assignment.id">
-                                <tr @click="toggleDropdown(i)" class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        <span class="font-medium">{{ Assignment.name }}</span>
-                                    </td>
-                                    <td class="py-3 px-6 text-left">
-                                        <span>{{ Assignment.description }}</span>
-                                    </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex item-center justify-center">
-                                            <div @click.stop="toggleDropdown(i)"
-                                                class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
-                                            </div>
-                                            <div @click="deleteAssignment(Assignment.id)"
-                                                class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+        <DataTable :value="assignments" :paginator="true" :rows="10" :globalFilterFields="['title', 'description']"
+            :filters="filters" responsiveLayout="scroll" dataKey="id" :rowHover="true"
+            v-model:selection="selectedAssignments" :loading="loading">
+            <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+            <Column field="title" header="Title" :sortable="true"></Column>
+            <Column field="description" header="Description" :sortable="true"></Column>
+            <Column field="dueDate" header="Due Date" :sortable="true">
+                <template #body="slotProps">
+                    {{ new Date(slotProps.data.dueDate).toLocaleDateString() }}
+                </template>
+            </Column>
+            <Column field="maxScore" header="Max Score" :sortable="true"></Column>
+            <Column field="xpReward" header="XP Reward" :sortable="true"></Column>
+            <Column header="Actions">
+                <template #body="slotProps">
+                    <Button icon="pi pi-pencil" @click="editAssignment(slotProps.data)"
+                        class="p-button-rounded p-button-success mr-2" />
+                    <Button icon="pi pi-trash" @click="confirmDeleteAssignment(slotProps.data.id)"
+                        class="p-button-rounded p-button-danger" />
+                </template>
+            </Column>
+        </DataTable>
 
-                                <tr v-if="currentIndex === i" :key="currentIndex"
-                                    class="border-b border-gray-200 hover:bg-gray-100" role="presentation">
-                                    <td :colspan="Object.keys(filteredAssignments[0]).length + 1">
-                                        <!-- Replace 'Details' with 'AssignmentDetails' -->
-                                        <AssignmentDetails :currentAssignment="currentAssignment" @onSaveAssignment="saveAssignment"
-                                            @onEditAssignment="editAssignment">
-                                        </AssignmentDetails>
-                                    </td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <Dialog v-model:visible="showModal" :style="{}" header="Assignment Details" :modal="true" class="p-fluid">
+            <Details :initialAssignment="selectedAssignment" @onSaveAssignment="saveAssignment"
+                @cancel="updateAssignment">
+            </Details>
+        </Dialog>
+
+        <ConfirmDialog></ConfirmDialog>
     </div>
 </template>
 
 <script setup lang="ts">
-
-import { ref, computed, onMounted, type Ref } from 'vue'
+import { ref, onMounted, reactive } from 'vue';
 import { useToast } from 'primevue/usetoast';
-
-
-import AssignmentService from '@/services/AssignmentService'
-import type Assignment from '@/types/Assignment'
-
-import AssignmentDetails from '@/components/Assignment/Details.vue'
-import AddAssignment from '@/components/Assignment/AddAssignment.vue';
+import { useConfirm } from 'primevue/useconfirm';
+import { FilterMatchMode } from 'primevue/api';
+import AssignmentService from '@/services/AssignmentService';
+import type Assignment from '@/types/Assignment';
+import Details from '@/components/assignment/Details.vue';
 
 const toast = useToast();
+const confirm = useConfirm();
 
-let Assignments = ref([]) as Ref<Assignment[]>
-var currentAssignment = ref<Assignment>({
-    id: "",
-    name: "",
-    description: ""
+const assignments = ref<Assignment[]>([]);
+const selectedAssignment = ref<Assignment | null>(null);
+const selectedAssignments = ref();
+const showModal = ref(false);
+const loading = ref(false);
+
+const filters = reactive({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
-const searchTerm = ref('')
+onMounted(async () => {
+    await loadAssignments();
+});
 
-const loading = ref(false);
-var title = ref('')
-var currentIndex = ref(-1)
-
-
-
-
-// Function to retrieve Assignments from the API
-async function retrieveAssignments() {
-    await AssignmentService.getAllAssignments()
-        .then((response: Assignment[]) => {
-            Assignments.value = response
-        })
-        .catch((e: Error) => {
-            console.log(e)
-        })
-}
-
-async function refreshList() {
-    await retrieveAssignments()
-    currentIndex.value = -1
-}
-
-async function saveAssignment(Assignment: Assignment) {
+async function loadAssignments() {
     loading.value = true;
     try {
-        await AssignmentService.createAssignment(Assignment);
-        showToast("Assignment created successfully!", "success");
+        assignments.value = await AssignmentService.getAllAssignments();
     } catch (error) {
-        const errorMessage = extractErrorMessage(error);
-        showToast(errorMessage, "error");
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load assignments', life: 3000 });
+    } finally {
+        loading.value = false;
     }
-    loading.value = false;
 }
 
-async function editAssignment(Assignment: Assignment) {
-    loading.value = true;
-    try {
-        await AssignmentService.updateAssignment(currentAssignment.value.id, Assignment);
-        showToast("Assignment updated successfully!", "success");
-    } catch (error) {
-        const errorMessage = extractErrorMessage(error);
-        showToast(errorMessage, "error");
-    }
-    loading.value = false;
+function openNewAssignmentModal() {
+    selectedAssignment.value = null;
+    showModal.value = true;
 }
 
-function deleteAssignment(id: string) {
-    AssignmentService.deleteAssignment(id)
-        .then(() => {
-            refreshList()
-        })
-        .catch((e: Error) => {
-            console.log('Error on delete: ' + e)
-        })
-}
-
-function showToast(message: string, severityType: "error" | "success" | "info" | "warn") {
-    toast.add({
-        severity: severityType,
-        summary: severityType === "error" ? "Error" : "Success",
-        detail: message,
-        life: 10000,
+function confirmDeleteAssignment(id: string) {
+    confirm.require({
+        message: 'Are you sure you want to delete this assignment?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => deleteAssignment(id),
     });
 }
 
-function extractErrorMessage(error: any): string {
-    // Your error handling logic here
-    return "An error occurred";
+async function deleteAssignment(id: string) {
+    try {
+        await AssignmentService.deleteAssignment(id);
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment deleted', life: 3000 });
+        await loadAssignments();
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete assignment', life: 3000 });
+    }
 }
 
-const filteredAssignments = computed(() => {
-    const term = searchTerm.value.toLowerCase().trim()
-    if (!term) return Assignments.value
-
-    return Assignments.value.filter(
-        (Assignment) =>
-            Assignment.name.toLowerCase().includes(term) ||
-            Assignment.description.toLowerCase().includes(term)
-    )
-})
-
-function toggleDropdown(index: number) {
-    currentIndex.value = currentIndex.value === index ? -1 : index;
-    setActiveAssignment(index);
+function editAssignment(editAssignment: Assignment) {
+    console.log(editAssignment)
+    selectedAssignment.value = { ...editAssignment };
+    showModal.value = true;
 }
 
-function setActiveAssignment(index: number) {
-    currentAssignment.value = Assignments.value[index]
+async function saveAssignment(assignment: Assignment) {
+    try {
+        await AssignmentService.createAssignment(assignment);
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment created', life: 3000 });
+        showModal.value = false;
+        await loadAssignments();
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to create assignment', life: 3000 });
+    }
 }
 
-
-
-onMounted(() => {
-    retrieveAssignments()
-})
-
-
+async function updateAssignment(assignment: Assignment) {
+    try {
+        await AssignmentService.updateAssignment(assignment.id, assignment);
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment updated', life: 3000 });
+        showModal.value = false;
+        await loadAssignments();
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update assignment', life: 3000 });
+    }
+}
 </script>
 
-<style scoped></style>
-@/services/AssignmentService@/types/assignment@/types/Role
+<style scoped>
+/* Add any additional component-specific styles here */
+</style>

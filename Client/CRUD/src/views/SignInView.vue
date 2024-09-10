@@ -58,9 +58,9 @@ const schema = object({
 async function onSubmit() {
     loading.value = true;
     try {
-        const response = await AuthService.signIn(user);
-        console.log(response.token);
-        AuthService.setToken(response.token);
+        const token = await AuthService.signIn(user);
+
+        AuthService.setToken(token);
         router.push('/');
     } catch (error) {
         const errorMessage = extractErrorMessage(error);

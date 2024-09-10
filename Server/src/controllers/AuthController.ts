@@ -1,32 +1,34 @@
 
 import { Request, Response, NextFunction } from 'express';
-import { ClientError } from "../models/Errors/ClientError";
-import { UnauthorizedError } from "../models/Errors/UnauthorizedError";
+import { ClientError } from "../models/app/Errors/ClientError";
+import { UnauthorizedError } from "../models/app/Errors/UnauthorizedError";
 import UserService from '../services/UserService';
-import { generateToken } from '../utils/tokenUtils';
+
 import { asyncHandler } from '../utils/asyncHandler';
-import { logger } from '../utils/logger';
+import Logger from '@/utils/logger';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '@/types';
 
+@injectable()
 class AuthController {
-    private userService: UserService;
-
-    constructor(userService: UserService) {
-        this.userService = userService;
-    }
+    constructor(
+        @inject(TYPES.UserService) private userService: UserService,
+        @inject(TYPES.Logger) private logger: Logger
+    ) {}
 
     // Function to login a user
     public login = async (req: Request, res: Response): Promise<void> => {
         try {
             const { username, password } = req.body;
             
-            const token = this.userService.signIn(username, password);
+            const token = await this.userService.signIn(username, password);
 
             res.status(200).json( token );
         } catch (err) {
             if (err instanceof ClientError || err instanceof UnauthorizedError) {
                 res.status(err.status).json({ error: err.message });
             } else {
-                logger.error('Login error:', err);
+                this.logger.error('Login error:', err);
                 res.status(500).json({ error: 'An unexpected error occurred during login' });
             }
         }
@@ -48,7 +50,7 @@ class AuthController {
             if (err instanceof ClientError || err instanceof UnauthorizedError) {
                 res.status(err.status).json({ error: err.message });
             } else {
-                logger.error('Change password error:', err);
+                this.logger.error('Change password error:', err);
                 res.status(500).json({ error: 'An unexpected error occurred while changing password' });
             }
         }

@@ -2,7 +2,8 @@ import express from 'express';
 import CourseController from '../controllers/CourseController';
 import { authJwt } from '../middlewares/authJwt';
 import {  authorizeRoles } from '../middlewares/checkRole';
-;
+import { asyncHandler } from '../utils/asyncHandler';
+
 
     /**
      * @swagger
@@ -39,7 +40,7 @@ export default class CourseRoute {
          *           application/json:
          *             example: { "id": 1, "title": "Course 1", "description": "Description of Course 1" }
          */
-        this.router.post('/courses', this.courseController.createCourse);
+        this.router.post('/courses', asyncHandler(this.courseController.createCourse));
 
         /**
          * @swagger
@@ -61,7 +62,7 @@ export default class CourseRoute {
          *                 title: Course 2
          *                 description: Description of Course 2
          */
-        this.router.get('/courses', this.courseController.getAllCourses);
+        this.router.get('/courses', asyncHandler(this.courseController.getAllCourses));
 
         /**
          * @swagger
@@ -86,7 +87,7 @@ export default class CourseRoute {
          *       404:
          *         description: Course not found
          */
-        this.router.get('/courses/:id', this.courseController.getCourseById);
+        this.router.get('/courses/:id', asyncHandler(this.courseController.getCourseById));
 
         /**
          * @swagger
@@ -117,7 +118,7 @@ export default class CourseRoute {
          *       404:
          *         description: Course not found
          */
-        this.router.put('/courses/:id', this.courseController.updateCourse);
+        this.router.put('/courses/:id', asyncHandler(this.courseController.updateCourse));
 
         /**
          * @swagger
@@ -142,6 +143,6 @@ export default class CourseRoute {
          *       404:
          *         description: Course not found
          */
-        this.router.delete('/courses/:id', this.courseController.deleteCourse);
+        this.router.delete('/courses/:id', asyncHandler(this.courseController.deleteCourse));
     }
 }

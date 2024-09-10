@@ -1,26 +1,30 @@
 'use Strict'
 import { Request, Response } from 'express';
-import ModuleService from '../services/ModuleService';
-import { IModule, IModuleDb } from '../models/Module';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { authConfig } from '../config/authConfig';
-import {logger} from '../utils/logger';
 
+import Logger from '../utils/logger';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '@/types';
+import ModuleService from '@/services/ModuleService';
+import { IModule } from '@/models/app';
+import { CreateModuleDto, ModuleResponseDto } from '@/models/dto';
+import { ModuleMapper } from '@/utils/ModelMapper';
+
+@injectable()
 class ModuleController {
-    private ModuleService: ModuleService;
-
-    constructor(ModuleService: ModuleService) {
-        this.ModuleService = ModuleService;
-    }
+    constructor(
+        @inject(TYPES.ModuleService) private moduleService: ModuleService,
+        @inject(TYPES.Logger) private logger: Logger
+    ) { }
 
     // Function to create a new Module
     public createModule = async (req: Request, res: Response): Promise<void> => {
         try {
-            const newModule: IModule = req.body;
+            const newModuleDTO: CreateModuleDto = req.body;
+            const newModule: IModule = ModuleMapper.createDtoToDomain(newModuleDTO);
 
-            const createdModule = await this.ModuleService.createModule(newModule);
-            res.status(201).json(createdModule);
+            const createdModule = await this.moduleService.createModule(newModule);
+            const response: ModuleResponseDto = ModuleMapper.toResponseDto(createdModule);
+            res.status(201).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to create Module' + err });
         }
@@ -41,9 +45,10 @@ class ModuleController {
     // Function to get all Modules
     public getAllModules = async (req: Request, res: Response): Promise<void> => {
         try {
-            const Modules = await this.ModuleService.getAllModules();
+            const modules = await this.moduleService.getAllModules();
+            const response: ModuleResponseDto[] = modules.map(ModuleMapper.toResponseDto);
             
-            res.status(200).json(Modules);
+            res.status(200).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to fetch Modules' });
         }
@@ -52,13 +57,15 @@ class ModuleController {
     // Function to get a Module by ID
     public getModuleById = async (req: Request, res: Response): Promise<void> => {
         try {
-            const ModuleId = req.params.id;
-            const Module = await this.ModuleService.getModuleById(ModuleId);
-            if (!Module) {
+            const moduleId = req.params.id;
+            const module = await this.moduleService.getModuleById(moduleId);
+            if (!module) {
                 res.status(404).json({ error: 'Module not found' });
                 return;
             }
-            res.status(200).json(Module);
+            const response: ModuleResponseDto = ModuleMapper.toResponseDto(module);
+
+            res.status(200).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to fetch Module' });
         }
@@ -67,14 +74,18 @@ class ModuleController {
     // Function to update a Module
     public updateModule = async (req: Request, res: Response): Promise<void> => {
         try {
-            const ModuleId = req.params.id;
-            const updatedModuleData: IModule = req.body;
-            const updatedModule = await this.ModuleService.updateModule(ModuleId, updatedModuleData);
+            const moduleId = req.params.id;
+            const updatedModuleDTO: CreateModuleDto = req.body;
+            const moduleData: Partial<IModule> = ModuleMapper.updateDtoToDomain(updatedModuleDTO);
+
+            const updatedModule = await this.moduleService.updateModule(moduleId, moduleData);
             if (!updatedModule) {
                 res.status(404).json({ error: 'Module not found' });
                 return;
             }
-            res.status(200).json(updatedModule);
+            const response: ModuleResponseDto = ModuleMapper.toResponseDto(updatedModule);
+
+            res.status(200).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to update Module' });
         }
@@ -83,14 +94,14 @@ class ModuleController {
     // Function to delete a Module
     public deleteModule = async (req: Request, res: Response): Promise<void> => {
         try {
-            const ModuleId = req.params.id;
-            const deletedModule = await this.ModuleService.deleteModule(ModuleId);
+            const moduleId = req.params.id;
+            const deletedModule = await this.moduleService.deleteModule(moduleId);
 
             if (!deletedModule) {
                 res.status(404).json({ error: 'Module not found' });
                 return;
             }
-            res.status(200).json(deletedModule);
+            res.status(200).json({ message: 'Module deleted successfully' });
         } catch (err) {
             res.status(500).json({ error: 'Failed to delete Module' });
         }

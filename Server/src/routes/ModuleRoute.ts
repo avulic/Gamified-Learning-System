@@ -2,6 +2,7 @@ import express from 'express';
 import ModuleController from '../controllers/ModuleController';
 import { authJwt } from '../middlewares/authJwt';
 import { authorizeRoles } from '../middlewares/checkRole';
+import { asyncHandler } from '../utils/asyncHandler';
 
 /**
  * @swagger
@@ -60,7 +61,7 @@ export default class ModuleRoute {
          *                   type: string
          *             example: { "id": "1", "title": "Module 1", "description": "Description of Module 1" }
          */
-        this.router.post('/modules', this.ModuleController.createModule);
+        this.router.post('/modules', asyncHandler(this.ModuleController.createModule));
 
         /**
          * @swagger
@@ -93,7 +94,7 @@ export default class ModuleRoute {
          *                 title: "Module 2"
          *                 description: "Description of Module 2"
          */
-        this.router.get('/modules', this.ModuleController.getAllModules);
+        this.router.get('/modules', asyncHandler(this.ModuleController.getAllModules));
 
         /**
          * @swagger
@@ -127,7 +128,7 @@ export default class ModuleRoute {
          *       404:
          *         description: Module not found
          */
-        this.router.get('/modules/:id', this.ModuleController.getModuleById);
+        this.router.get('/modules/:id', asyncHandler(this.ModuleController.getModuleById));
 
         /**
          * @swagger
@@ -180,7 +181,7 @@ export default class ModuleRoute {
          *       404:
          *         description: Module not found
          */
-        this.router.put('/modules/:id', this.ModuleController.updateModule);
+        this.router.put('/modules/:id', asyncHandler(this.ModuleController.updateModule));
 
         /**
          * @swagger
@@ -214,6 +215,6 @@ export default class ModuleRoute {
          *       404:
          *         description: Module not found
          */
-        this.router.delete('/modules/:id', this.ModuleController.deleteModule);
+        this.router.delete('/modules/:id', asyncHandler(this.ModuleController.deleteModule));
     }
 }

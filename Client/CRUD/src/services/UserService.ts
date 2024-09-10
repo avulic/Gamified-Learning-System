@@ -6,7 +6,7 @@ import type UserDetails from '@/types/User/UserDetails';
 import { get, post, put, del } from '@/services/ApiService';
 
 
-    
+
 class UserService {
     public async createUser(user: UserSignUp): Promise<UserSignUp> {
         try {
@@ -30,7 +30,7 @@ class UserService {
 
     public async getAllUsers(): Promise<User[]> {
         const response = await get<User[]>('/users');
-        
+
         return response.data;
     }
 
@@ -45,11 +45,11 @@ class UserService {
     }
 
     public async updateUser(userId: string, updatedUserData: UserDetails): Promise<UserDetails | null> {
-        try{
+        try {
             const response = await put<UserDetails>(`/users/${userId}`, updatedUserData);
             return response.data;
-        } catch(err){
-            throw new Error("Eror od servera:"+err)
+        } catch (err) {
+            throw new Error("Eror od servera:" + err)
         }
 
     }
@@ -61,21 +61,24 @@ class UserService {
 
     public async deleteUserByUserName(userName: string): Promise<User | null> {
         const responseUser = await get<User>(`/users/?username=${userName}`);
-        if(!responseUser.data)
+        if (!responseUser.data)
             return null;
 
         const response = await ApiService.delete<User>(`/users/${responseUser.data.id}`);
         return response.data;
     }
 
-    // private setOptions(): AxiosRequestConfig {
-    //     const authHeader = AuthService.authHeader();
-    //     return {
-    //         headers: {
-    //             ...authHeader,
-    //         },
-    //     };
-    // }
+    public async getUsersByRoles(roles: string[]): Promise<UserDetails[]> {
+        try {
+            const response = await get<UserDetails[]>('/users/by-roles', {
+                params: { roles: roles }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching users by roles:', error);
+            throw new Error('Failed to fetch users by roles');
+        }
+    }
 }
 
 export default new UserService();

@@ -2,7 +2,9 @@
 
 import winston from 'winston';
 import { loggerConfig } from '../config/loggerConfig';
+import { injectable } from 'inversify';
 
+@injectable()
 class Logger {
     private logger: winston.Logger;
 
@@ -20,6 +22,8 @@ class Logger {
             transports: [loggerConfig.isDevEnvironment() ? transport : prodTransport],
         });
         winston.addColors(loggerConfig.customLevels.colors);
+
+        this.logger.info('Logger initialized');
     }
 
     trace(msg: any, meta?: any) {
@@ -47,5 +51,4 @@ class Logger {
     }
 }
 
-export const logger = new Logger();
-logger.info('Logger initialized');
+export default Logger;

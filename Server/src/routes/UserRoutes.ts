@@ -2,8 +2,8 @@ import express from 'express';
 import UserController from '../controllers/UserController';
 import { authJwt } from '../middlewares/authJwt';
 import { authorizeRoles } from '../middlewares/checkRole';
-import { Roles } from '../models/Role';
 import { asyncHandler } from '../utils/asyncHandler';
+import { Roles } from '../models/enums';
 
 /**
  * @swagger
@@ -86,6 +86,32 @@ export default class UserRoute {
          *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
          */
         this.router.get('/users', asyncHandler(this.userController.getAllUsers));
+
+        /**
+         * @swagger
+         * /users/by-roles:
+         *   get:
+         *     summary: Get users by roles
+         *     description: Retrieve a list of users based on specified roles.
+         *     tags: [Users]
+         *     parameters:
+         *       - in: query
+         *         name: roles
+         *         required: true
+         *         description: Array of role names
+         *         schema:
+         *           type: array
+         *           items:
+         *             type: string
+         *     responses:
+         *       200:
+         *         description: A list of users with specified roles
+         *       400:
+         *         description: Invalid roles parameter
+         *       500:
+         *         description: Server error
+         */
+        this.router.get('/users/by-roles', asyncHandler(this.userController.getUsersByRoles));
 
         /**
          * @swagger
@@ -198,5 +224,31 @@ export default class UserRoute {
          */
         this.router.get('/usersProtected', [authJwt, authorizeRoles([Roles.Admin])], asyncHandler(this.userController.getAllUsers));
 
+        /**
+         * @swagger
+         * /users:
+         *   post:
+         *     summary: Create multiple users
+         *     description: Create multiple users with the provided data.
+         *     tags: [Users]
+         *     requestBody:
+         *       description: List of user data
+         *       required: true
+         *       content:
+         *         application/json:
+         *           example: {"name": "aDoe", "lastName": "aDoe", "email": "john@example.com", "username": "aDoe","password": "anteVulic@123" }
+         *     responses:
+         *       201:
+         *         description: Users created successfully
+         *         content:
+         *           application/json:
+         *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
+         *       400:
+         *         description: ClientERROR
+         *         content:
+         *           application/json:
+         *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
+         */
+        this.router.post('/signUp', asyncHandler(this.userController.signUpUser));
     }
 }

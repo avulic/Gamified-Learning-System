@@ -1,14 +1,18 @@
-// server.ts
+import "reflect-metadata";
+require('module-alias/register');
+
 import { Application } from "express";
 import http from "http";
-import { logger } from './utils/logger';
+import Logger from './utils/logger';
 import ErrorHandler from "./utils/errorHandler";
 import mongooseDb from "./adapters/mongooseDb";
 import { createApp } from './app';
+import { redisAdapter } from './adapters/redist';
 
 console.log("Server.ts is being executed");
 
 let server: http.Server;
+let logger = new Logger();
 
 async function setMongoConfig() {
     try {
@@ -30,9 +34,10 @@ function initializeServer(app: Application): void {
     });
 }
 
-async function startServer() {
+export default async function startServer() {
     try {
         await setMongoConfig();
+        
         const app = createApp();
         initializeServer(app);
         setupErrorHandlers();

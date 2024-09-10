@@ -5,5 +5,5 @@ export default interface User {
     id: string,
     username: string;
     roles: Role[];
-    token: JwtToken | string;
+    token: JwtToken;
 }

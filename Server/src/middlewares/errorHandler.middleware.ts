@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CustomError, HttpStatusCode, IResponseError } from '../models/Errors/CustomError';
+import { CustomError, HttpStatusCode, IResponseError } from '../models/app/Errors/CustomError';
 
 import ErrorHandler from '../utils/errorHandler';
 

@@ -65,7 +65,7 @@ import AuthService from "@/services/AuthService";
 import { object, string } from "yup";
 import { useToast } from "primevue/usetoast";
 import type UserDetails from "@/types/User/UserDetails";
-import {Role, RoleEnum} from "@/types/Role";
+import { Role, RoleEnum } from "@/types/Role";
 
 const loading = ref(false);
 const user = <UserDetails>{
@@ -91,8 +91,9 @@ async function onSubmit() {
     loading.value = true;
     try {
         const userRespons = await AuthService.signUp(user);
-        if(!userRespons){
+        if (!userRespons) {
             showToast("error", "error");
+            loading.value = false;
             return;
         }
 

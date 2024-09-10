@@ -1,12 +1,14 @@
 // src/utils/errors/errorHandler.ts
 import { Request, Response, NextFunction } from 'express';
-import { CustomError } from '../models/Errors/CustomError';
-import { logger } from './logger'; // Assume you have a logger utility
+import { CustomError } from '../models/app/Errors/CustomError';
+import Logger from './logger'; // Assume you have a logger utility
 
 
 class ErrorHandler {
+    private logger = new Logger();
+
     public handleError(error: Error): void {
-        logger.error(error);
+        this.logger.error(error);
 
         //await sendMailToAdminIfCritical();
         //await sendEventsToSentry();

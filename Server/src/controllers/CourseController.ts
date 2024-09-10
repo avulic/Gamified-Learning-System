@@ -1,102 +1,102 @@
-'use Strict'
+// CourseController.ts
+
 import { Request, Response } from 'express';
 import CourseService from '../services/CourseService';
-import { ICourse, ICourseDb } from '../models/Course';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { authConfig } from '../config/authConfig';
-import {logger} from '../utils/logger';
+import { ICourse } from '@/models/app';
+import { TYPES } from '@/types';
+import logger from '@/utils/logger';
+import { injectable, inject } from 'inversify';
+import { Logger } from 'winston';
+import { CourseResponseDto, CreateCourseDto, UpdateCourseDto } from '@/models/dto';
+import { CourseMapper } from '@/utils/ModelMapper';
 
+@injectable()
 class CourseController {
-    private courseService: CourseService;
+    constructor(
+        @inject(TYPES.CourseService) private courseService: CourseService,
+        @inject(TYPES.Logger) private logger: Logger
+    ) { }
 
-    constructor(CourseService: CourseService) {
-        this.courseService = CourseService;
-    }
-
-    // Function to create a new Course
     public createCourse = async (req: Request, res: Response): Promise<void> => {
         try {
-            const newCourse: ICourse = req.body;
+            const requestDTO: CreateCourseDto = req.body;
+            const newCourse: ICourse = CourseMapper.createDtoToDomain(requestDTO);
 
-            const createdCourse = await this.courseService.createCourse(newCourse);
-            res.status(201).json(createdCourse);
+            const createdCourse: ICourse = await this.courseService.createCourse(newCourse);
+            const response: CourseResponseDto = CourseMapper.toResponseDto(createdCourse);
+
+            res.status(201).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to create Course' + err });
+            this.logger.error('Failed to create course', err);
+            res.status(500).json({ error: 'Failed to create course' });
         }
     }
 
-    // Function to create a new Courses
-    // public createCourses = async (req: Request, res: Response): Promise<void> => {
-    //     try {
-    //         const newCourses: ICourse[] = req.body;
-    //         console.log(req.body)
-    //         const createdCourses = await this.courseService.createCourses(newCourses);
-    //         res.status(201).json(createdCourses);
-    //     } catch (err) {
-    //         res.status(500).json({ error: 'Failed to create Courses' + err });
-    //     }
-    // }
-
-    // Function to get all Courses
     public getAllCourses = async (req: Request, res: Response): Promise<void> => {
         try {
-            const Courses = await this.courseService.getAllCourses();
-            
-            res.status(200).json(Courses);
+            const courses = await this.courseService.getAllCourses();
+
+            const response: CourseResponseDto[] = courses.map(CourseMapper.toResponseDto);
+
+            res.status(200).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to fetch Courses' });
+            this.logger.error('Failed to fetch courses', err);
+            res.status(500).json({ error: 'Failed to fetch courses' });
         }
     }
 
-    // Function to get a Course by ID
     public getCourseById = async (req: Request, res: Response): Promise<void> => {
         try {
-            const CourseId = req.params.id;
-            const Course = await this.courseService.getCourseById(CourseId);
-            if (!Course) {
+            const courseId = req.params.id;
+            const course = await this.courseService.getCourseById(courseId);
+            if (!course) {
                 res.status(404).json({ error: 'Course not found' });
                 return;
             }
-            res.status(200).json(Course);
+            const response: CourseResponseDto = CourseMapper.toResponseDto(course);
+
+            res.status(200).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to fetch Course' });
+            this.logger.error('Failed to fetch course', err);
+            res.status(500).json({ error: 'Failed to fetch course' });
         }
     }
 
-    // Function to update a Course
     public updateCourse = async (req: Request, res: Response): Promise<void> => {
         try {
-            const CourseId = req.params.id;
-            const updatedCourseData: ICourse = req.body;
-            const updatedCourse = await this.courseService.updateCourse(CourseId, updatedCourseData);
-            if (!updatedCourse) {
+            const courseId = req.params.id;
+            const updatedCourseDTO: UpdateCourseDto = req.body;
+            const updatedCourseData: Partial<ICourse> = CourseMapper.updateDtoToDomain(updatedCourseDTO);
+
+            const savedCourse = await this.courseService.updateCourse(courseId, updatedCourseData);
+            if (!savedCourse) {
                 res.status(404).json({ error: 'Course not found' });
                 return;
             }
-            res.status(200).json(updatedCourse);
+            const response: CourseResponseDto = CourseMapper.toResponseDto(savedCourse);
+
+            res.status(200).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to update Course' });
+            this.logger.error('Failed to update course', err);
+            res.status(500).json({ error: 'Failed to update course' });
         }
     }
 
-    // Function to delete a Course
     public deleteCourse = async (req: Request, res: Response): Promise<void> => {
         try {
-            const CourseId = req.params.id;
-            const deletedCourse = await this.courseService.deleteCourse(CourseId);
-
+            const courseId = req.params.id;
+            const deletedCourse = await this.courseService.deleteCourse(courseId);
             if (!deletedCourse) {
                 res.status(404).json({ error: 'Course not found' });
                 return;
             }
-            res.status(200).json(deletedCourse);
+
+            res.status(200).json({ message: 'Course deleted successfully' });
         } catch (err) {
-            res.status(500).json({ error: 'Failed to delete Course' });
+            this.logger.error('Failed to delete course', err);
+            res.status(500).json({ error: 'Failed to delete course' });
         }
     }
-
-    
 }
 
 export default CourseController;

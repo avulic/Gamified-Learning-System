@@ -13,21 +13,21 @@
                     <div class="md:w-1/2 px-3">
                         <Field name="name" v-model="currentUser.name" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
-                                <InputText id="name" v-model="currentUser.name" v-bind="field" type="text"
-                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" :disabled="!isEditable" />
                                 <label for="name">First Name</label>
+                                <InputText id="name" v-model="currentUser.name" v-bind="field" type="text"
+                                    class="md:w-full" :disabled="!isEditable" />
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="name" class="text-red-600" />
                         </Field>
                     </div>
                     <div class="md:w-1/2 px-3">
                         <Field name="lastName" v-model="currentUser.lastName" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
-                                <InputText id="lastName" v-model="currentUser.lastName" v-bind="field" type="text"
-                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" :disabled="!isEditable" />
                                 <label for="lastName">Last Name</label>
+                                <InputText id="lastName" v-model="currentUser.lastName" v-bind="field" type="text"
+                                    class="md:w-full" :disabled="!isEditable" />
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="lastName" class="text-red-600" />
                         </Field>
                     </div>
                 </div>
@@ -35,11 +35,11 @@
                     <div class="md:w-full px-3">
                         <Field name="username" v-model="currentUser.username" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
-                                <InputText id="username" v-model="currentUser.username" v-bind="field" type="text"
-                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" :disabled="!isEditable" />
                                 <label for="username">User Name</label>
+                                <InputText id="username" v-model="currentUser.username" v-bind="field" type="text"
+                                    class="md:w-full" :disabled="!isEditable" />
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="username" class="text-red-600" />
                         </Field>
                     </div>
                 </div>
@@ -47,35 +47,35 @@
                     <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                         <Field name="password" v-model="currentUser.password" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
+                                <label for="password">Password</label>
                                 <Password id="password" v-model="currentUser.password" v-bind="field" :feedback="false"
                                     promptLabel="Choose a password" weakLabel="Too simple"
                                     mediumLabel="Average complexity" strongLabel="Complex password" ref="password"
-                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditable" />
-                                <label for="password">Password</label>
+                                    :disabled="!isEditable" />
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="password" class="text-red-600" />
                         </Field>
                     </div>
                     <div class="md:w-1/2 px-3">
                         <Field name="roles" v-model="currentUser.roles" v-slot="{ field, errorMessage }">
                             <span class="p-float-label">
+                                <label for="dropdown">Select a Roles</label>
                                 <MultiSelect v-model="selectedOptions" v-bind="field" display="chip"
                                     :options="roleOptions" optionLabel="name" optionValue="name"
                                     placeholder="Select roles" :maxSelectedLabels="3" class="w-full md:w-20rem"
                                     :disabled="!isEditable" />
-                                <label for="dropdown">Select a Roles</label>
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="roles" class="text-red-600" />
                         </Field>
                     </div>
                     <div class="md:w-1/2 px-3">
                         <Field name="email" v-model="currentUser.email" v-slot="{ field, errorMessage }">
                             <span class="p-float-label ">
+                                <label for="email">Email</label>
                                 <InputText id="email" v-model="currentUser.email" v-bind="field" type="text"
-                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditable" />
-                                <label for="email">First Name</label>
+                                    :disabled="!isEditable" />
                             </span>
-                            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                            <ErrorMessage name="email" class="text-red-600" />
                         </Field>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
 import { ref, computed, type Ref, nextTick, onMounted } from 'vue'
 import UserService from '@/services/UserService'
 import type UserDetails from '@/types/User/UserDetails'
-import { Form, Field } from "vee-validate";
+import { Form, Field, ErrorMessage } from "vee-validate";
 import { object, string } from "yup";
 import AuthService from '@/services/AuthService';
 import { useToast } from 'primevue/usetoast';
@@ -105,6 +105,7 @@ const loading = ref(false);
 const isEditable = ref(true);
 
 const schema = object({
+    name: string().required("name is required"),
     username: string().required("Username is required"),
     password: string().required("Password is required"),
 });
@@ -122,7 +123,7 @@ const currentUser = ref(<UserDetails>{
 const selectedOptions = ref();
 const roleOptions = ref([
     { name: RoleEnum.Student },
-    { name: RoleEnum.Profesor },
+    { name: RoleEnum.Professor },
     { name: RoleEnum.Admin },
     { name: RoleEnum.User }
 ]);
@@ -144,8 +145,8 @@ const showEdit = computed(() => {
 onMounted(() => {
     if (props.currentUser !== null && props.currentUser.name.length > 0) {
         currentUser.value = props.currentUser;
-        selectedOptions.value = props.currentUser.roles.map((role: { name: string }) => {
-            return roleOptions.value.find(option => option.name === role.name)?.name
+        selectedOptions.value = props.currentUser.roles.map(role => {
+            return roleOptions.value.find(option => option.name === role)?.name
         });
 
         isEditable.value = false;
@@ -155,10 +156,10 @@ onMounted(() => {
 
 
 const onSubmit = () => {
-    currentUser.value.roles = selectedOptions.value.map((roleName: string) => {
-        const roleOption = roleOptions.value.find(option => option.name === roleName);
-        return roleOption ? { name: roleOption.name } : null;
-    });
+    // currentUser.value.roles = selectedOptions.value.map((roleName: string) => {
+    //     const roleOption = roleOptions.value.find(option => option.name === roleName);
+    //     return roleOption ? { name: roleOption.name } : null;
+    // });
 
 
     if (!props.currentUser) {

@@ -3,6 +3,7 @@ import express from 'express';
 import AuthController from '../controllers/AuthController';
 import { authJwt } from '../middlewares/authJwt';
 import UserService from '../services/UserService';
+import { asyncHandler } from '../utils/asyncHandler';
 
 
 
@@ -75,7 +76,7 @@ export default class AuthRoute {
          *             example:
          *               error: "Invalid username or password"
          */
-        this.router.post('/login', this.authController.login);
+        this.router.post('/signin', asyncHandler(this.authController.login));
 
         /**
          * @swagger
@@ -121,7 +122,7 @@ export default class AuthRoute {
          *             example:
          *               error: "Invalid old password"
          */
-        this.router.post('/change-password', authJwt, this.authController.changePassword);
+        this.router.post('/change-password', authJwt, asyncHandler(this.authController.changePassword));
     }
 
 }

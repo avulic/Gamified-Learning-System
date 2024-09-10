@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Application } from "express";
 import cors from "cors";
 import express from "express";
@@ -7,22 +8,28 @@ import swaggerUi from "swagger-ui-express";
 import specs from "./swagger";
 
 import  errorHandler  from './middlewares/errorHandler.middleware'
+import { container } from './config/inversify.config';
+import { TYPES } from '@/types';
 
 import UserController from "./controllers/UserController";
 import UserService from "./services/UserService";
 import UserRoute from "./routes/UserRoutes";
 
 import AssignmentController from "./controllers/AssignmentController";
-import AssignmentService from "./services/AssignmentService";
-import AssignmentRoute from "./routes/AssignmentRoute";
+
+import AssignmentRoute from "./routes/AssignmentRoutes";
 import AuthController from "./controllers/AuthController";
 import AuthRoute from "./routes/AuthRoutes";
 import CourseController from "./controllers/CourseController";
 import CourseRoute from "./routes/CourseRoute";
-import CourseService from "./services/CourseService";
+
 import ModuleController from "./controllers/ModuleController";
 import ModuleRoute from "./routes/ModuleRoute";
-import ModuleService from "./services/ModuleService";
+import { ProgressController } from "./controllers/ProgressController";
+import ProgressRoute from "./routes/ProgressRoutes";
+
+
+
 
 export function createApp(): Application {
     console.log("Initializing App...");
@@ -42,27 +49,28 @@ function setConfig(app: Application) {
 }
 
 function setRoutes(app: Application) {
-    const userService = new UserService();
-    const userController = new UserController(userService);
+    const userController = container.get<UserController>(TYPES.UserController);
     const userRoute = new UserRoute(userController);
     app.use("/api", userRoute.router);
 
-    const assignmentService = new AssignmentService();
-    const assignmentController = new AssignmentController(assignmentService);
+    const assignmentController = container.get<AssignmentController>(TYPES.AssignmentController);
     const assignmentRoute = new AssignmentRoute(assignmentController);
     app.use("/api", assignmentRoute.router);
 
-    const courseService = new CourseService();
-    const courseController = new CourseController(courseService);
+    const courseController = container.get<CourseController>(TYPES.CourseController);
     const courseRoute = new CourseRoute(courseController);
     app.use("/api", courseRoute.router);
 
-    const moduleService = new ModuleService();
-    const moduleController = new ModuleController(moduleService);
+    const moduleController = container.get<ModuleController>(TYPES.ModuleController);
     const moduleRoute = new ModuleRoute(moduleController);
     app.use("/api", moduleRoute.router);
 
-    const authController = new AuthController(userService);
+    const progressController = container.get<ProgressController>(TYPES.ProgressController);
+    const progressRoute = new ProgressRoute(progressController);
+    app.use("/api/progress", progressRoute.router);
+
+
+    const authController = container.get<AuthController>(TYPES.AuthController);
     const authRoute = new AuthRoute(authController);
     app.use("/api", authRoute.router);
 }
