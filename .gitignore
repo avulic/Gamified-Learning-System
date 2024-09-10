@@ -30,6 +30,6 @@ sql
 
 new 1.txt
 .env
-DB
+/DB/
 proucavanje
 .aider*
