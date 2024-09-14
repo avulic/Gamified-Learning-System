@@ -40,7 +40,7 @@ cd Client/CRUD
 npm run dev
 ```
 
-The Vue.js development server will start, typically on `http://localhost:5173`.
+The Vue.js development server will start, typically on `http://localhost:8080`.
 
 ### 2. RPGJS Game Engine
 
@@ -67,6 +67,10 @@ The Node.js development server will start, typically on `http://localhost:4000`.
 - Vue.js Frontend: `http://localhost:8080`
 - RPGJS Game: `http://localhost:3000`
 - Node.js API: `http://localhost:4000`
+
+User generated on seed:
+  Username: "look in mongo db for username"
+  Pasword:password123
 
 ## Development
 
