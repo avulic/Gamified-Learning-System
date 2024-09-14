@@ -23,7 +23,7 @@ This project consists of three main components: Vue.js frontend, RPGJS game engi
    .\run-all-dev.bat
    ```
 
-2. Or build Docker images (!!! Game doesnt work)
+2. Or build Docker images (!!! Game doesnt work):
    In root
    ```
    docker-compose build
@@ -64,7 +64,7 @@ The Node.js development server will start, typically on `http://localhost:4000`.
 
 ## Accessing the Application
 
-- Vue.js Frontend: `http://localhost:80`
+- Vue.js Frontend: `http://localhost:8080`
 - RPGJS Game: `http://localhost:3000`
 - Node.js API: `http://localhost:4000`
 
