@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "concurrently \"cd ../vue-frontend && npm run dev\" \"cd ../rpgjs-game && npm run dev\" \"cd ../node-backend && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  },
+  "name": "diplomski",
+  "description": "Node\r Vue\r Vite\r Docker\r RpgJs",
+  "version": "1.0.0",
+  "main": "run-all.js",
+  "author": "",
+  "license": "ISC"
+}

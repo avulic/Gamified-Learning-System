@@ -1,17 +1,22 @@
-FROM node:18 as build
-WORKDIR /build
-ADD . /build
-RUN npm i
-ENV NODE_ENV=production
-RUN npm run build
-
+# Use Node.js 18 as the base image
 FROM node:18-alpine
-WORKDIR /game
-COPY --from=build /build/dist ./
-COPY --from=build /build/package*.json ./
-ENV NODE_ENV=production
-RUN npm i
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your project files into the container
+COPY . .
 
 EXPOSE 3000
 
-RUN npm run dev
+# Set environment variables
+ENV NODE_ENV=development
+
+# Command to run your app in development mode
+CMD ["npm", "run", "dev"]

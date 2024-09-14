@@ -31,7 +31,7 @@ services:
     container_name: vue_c
     working_dir: /app
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       - api
     environment:

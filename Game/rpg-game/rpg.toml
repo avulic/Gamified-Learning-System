@@ -21,7 +21,7 @@ spritesheetDirectories = [
 ]
 
 [login_module]
-	mongodb = "mongodb://172.28.77.49:27017/rpg_dev"
+	mongodb = "mongodb://127.0.0.1:27017/rpg_dev"
 
 
 
@@ -60,22 +60,4 @@ themeColor = "#ff9900"
 
 
 
-
-[compilerOptions.build]
-    serverUrl = "localhost:8000"
-
-[express]
-    static = "dist/client"
-    port = 8000
-
-[socketIoClient]
-    withCredentials = false
-
-[express.cors]
-    origin = 'localhost:3000'
-    credentials = true
-
-[express.socketIo.cors]
-    origin = 'localhost:3000'
-    credentials = true
 
