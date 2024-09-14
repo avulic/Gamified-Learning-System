@@ -68,9 +68,9 @@ The Node.js development server will start, typically on `http://localhost:4000`.
 - RPGJS Game: `http://localhost:3000`
 - Node.js API: `http://localhost:4000`
 
-User generated on seed:
-  Username: "look in mongo db for username"
-  Pasword:password123
+- User generated on seed:
+  - Username: "look in mongo db for username"
+  - Pasword:password123
 
 ## Development
 
