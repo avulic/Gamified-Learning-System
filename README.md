@@ -6,6 +6,7 @@ This project consists of three main components: Vue.js frontend, RPGJS game engi
 
 - Node.js (version 18 or higher)
 - npm (usually comes with Node.js)
+- Mongo
   
 
 ## Getting Started
@@ -17,11 +18,7 @@ This project consists of three main components: Vue.js frontend, RPGJS game engi
    ```
 
 2. Run file "run-all-dev.bat" that will start all project:
-   ```
-   run-all-dev.bat
-   ```
-
-  Win:
+   Win:
    ```
    .\run-all-dev.bat
    ```
