@@ -66,7 +66,10 @@ container.bind<FileRepository>(TYPES.FileRepository).to(FileRepository);
 container.bind<TaskProgressRepository>(TYPES.TaskProgressRepository).to(TaskProgressRepository);
 container.bind<UserProgressRepository>(TYPES.UserProgressRepository).to(UserProgressRepository);
 
-container.bind<Logger>(TYPES.Logger).to(Logger);
+
+container.bind<Logger>(TYPES.Logger).toDynamicValue(() => {
+    return Logger.getInstance();
+}).inSingletonScope();
 
 
 

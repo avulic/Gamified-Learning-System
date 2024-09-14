@@ -30,7 +30,7 @@ import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
 import Chips  from 'primevue/chips';
 import ConfirmDialog from 'primevue/confirmdialog';
-import RadioButton from 'primevue/RadioButton';
+import RadioButton from 'primevue/radiobutton';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -39,15 +39,15 @@ import Chip from 'primevue/chip';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import TabPanel from 'primevue/tabpanel';
-import TabView from 'primevue/TabView';
-import Toolbar from 'primevue/Toolbar';
-import InputIcon from 'primevue/InputIcon';
-import FileUpload from 'primevue/FileUpload';
-import IconField from 'primevue/IconField';
-import Rating from 'primevue/Rating';
-import ProgressBar from 'primevue/ProgressBar';
-import Tag from 'primevue/Tag';
-import SplitButton from 'primevue/SplitButton';
+import TabView from 'primevue/tabview';
+import Toolbar from 'primevue/toolbar';
+import InputIcon from 'primevue/inputicon';
+import FileUpload from 'primevue/fileupload';
+import IconField from 'primevue/iconfield';
+import Rating from 'primevue/rating';
+import ProgressBar from 'primevue/progressbar';
+import Tag from 'primevue/tag';
+import SplitButton from 'primevue/splitbutton';
 
 
 

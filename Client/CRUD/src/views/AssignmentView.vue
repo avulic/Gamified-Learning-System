@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AssignmentList from '@/components/Assignment/AssignmentList.vue';
+import AssignmentList from '@/components/assignment/AssignmentList.vue';
 </script>
 
 <template>

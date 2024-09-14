@@ -16,9 +16,9 @@ import { IAssignment, ISubmission } from '@/models/app';
 import File from '@/models/db/mongo/File';
 import { SubmissionMapper } from '@/utils/ModelMapper';
 
-async function seed() {
+export async function seed() {
     try {
-        await mongooseDb();
+        console.log('Seeding db started');
 
         await Promise.all([
             Role.deleteMany({}),
@@ -527,5 +527,3 @@ async function seedProgressModels(users: IUserDb[], courses: ICourseDb[], module
 }
 
 
-
-seed();

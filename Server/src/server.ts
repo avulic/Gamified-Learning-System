@@ -98,6 +98,4 @@ const setupErrorHandlers = (): void => {
     });
 };
 
-
-console.log("Server.ts has been fully loaded");
 startServer();

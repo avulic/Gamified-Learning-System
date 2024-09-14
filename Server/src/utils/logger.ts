@@ -6,24 +6,37 @@ import { injectable } from 'inversify';
 
 @injectable()
 class Logger {
+    private static instance: Logger | null = null;
     private logger: winston.Logger;
 
     constructor() {
-        const prodTransport = new winston.transports.File({
-            filename: loggerConfig.logFile,
-            level: 'error',
-        });
-        const transport = new winston.transports.Console({
-            format: loggerConfig.formatter,
-        });
-        this.logger = winston.createLogger({
-            level: loggerConfig.isDevEnvironment() ? 'trace' : 'error',
-            levels: loggerConfig.customLevels.levels,
-            transports: [loggerConfig.isDevEnvironment() ? transport : prodTransport],
-        });
-        winston.addColors(loggerConfig.customLevels.colors);
+        if (!Logger.instance) {
+            const prodTransport = new winston.transports.File({
+                filename: loggerConfig.logFile,
+                level: 'error',
+            });
+            const transport = new winston.transports.Console({
+                format: loggerConfig.formatter,
+            });
+            this.logger = winston.createLogger({
+                level: loggerConfig.isDevEnvironment() ? 'trace' : 'error',
+                levels: loggerConfig.customLevels.levels,
+                transports: [loggerConfig.isDevEnvironment() ? transport : prodTransport],
+            });
+            winston.addColors(loggerConfig.customLevels.colors);
 
-        this.logger.info('Logger initialized');
+            this.logger.info('Logger initialized');
+            Logger.instance = this;
+        } else {
+            this.logger = Logger.instance.logger;
+        }
+    }
+
+    public static getInstance(): Logger {
+        if (!Logger.instance) {
+            Logger.instance = new Logger();
+        }
+        return Logger.instance;
     }
 
     trace(msg: any, meta?: any) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import QuizList from '@/components/Quiz/QuizList.vue';
+import QuizList from '@/components/quiz/QuizList.vue';
 
 </script>
 

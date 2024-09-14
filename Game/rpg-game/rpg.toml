@@ -1,19 +1,81 @@
-name = 'My RPG Game'
+name = 'My Game'
 
 modules = [
-    './src/modules/CRUD_module',
-   'rpgjs-character-select',
-    './src/modules/main',
-   '@rpgjs/save',
-   '@rpgjs/plugin-emotion-bubbles',
-    './src/modules/login_module',
-    './src/modules/chat_module',
-    './src/modules/menu_module'
+   'rpgjs-inventory',
+	'./spritesheets',
+	'rpgjs-character-select',
+	'./menu_module',
+	'./login_module',
+	'./main',
+	'./loadEvents'
+]
+
+spritesheetDirectories = [
+    'lpc/heads',
+    'lpc/bodies',
+    'lpc/accessories',
+    'lpc/torso',
+    'lpc/legs',
+    'lpc/hair',
+    'lpc/ears',
 ]
 
 [login_module]
-    mongodb = "mongodb://127.0.0.1:27017/test"
+	mongodb = "mongodb://172.28.77.49:27017/rpg_dev"
 
-[start]
-    graphic = 'hero'
-    hitbox = [16, 16]
+
+
+[characterSelect]
+  	actors = [
+		'human',
+		'elf'
+    ]
+
+
+[inputs.action]
+    name = "action"
+    bind = ["space", "enter", "click"]
+
+[inputs.ctrl]
+    name = "ctrl"
+    bind = "ctrl"
+
+[inputs.attack]
+    name = "attack"
+    bind = "q"
+
+[inputs.defend]
+    name = "defend"
+    bind = "shift"
+
+[inputs.m]
+    name = "menu"
+    bind = "m"
+
+
+# will only be read by the client
+shortName = "My Game"
+description = "An amazing game built with RPGJS!"
+themeColor = "#ff9900"
+
+
+
+
+[compilerOptions.build]
+    serverUrl = "localhost:8000"
+
+[express]
+    static = "dist/client"
+    port = 8000
+
+[socketIoClient]
+    withCredentials = false
+
+[express.cors]
+    origin = 'localhost:3000'
+    credentials = true
+
+[express.socketIo.cors]
+    origin = 'localhost:3000'
+    credentials = true
+
