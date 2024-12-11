@@ -21,7 +21,7 @@ spritesheetDirectories = [
 ]
 
 [login_module]
-	mongodb = "mongodb://127.0.0.1:27017/rpg_dev"
+	mongodb = "mongodb://mongo:27017/rpg_prod"
 
 
 
@@ -57,7 +57,4 @@ spritesheetDirectories = [
 shortName = "My Game"
 description = "An amazing game built with RPGJS!"
 themeColor = "#ff9900"
-
-
-
 

@@ -48,8 +48,10 @@ services:
       context: ./Game/rpg-game # Specify the path to the client directory
       dockerfile: Dockerfile # The Dockerfile for the client
     container_name: game_c
-    env_file:
-      - ./Game/rpg-game/.env.production
+    environment:
+      - NODE_ENV=production
+      - VITE_SERVER_URL=http://localhost:3000
+      - MONGO_SERVER=mongodb://mongo:27017/rpg_prod
     ports:
       - "3000:3000"
     volumes:
