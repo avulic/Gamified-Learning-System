@@ -62,7 +62,7 @@
                         <li>
                             <RouterLink :to="{ name: 'tile' }" aria-label="Tile" title="Tile"
                                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
-                                Task</RouterLink>
+                                Tiled</RouterLink>
                         </li>
                     </ul>
                 </div>

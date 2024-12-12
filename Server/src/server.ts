@@ -9,6 +9,8 @@ import mongooseDb from "./adapters/mongooseDb";
 import { createApp } from './app';
 import { redisAdapter } from './adapters/redist';
 
+import { apiConfig } from '@/config/apiConfig';
+
 console.log("Server.ts is being executed");
 
 let server: http.Server;
@@ -27,7 +29,7 @@ async function setMongoConfig() {
 function initializeServer(app: Application): void {
     console.log("Initializing server...");
     server = http.createServer(app);
-    const port = process.env.PORT || 3000;
+    const port = apiConfig.PORT;
     server.listen(port, () => {
         console.log(`Server running on port ${port}`);
         logger.info(`Server running on port ${port}`);

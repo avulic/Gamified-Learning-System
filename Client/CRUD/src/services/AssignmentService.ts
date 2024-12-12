@@ -17,7 +17,7 @@ class AssignmentService {
 
     public async createAssignments(assignments: Assignment[]): Promise<Assignment[]> {
         try {
-            const response = await post<Assignment[]>('/Assignments', assignments);
+            const response = await post<Assignment[]>('/assignments', assignments);
             return response.data;
         } catch (error) {
             // Handle createAssignments specific errors if needed
@@ -26,18 +26,18 @@ class AssignmentService {
     }
 
     public async getAllAssignments(): Promise<Assignment[]> {
-        const response = await get<Assignment[]>('/Assignments');
+        const response = await get<Assignment[]>('/assignments');
         return response.data;
     }
 
     public async getAssignmentById(assignmentId: string): Promise<Assignment | null> {
-        const response = await get<Assignment>(`/Assignments/${assignmentId}`);
+        const response = await get<Assignment>(`/assignments/${assignmentId}`);
         return response.data;
     }
 
     public async updateAssignment(assignmentId: string, updatedAssignmentData: Assignment): Promise<Assignment | null> {
         try {
-            const response = await put<Assignment>(`/Assignments/${assignmentId}`, updatedAssignmentData);
+            const response = await put<Assignment>(`/assignments/${assignmentId}`, updatedAssignmentData);
             return response.data;
         } catch (err) {
             throw new Error("Server error: " + err);
@@ -45,7 +45,7 @@ class AssignmentService {
     }
 
     public async deleteAssignment(assignmentId: string): Promise<Assignment | null> {
-        const response = await ApiService.delete<Assignment>(`/Assignments/${assignmentId}`);
+        const response = await ApiService.delete<Assignment>(`/assignments/${assignmentId}`);
         return response.data;
     }
 

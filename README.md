@@ -5,13 +5,13 @@ This project consists of three main components: Vue.js frontend, RPGJS game engi
 ## Prerequisites
 
 - Node.js (version 18 or higher)
-- npm (usually comes with Node.js)
+- npm
 - Mongo
-  
 
 ## Getting Started
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/avulic/Gamified-Learning-System
    cd Gamified-Learning-System
@@ -19,11 +19,12 @@ This project consists of three main components: Vue.js frontend, RPGJS game engi
 
 2. Run file "run-all-dev.bat" that will start all project:
    Win:
+
    ```
    .\run-all-dev.bat
    ```
 
-2. Or build Docker images (!!! Game doesnt work):
+3. Or build Docker images:
    In root
    ```
    docker-compose build
@@ -60,8 +61,6 @@ npm run dev
 
 The Node.js development server will start, typically on `http://localhost:4000`.
 
-
-
 ## Accessing the Application
 
 - Vue.js Frontend: `http://localhost:8080`
@@ -84,7 +83,4 @@ If you encounter any issues:
 2. Check if the ports are not in use by other applications.
 3. Look at the console output for each service for any error messages.
 
-
 ## License
-
-[Include your license information here]

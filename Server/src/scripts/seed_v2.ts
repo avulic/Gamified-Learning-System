@@ -92,7 +92,7 @@ async function generateFakeFile(): Promise<IFileDb[]> {
             filename: faker.system.fileName(),
             originalname: faker.system.fileName(),
             mimetype: faker.system.mimeType(),
-            size: faker.datatype.number({ min: 1000, max: 1000000 }), // Size in bytes
+            size: faker.number.int({ min: 1000, max: 1000000 }), // Size in bytes
             url: faker.internet.url(),
             uploadedBy: new Types.ObjectId(), // Assuming you want random user IDs
             uploadedAt: faker.date.recent(),
