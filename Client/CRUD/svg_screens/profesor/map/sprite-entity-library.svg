@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#4a6bff" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">Sprite/Entity Library</text>
+  
+  <!-- Tabs -->
+  <rect x="30" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="50" y="105" font-family="Arial" font-size="14" fill="#4a6bff">World Map Designer</text>
+  
+  <rect x="180" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="210" y="105" font-family="Arial" font-size="14" fill="#4a6bff">Module Manager</text>
+  
+  <rect x="330" y="80" width="140" height="40" fill="#4a6bff" rx="6" ry="6"/>
+  <text x="350" y="105" font-family="Arial" font-size="14" fill="white">Sprite/Entity Library</text>
+  
+  <rect x="480" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="490" y="105" font-family="Arial" font-size="14" fill="#4a6bff">Game World Preview</text>
+  
+  <!-- Category Navigation -->
+  <rect x="30" y="140" width="200" height="430" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <rect x="30" y="140" width="200" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="45" y="170" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Categories</text>
+  
+  <!-- Category List -->
+  <rect x="45" y="200" width="170" height="40" fill="#4a6bff" rx="4" ry="4"/>
+  <text x="60" y="225" font-family="Arial" font-size="14" fill="white">Characters (NPCs)</text>
+  
+  <rect x="45" y="250" width="170" height="40" fill="#e1e6ff" rx="4" ry="4"/>
+  <text x="60" y="275" font-family="Arial" font-size="14" fill="#4a6bff">Objects</text>
+  
+  <rect x="45" y="300" width="170" height="40" fill="#e1e6ff" rx="4" ry="4"/>
+  <text x="60" y="325" font-family="Arial" font-size="14" fill="#4a6bff">Landmarks</text>
+  
+  <rect x="45" y="350" width="170" height="40" fill="#e1e6ff" rx="4" ry="4"/>
+  <text x="60" y="375" font-family="Arial" font-size="14" fill="#4a6bff">Environment Elements</text>
+  
+  <rect x="45" y="400" width="170" height="40" fill="#e1e6ff" rx="4" ry="4"/>
+  <text x="60" y="425" font-family="Arial" font-size="14" fill="#4a6bff">Effects</text>
+  
+  <rect x="45" y="450" width="170" height="40" fill="#e1e6ff" rx="4" ry="4"/>
+  <text x="60" y="475" font-family="Arial" font-size="14" fill="#4a6bff">UI Elements</text>
+  
+  <!-- Import Button -->
+  <rect x="45" y="510" width="170" height="40" fill="#4a6bff" rx="4" ry="4"/>
+  <text x="85" y="535" font-family="Arial" font-size="14" fill="white">+ Import New</text>
+  
+  <!-- Entity Display Area -->
+  <rect x="250" y="140" width="520" height="430" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  
+  <!-- Search and Filter Bar -->
+  <rect x="250" y="140" width="520" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="270" y="170" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Characters (NPCs)</text>
+  
+  <rect x="520" y="150" width="230" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="15" ry="15"/>
+  <text x="540" y="170" font-family="Arial" font-size="13" fill="#999">🔍 Search characters...</text>
+  
+  <!-- Grid of Characters -->
+  <!-- Row 1 -->
+  <rect x="270" y="210" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="320" cy="240" r="25" fill="#9fa8da"/>
+  <rect x="310" y="265" width="20" height="25" fill="#7986cb"/>
+  <text x="290" y="320" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Professor Oak</text>
+  
+  <rect x="390" y="210" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="440" cy="240" r="25" fill="#ffcc80"/>
+  <rect x="430" y="265" width="20" height="25" fill="#ffa726"/>
+  <text x="410" y="320" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Lab Assistant</text>
+  
+  <rect x="510" y="210" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="560" cy="240" r="25" fill="#a5d6a7"/>
+  <rect x="550" y="265" width="20" height="25" fill="#66bb6a"/>
+  <text x="530" y="320" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Forest Guide</text>
+  
+  <rect x="630" y="210" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="680" cy="240" r="25" fill="#ef9a9a"/>
+  <rect x="670" y="265" width="20" height="25" fill="#e57373"/>
+  <text x="650" y="320" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Alchemist</text>
+  
+  <!-- Row 2 -->
+  <rect x="270" y="330" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="320" cy="360" r="25" fill="#80deea"/>
+  <rect x="310" y="385" width="20" height="25" fill="#26c6da"/>
+  <text x="290" y="440" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Lake Keeper</text>
+  
+  <rect x="390" y="330" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="440" cy="360" r="25" fill="#ce93d8"/>
+  <rect x="430" y="385" width="20" height="25" fill="#ab47bc"/>
+  <text x="410" y="440" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Mystic</text>
+  
+  <rect x="510" y="330" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="560" cy="360" r="25" fill="#fff59d"/>
+  <rect x="550" y="385" width="20" height="25" fill="#ffee58"/>
+  <text x="530" y="440" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Scholar</text>
+  
+  <rect x="630" y="330" width="100" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="680" cy="360" r="25" fill="#bcaaa4"/>
+  <rect x="670" y="385" width="20" height="25" fill="#8d6e63"/>
+  <text x="650" y="440" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">Explorer</text>
+  
+  <!-- Properties Panel for Selected Entity -->
+  <rect x="270" y="450" width="460" height="100" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="290" y="475" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Professor Oak Properties</text>
+  
+  <text x="290" y="500" font-family="Arial" font-size="12" fill="#666">Role: Biology Expert</text>
+  <text x="290" y="520" font-family="Arial" font-size="12" fill="#666">Knowledge Areas: Cell Biology, Photosynthesis, Genetics</text>
+  <text x="290" y="540" font-family="Arial" font-size="12" fill="#666">Associated Quests: 3</text>
+  
+  <rect x="600" y="490" width="110" height="30" fill="#4a6bff" rx="4" ry="4"/>
+  <text x="620" y="510" font-family="Arial" font-size="12" fill="white">Edit Properties</text>
+</svg>

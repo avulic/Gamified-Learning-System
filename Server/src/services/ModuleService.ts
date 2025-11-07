@@ -1,13 +1,17 @@
-import { IModule } from "@/models/app";
+import { Module as IModule } from "@/models/app";
 import { NotFoundError } from "@/models/app/Errors/NotFoundError";
-import { ILesson } from "@/models/app/Lesson";
-import { CreateModuleDto, UpdateModuleDto } from "@/models/dto";
+import { Lesson as ILesson } from "@/models/app/Lesson.entity";
+import { File } from "@/models/app/File.entity";
+
 import { FileRepository } from "@/repository/FileRepository";
 import { ModuleRepository } from "@/repository/ModuleRepository";
 import { TYPES } from "@/types";
-import { ModuleMapper } from "@/utils/ModelMapper";
+
 import { injectable, inject } from "inversify";
 import { Logger } from "winston";
+import { ClientSession, Types } from "mongoose";
+import AssignmentService from "./AssignmentService";
+import { IAssignmentDb } from "@/models/db/mongo";
 
 
 @injectable()
@@ -15,16 +19,21 @@ export class ModuleService {
     constructor(
         @inject(TYPES.ModuleRepository) private moduleRepository: ModuleRepository,
         @inject(TYPES.FileRepository) private fileRepository: FileRepository,
+        @inject(TYPES.AssignmentService) private assignmentService: AssignmentService,
         @inject(TYPES.Logger) private logger: Logger
-    ) {}
+    ) { }
 
     async createModule(newModule: IModule): Promise<IModule> {
-        if (newModule.filesId && newModule.filesId.length > 0) {
+        if (newModule.files && newModule.files.length > 0) {
             newModule.files = await Promise.all(
-                newModule.filesId.map(async id => {
-                    const file = await this.fileRepository.findById(id);
-                    if(!file)
-                        throw new NotFoundError("module not found");
+                newModule.files.map(async (f: File) => {
+                    var file;
+                    if (f.id)
+                        file = await this.fileRepository.findById(f.id);
+                    else
+                        file = await this.fileRepository.create(f)
+                    if (!file)
+                        throw new NotFoundError("file error on module createw");
                     return file;
                 })
             );
@@ -36,25 +45,58 @@ export class ModuleService {
     }
 
     async getModuleById(id: string): Promise<IModule> {
-        const module = await this.moduleRepository.findById(id, { populate: ['lessons', 'files'] });
+        const module = await this.moduleRepository.findById(id, { populate: ['lessons', 'fileIds'] });
         if (!module) {
             throw new NotFoundError('Module not found');
         }
         return module;
     }
 
-    async updateModule(id: string, updateModuleData: Partial<IModule>): Promise<IModule> {
+    async getModulesByCourseIdDetail(id: string, session?: ClientSession): Promise<IModule[]> {
+        const modules = await this.moduleRepository.find({ courseId: id } as IModule, { populate: ['lessons', 'fileIds', 'lessons.fileIds'], session });
+        if (!modules || modules.length === 0) {
+            throw new NotFoundError('Module not found');
+        }
+
+        const modulesWithAssignments = await Promise.all(
+            modules.map(async (module) => {
+                // Get assignments for this module
+                const moduleAssignments = await this.assignmentService.getAssignmentsByModule(module.id as string, session);
+                module.assignments = moduleAssignments;
+
+                // If module has lessons, get assignments for each lesson
+                if (module.lessons && module.lessons.length > 0) {
+                    await Promise.all(
+                        module.lessons.map(async (lesson) => {
+                            // Get assignments for this lesson
+                            const lessonAssignments = await this.assignmentService.getAssignmentsByLesson(lesson.id as string, session);
+                            lesson.assignments = lessonAssignments;
+                            return lesson; // Explicit return for clarity
+                        })
+                    );
+                }
+
+                return module;
+            })
+        );
+
+        return modulesWithAssignments;
+    }
+
+    async updateModule(id: string, updateModuleData: IModule): Promise<IModule> {
         const existingModule = await this.moduleRepository.findById(id);
         if (!existingModule) {
             throw new NotFoundError('Module not found');
-        } 
+        }
 
         // Update files if provided
-        if (updateModuleData.filesId && updateModuleData.filesId.length > 0) {
+        if (updateModuleData.files && updateModuleData.files.length > 0) {
             updateModuleData.files = await Promise.all(
-                updateModuleData.filesId.map(async id => {
-                    const file = await this.fileRepository.findById(id);
-                    if(!file)
+                updateModuleData.files.map(async f => {
+                    if (!f.id)
+                        throw new NotFoundError("file not found");
+                    const file = await this.fileRepository.findById(f.id);
+                    if (!file)
                         throw new NotFoundError("module not found");
                     return file;
                 })
@@ -86,29 +128,20 @@ export class ModuleService {
     }
 
     async addLessonToModule(moduleId: string, lesson: ILesson): Promise<IModule> {
-        const module = await this.moduleRepository.findById(moduleId);
-        if (!module) {
-            throw new NotFoundError('Module not found');
-        }
-
         const updatedModule = await this.moduleRepository.addLessonToModule(moduleId, lesson);
-        if (!updatedModule) {
-            throw new NotFoundError('Lesson not found');
-        }
-
         return updatedModule;
     }
 
-    async removeLessonFromModule(moduleId: string, lessonId: string): Promise<IModule> {
-        const module = await this.moduleRepository.findById(moduleId);
+    async deleteLessonFromModule(lessonId: string): Promise<IModule> {
+        const module = await this.moduleRepository.findByLessonId(lessonId);
         if (!module) {
             throw new NotFoundError('Module not found');
         }
 
         module.lessons = module.lessons?.filter(lesson => lesson.id !== lessonId) || [];
-        const updatedModule = await this.moduleRepository.update(moduleId, { lessons: module.lessons });
-        if(!updatedModule)
-            throw new NotFoundError("Module not found");
+        const updatedModule = await this.moduleRepository.update(module.id as string, module);
+        if (!updatedModule)
+            throw new NotFoundError("Module not updated");
 
         return updatedModule;
     }
@@ -127,8 +160,8 @@ export class ModuleService {
         module.files = module.files || [];
         module.files.push(file);
 
-        const updatedModule = await this.moduleRepository.update(moduleId, { files: module.files });
-        if(!updatedModule)
+        const updatedModule = await this.moduleRepository.update(moduleId, module);
+        if (!updatedModule)
             throw new NotFoundError("Module not found");
 
         return updatedModule;
@@ -141,8 +174,8 @@ export class ModuleService {
         }
 
         module.files = module.files?.filter(file => file.id !== fileId) || [];
-        const updatedModule = await this.moduleRepository.update(moduleId, { files: module.files });
-        if(!updatedModule)
+        const updatedModule = await this.moduleRepository.update(moduleId, module);
+        if (!updatedModule)
             throw new NotFoundError("Module not found");
 
         return updatedModule;

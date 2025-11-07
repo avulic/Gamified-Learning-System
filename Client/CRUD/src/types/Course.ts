@@ -1,22 +1,20 @@
-// src/models/Course.ts
-
-export interface Course {
-    id: string;
-    title: string;
-    description: string;
-
-    instructors: {id:string;name:string}[];
-    enrolledStudents: {id:string;name:string}[];
-    modules?: string[];
-
-    startDate: Date;
-    endDate: Date;
-    isPublished: boolean;
-    tags?: string[];
-    categories?: string[];
-    xpReward?: number;
-    createdAt: Date;
-    updatedAt: Date;
-  }
-
-  export default Course;
+import { Resource } from "./Resource";
+import { Assignment } from "./Assignment";
+import { Module } from "./Module";
+export class Course {
+    id!: string;
+    title!: string;
+    description!: string;
+    modules!: Module[] | [];
+    instructors!: Array<{ id: string, name: string }>;
+    prerequisites!: Course[] | [];   
+    categories!: string[];
+    enrollmentCode!: string;
+    isPublished!: boolean;
+    version!: number;
+    lastUpdated!: Date;
+    enrolledStudentCount!: number;
+    xpReward!: number;
+    materials!: Resource[] | [];
+    assignments!: Assignment[] | [];
+}

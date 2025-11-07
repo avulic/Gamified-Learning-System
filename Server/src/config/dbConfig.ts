@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/test';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/LMS_db';
 
 // Configuration for MongoDB
 export const mongoConfig = {

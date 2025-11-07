@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch CRUD",
+            "url": "http://localhost:8081", // Vite's default port
+            "webRoot": "${workspaceFolder}/",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "/@fs/*": "${webRoot}/*",
+                "/@vite/*": "${webRoot}/node_modules/*",
+                "/src/*": "${webRoot}/src/*"
+            }
+        }
+    ]
+}

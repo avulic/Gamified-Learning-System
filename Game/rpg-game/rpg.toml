@@ -7,7 +7,7 @@ modules = [
 	'./menu_module',
 	'./login_module',
 	'./main',
-	'./loadEvents'
+    './loadEvents'
 ]
 
 spritesheetDirectories = [
@@ -17,12 +17,11 @@ spritesheetDirectories = [
     'lpc/torso',
     'lpc/legs',
     'lpc/hair',
-    'lpc/ears',
+    'lpc/ears'
 ]
 
 [login_module]
-	mongodb = "mongodb://mongo:27017/rpg_prod"
-
+	mongodb ="mongodb://127.0.0.1:27017/rpg_dev"
 
 
 [characterSelect]
@@ -46,15 +45,14 @@ spritesheetDirectories = [
 
 [inputs.defend]
     name = "defend"
-    bind = "shift"
+    bind = "w"
 
 [inputs.m]
-    name = "menu"
+    name = "map"
     bind = "m"
 
+[inputs.n]
+    name = "inventory"
+    bind = "n"
 
-# will only be read by the client
-shortName = "My Game"
-description = "An amazing game built with RPGJS!"
-themeColor = "#ff9900"
 

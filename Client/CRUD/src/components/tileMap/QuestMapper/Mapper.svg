@@ -1,0 +1,91 @@
+<svg viewBox="0 0 1200 800"
+    xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect x="0" y="0" width="1200" height="800" fill="#f0f2f5"/>
+
+    <!-- Left Sidebar -->
+    <rect x="0" y="0" width="280" height="800" fill="#ffffff" stroke="#e0e0e0"/>
+
+    <!-- Left Sidebar Header -->
+    <text x="20" y="40" font-family="Arial" font-size="18" font-weight="bold">Library</text>
+
+    <!-- Tasks Section -->
+    <text x="20" y="80" font-family="Arial" font-size="14" font-weight="bold" fill="#666">Tasks</text>
+    <rect x="10" y="90" width="260" height="180" fill="#f8f9fa" rx="4"/>
+    <!-- Task Templates -->
+    <rect x="20" y="100" width="240" height="50" fill="#ffffff" stroke="#4CAF50" rx="4"/>
+    <text x="35" y="130" font-family="Arial" font-size="12">Collect Items Quest</text>
+    <rect x="20" y="160" width="240" height="50" fill="#ffffff" stroke="#4CAF50" rx="4"/>
+    <text x="35" y="190" font-family="Arial" font-size="12">Defeat Enemy Quest</text>
+
+    <!-- Sprites Section -->
+    <text x="20" y="300" font-family="Arial" font-size="14" font-weight="bold" fill="#666">Sprites</text>
+    <!-- Categories -->
+    <rect x="20" y="310" width="240" height="30" fill="#ffffff" stroke="#e0e0e0" rx="4"/>
+    <text x="35" y="330" font-family="Arial" font-size="12">All Categories ▼</text>
+    <!-- Sprite Grid -->
+    <rect x="20" y="350" width="110" height="110" fill="#ffffff" stroke="#2196F3" rx="4"/>
+    <circle cx="75" cy="405" r="25" fill="#f0f0f0"/>
+    <text x="75" y="440" font-family="Arial" font-size="10" text-anchor="middle">Merchant</text>
+
+    <rect x="140" y="350" width="110" height="110" fill="#ffffff" stroke="#2196F3" rx="4"/>
+    <circle cx="195" cy="405" r="25" fill="#f0f0f0"/>
+    <text x="195" y="440" font-family="Arial" font-size="10" text-anchor="middle">Guard</text>
+
+    <!-- Main Flow Area -->
+    <rect x="280" y="0" width="620" height="800" fill="#ffffff"/>
+
+    <!-- Flow Area Header -->
+    <rect x="280" y="0" width="620" height="50" fill="#ffffff" stroke="#e0e0e0"/>
+    <text x="300" y="30" font-family="Arial" font-size="14">Quest Flow Editor</text>
+
+    <!-- Example Flow -->
+    <!-- NPC Node -->
+    <circle cx="500" cy="200" r="50" fill="#ffffff" stroke="#2196F3" stroke-width="2"/>
+    <text x="500" cy="200" font-family="Arial" font-size="12" text-anchor="middle">Village Elder</text>
+
+    <!-- Dialogue Options -->
+    <rect x="400" y="300" width="120" height="60" fill="#ffffff" stroke="#4CAF50" stroke-width="2" rx="4"/>
+    <text x="460" y="335" font-family="Arial" font-size="12" text-anchor="middle">Task</text>
+
+    <rect x="400" y="450" width="120" height="60" fill="#ffffff" stroke="#4CAF50" stroke-width="2" rx="4"/>
+    <text x="450" y="480" font-family="Arial" font-size="12" text-anchor="middle">Next Task</text>
+
+    <!-- Connecting Lines -->
+    <path d="M 500 250 L 460 300" stroke="#666" stroke-width="2" fill="none"/>
+    <path d="M 400 450 L 500 360" stroke="#666" stroke-width="2" fill="none"/>
+
+    <!-- Right Sidebar -->
+    <rect x="900" y="0" width="300" height="800" fill="#ffffff" stroke="#e0e0e0"/>
+    <text x="920" y="40" font-family="Arial" font-size="18" font-weight="bold">Properties</text>
+
+    <!-- Properties Panel -->
+    <!-- Node Info -->
+    <text x="920" y="80" font-family="Arial" font-size="14" fill="#666">Node Type</text>
+    <rect x="920" y="90" width="260" height="30" fill="#f8f9fa" stroke="#e0e0e0" rx="4"/>
+    <text x="935" y="110" font-family="Arial" font-size="12">NPC - Village Elder</text>
+
+    <!-- Dialogue Editor -->
+    <text x="920" y="150" font-family="Arial" font-size="14" fill="#666">Dialogue</text>
+    <rect x="920" y="160" width="260" height="120" fill="#f8f9fa" stroke="#e0e0e0" rx="4"/>
+
+    <!-- Quick Response Templates -->
+    <text x="920" y="340" font-family="Arial" font-size="14" fill="#666">Quick Responses</text>
+    <rect x="920" y="350" width="120" height="30" fill="#E3F2FD" stroke="#2196F3" rx="4"/>
+    <text x="935" y="370" font-family="Arial" font-size="12">Yes, I'll help!</text>
+    <rect x="1050" y="350" width="120" height="30" fill="#E3F2FD" stroke="#2196F3" rx="4"/>
+    <text x="1065" y="370" font-family="Arial" font-size="12">Tell me more</text>
+
+
+    <!-- Conditions -->
+    <text x="920" y="440" font-family="Arial" font-size="14" fill="#666">Conditions</text>
+    <rect x="920" y="450" width="260" height="80" fill="#f8f9fa" stroke="#e0e0e0" rx="4"/>
+
+    <!-- Rewards -->
+    <text x="920" y="540" font-family="Arial" font-size="14" fill="#666">Rewards</text>
+    <rect x="920" y="550" width="260" height="80" fill="#f8f9fa" stroke="#e0e0e0" rx="4"/>
+
+    <!-- Preview -->
+    <text x="920" y="640" font-family="Arial" font-size="14" fill="#666">Preview</text>
+    <rect x="920" y="650" width="260" height="100" fill="#f8f9fa" stroke="#e0e0e0" rx="4"/>
+</svg>

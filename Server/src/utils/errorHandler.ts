@@ -1,11 +1,12 @@
 // src/utils/errors/errorHandler.ts
 import { Request, Response, NextFunction } from 'express';
 import { CustomError } from '../models/app/Errors/CustomError';
-import Logger from './logger'; // Assume you have a logger utility
+
+import loggerInstance from '@/utils/logger';
 
 
 class ErrorHandler {
-    private logger = new Logger();
+    private logger = loggerInstance;
 
     public handleError(error: Error): void {
         this.logger.error(error);

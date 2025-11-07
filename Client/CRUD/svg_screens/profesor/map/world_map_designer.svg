@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#4a6bff" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">World Map Designer</text>
+  
+  <!-- Toolbar -->
+  <rect x="30" y="80" width="740" height="50" fill="#e9ecf1" rx="6" ry="6"/>
+  
+  <rect x="45" y="90" width="90" height="30" fill="#4a6bff" rx="15" ry="15"/>
+  <text x="65" y="110" font-family="Arial" font-size="12" fill="white">Terrain</text>
+  
+  <rect x="145" y="90" width="90" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="165" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Paths</text>
+  
+  <rect x="245" y="90" width="90" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="265" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Regions</text>
+  
+  <rect x="345" y="90" width="100" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="360" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Landmarks</text>
+  
+  <rect x="455" y="90" width="90" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="475" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Labels</text>
+  
+  <rect x="555" y="90" width="90" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="570" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Entities</text>
+  
+  <rect x="655" y="90" width="90" height="30" fill="#e0e6ff" rx="15" ry="15"/>
+  <text x="670" y="110" font-family="Arial" font-size="12" fill="#4a6bff">Export</text>
+  
+  <!-- Main Content Area - Canvas -->
+  <rect x="30" y="150" width="520" height="420" fill="white" stroke="#ddd" stroke-width="2" rx="6" ry="6"/>
+  
+  <!-- World Map Elements -->
+  <!-- Mountains region (Physics Module) -->
+  <path d="M100 320 L150 250 L180 300 L220 230 L260 310 Z" fill="#a1c7bb" stroke="#88ab9f"/>
+  <text x="160" y="290" font-family="Arial" font-size="12" fill="#555">Physics</text>
+  
+  <!-- Forest region (Biology Module) -->
+  <path d="M280 280 Q350 200, 420 280 Q380 330, 280 280 Z" fill="#8fbc94" stroke="#7da980"/>
+  <text x="330" y="260" font-family="Arial" font-size="12" fill="#555">Biology</text>
+  
+  <!-- Desert region (Chemistry Module) -->
+  <path d="M140 350 Q220 380, 300 350 L280 450 L140 450 Z" fill="#e8d796" stroke="#cec084"/>
+  <text x="210" y="400" font-family="Arial" font-size="12" fill="#555">Chemistry</text>
+  
+  <!-- Lake (Math Module) -->
+  <ellipse cx="400" cy="400" rx="80" ry="50" fill="#a4c7e2" stroke="#8badc6"/>
+  <text x="385" y="400" font-family="Arial" font-size="12" fill="#555">Math</text>
+  
+  <!-- Path connecting regions -->
+  <path d="M180 300 L280 280 L300 350 L400 400" fill="none" stroke="#b58a5e" stroke-width="4" stroke-dasharray="5,3"/>
+  
+  <!-- Terrain Palette -->
+  <rect x="570" y="150" width="200" height="200" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <text x="585" y="175" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Terrain Types</text>
+  
+  <rect x="585" y="190" width="40" height="30" fill="#a1c7bb" rx="4" ry="4"/>
+  <text x="635" y="210" font-family="Arial" font-size="12" fill="#555">Mountains</text>
+  
+  <rect x="585" y="230" width="40" height="30" fill="#8fbc94" rx="4" ry="4"/>
+  <text x="635" y="250" font-family="Arial" font-size="12" fill="#555">Forest</text>
+  
+  <rect x="585" y="270" width="40" height="30" fill="#e8d796" rx="4" ry="4"/>
+  <text x="635" y="290" font-family="Arial" font-size="12" fill="#555">Desert</text>
+  
+  <rect x="585" y="310" width="40" height="30" fill="#a4c7e2" rx="4" ry="4"/>
+  <text x="635" y="330" font-family="Arial" font-size="12" fill="#555">Water</text>
+  
+  <!-- Region Properties -->
+  <rect x="570" y="370" width="200" height="200" fill="#f0f3f9" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <text x="585" y="395" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Region Properties</text>
+  
+  <text x="585" y="425" font-family="Arial" font-size="12" fill="#555">Name:</text>
+  <rect x="585" y="435" width="170" height="25" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="595" y="452" font-family="Arial" font-size="12" fill="#333">Biology Forest</text>
+  
+  <text x="585" y="475" font-family="Arial" font-size="12" fill="#555">Knowledge Domain:</text>
+  <rect x="585" y="485" width="170" height="25" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="595" y="502" font-family="Arial" font-size="12" fill="#333">Life Sciences</text>
+  
+  <text x="585" y="525" font-family="Arial" font-size="12" fill="#555">Difficulty Level:</text>
+  <rect x="585" y="535" width="120" height="10" fill="#eee" rx="5" ry="5"/>
+  <rect x="585" y="535" width="60" height="10" fill="#4a6bff" rx="5" ry="5"/>
+  <text x="720" y="540" font-family="Arial" font-size="12" fill="#555">3/5</text>
+</svg>

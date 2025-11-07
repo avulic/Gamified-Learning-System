@@ -1,36 +1,33 @@
 <template>
-    <div>
-        <Field name="text" v-slot="{ field }">
-            <label for="text" class="block text-sm font-medium text-gray-700">Question Text</label>
-            <InputText v-model="modelValue.question" v-bind="field" id="text"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-        </Field>
-        <ErrorMessage name="text" class="text-red-500 text-xs mt-1" />
-
-        <Field name="correctAnswer" v-slot="{ field }">
-            <label for="correctAnswer" class="block text-sm font-medium text-gray-700 mt-4">Correct Answer</label>
-            <div v-for="(option, i)  in options" :key="option.id" class="mt-1">
-                <RadioButton v-model="options[i]" v-bind="field" inputId="trueOption" value="True" />
-                <label for="trueOption" class="ml-2">{{ options[i].text }}</label>
+    <div class="space-y-4">
+        <div class="answer-selection">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Correct Answer</label>
+            <div class="flex gap-4">
+                <div class="flex items-center gap-2">
+                    <RadioButton v-model="modelValue.correctAnswer" 
+                        :value="true"
+                        inputId="answerTrue" />
+                    <label for="answerTrue" class="text-sm">True</label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <RadioButton v-model="modelValue.correctAnswer" 
+                        :value="false"
+                        inputId="answerFalse" />
+                    <label for="answerFalse" class="text-sm">False</label>
+                </div>
             </div>
-        </Field>
-        <ErrorMessage name="correctAnswer" class="text-red-500 text-xs mt-1" />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed } from 'vue';
-import { Field, ErrorMessage } from 'vee-validate';
-import InputText from 'primevue/inputtext';
-import TrueFalse from '@/types/task/question/TrueFalse';
+import type { TrueFalseQuestion } from '@/types/task/Question';
 
 const props = defineProps<{
-    modelValue: TrueFalse;
+    modelValue: TrueFalseQuestion;
 }>();
 
-const options = computed(() => {
-    return props.modelValue.options;
-});
-
-const emit = defineEmits(['update:modelValue']);
+defineEmits<{
+    'update:modelValue': [question: TrueFalseQuestion];
+}>();
 </script>

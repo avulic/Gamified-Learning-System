@@ -1,9 +1,10 @@
 import "reflect-metadata";
 require('module-alias/register');
+require('../register-aliases');
 
 import { Application } from "express";
 import http from "http";
-import Logger from './utils/logger';
+import logger from '@/utils/logger';
 import ErrorHandler from "./utils/errorHandler";
 import mongooseDb from "./adapters/mongooseDb";
 import { createApp } from './app';
@@ -13,8 +14,8 @@ import { apiConfig } from '@/config/apiConfig';
 
 console.log("Server.ts is being executed");
 
-let server: http.Server;
-let logger = new Logger();
+let server: http.Server | null = null;
+let isShuttingDown = false;
 
 async function setMongoConfig() {
     try {
@@ -27,9 +28,12 @@ async function setMongoConfig() {
 }
 
 function initializeServer(app: Application): void {
+    if (server) return;
+
     console.log("Initializing server...");
     server = http.createServer(app);
     const port = apiConfig.PORT;
+
     server.listen(port, () => {
         console.log(`Server running on port ${port}`);
         logger.info(`Server running on port ${port}`);
@@ -37,9 +41,14 @@ function initializeServer(app: Application): void {
 }
 
 export default async function startServer() {
+    if (server) {
+        logger.warn('Server is already running.');
+        return;
+    }
+
     try {
         await setMongoConfig();
-        
+
         const app = createApp();
         initializeServer(app);
         setupErrorHandlers();
@@ -48,7 +57,6 @@ export default async function startServer() {
         process.exit(1);
     }
 }
-
 
 
 const exitHandler = (options: { cleanup?: boolean; exit?: boolean } = {}): void => {
@@ -76,6 +84,10 @@ const setupErrorHandlers = (): void => {
     });
 
     process.on('SIGTERM', () => {
+        if (isShuttingDown) return;
+        isShuttingDown = true;
+
+
         logger.info('SIGTERM received');
         if (server) {
             server.close(() => {
@@ -88,6 +100,9 @@ const setupErrorHandlers = (): void => {
     });
 
     process.on('SIGINT', () => {
+        if (isShuttingDown) return;
+        isShuttingDown = true;
+
         logger.info('SIGINT received');
         if (server) {
             server.close(() => {
@@ -100,4 +115,10 @@ const setupErrorHandlers = (): void => {
     });
 };
 
-startServer();
+// Only start server if this file is run directly (not imported)
+if (require.main === module) {
+    startServer().catch(err => {
+        logger.error('Failed to start server:', err);
+        process.exit(1);
+    });
+}

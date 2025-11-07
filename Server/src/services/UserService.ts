@@ -1,21 +1,22 @@
 
 import { authConfig } from '@/config/authConfig';
-import { IUser, IRole } from '@/models/app';
+import { User as IUser, Role as IRole, Course } from '@/models/app';
 import { ClientError } from '@/models/app/Errors/ClientError';
 import { NotFoundError } from '@/models/app/Errors/NotFoundError';
 import { UnauthorizedError } from '@/models/app/Errors/UnauthorizedError';
-import { CreateUserDto, UpdateUserDto, UserResponseDto } from '@/models/dto';
+import { EnrolledCourse } from '@/models/app/User.entity';
 import { Roles } from '@/models/enums';
 import { IUnitOfWork } from '@/repository/interface/IUnitOfWork';
 import { MongoUnitOfWork } from '@/repository/MongoUnitOfWork';
 import { RoleRepository } from '@/repository/RoleRepository';
 import { UserRepository } from '@/repository/UserRepository';
 import { TYPES } from '@/types';
-import { UserMapper, RoleMapper } from '@/utils/ModelMapper';
+
 import bcrypt from 'bcryptjs';
 import { injectable, inject } from 'inversify';
 import jwt from 'jsonwebtoken';
 import { Logger } from 'winston';
+import CourseService from './CourseService';
 
 
 @injectable()
@@ -23,24 +24,23 @@ class UserService {
     constructor(
         @inject(TYPES.UserRepository) private userRepository: UserRepository,
         @inject(TYPES.RoleRepository) private roleRepository: RoleRepository,
+        @inject(TYPES.CourseService) private courseService: CourseService,
         @inject(TYPES.Logger) private logger: Logger
     ) { }
 
     public async createUser(userData: IUser): Promise<IUser> {
         await this.validateUserData(userData);
 
-        const roles: IRole[] = await this.getRoles(userData.roles.map(r => r as Roles));
+        const roles: IRole[] = await this.getRoles(userData.roles.map(r => r.name as Roles));
 
         const userWithRoles: IUser = {
             ...userData,
-            roles: roles.map(r => r.id!),
-            profilePicture: '',
+            roles: roles.map(r => ({ id: r.id, name: r.name })),
             preferences: {
                 notifications: true,
                 theme: 'light',
                 language: 'en'
-            },
-            enrolledCoursesIds: []
+            }
         };
 
         const savedUser: IUser = await this.userRepository.create(userWithRoles, {});
@@ -100,7 +100,7 @@ class UserService {
 
     public async getAllUsers(): Promise<IUser[]> {
         const users = await this.userRepository.findAll();
-        if(!users)
+        if (!users)
             throw new NotFoundError('USre not found');
         // const { populate = [] } = options || {};
         // const course = await this.model.find().populate(populate).session(context!);
@@ -142,7 +142,16 @@ class UserService {
         return user;
     }
 
-    public async updateUser(userId: string, updatedUserData: Partial<IUser>): Promise<IUser> {
+    public async getUserEnrolledCourses(userId: string): Promise<Course[]> {
+        const user = await this.userRepository.findById(userId);
+
+        const courseIds = user?.enrolledCourses?.map(c => c.courseId) || [];
+        const courses = await this.courseService.getCoursesByIds(courseIds);
+
+        return courses;
+    }
+
+    public async updateUser(userId: string, updatedUserData: IUser): Promise<IUser> {
         const existingUser = await this.userRepository.findById(userId, {});
         if (!existingUser) {
             throw new NotFoundError(`User with ID ${userId} not found`);
@@ -150,8 +159,8 @@ class UserService {
 
         await this.validateUserDataForUpdate(updatedUserData, existingUser);
         if (updatedUserData.roles) {
-            const roles = await this.getRoles(updatedUserData.roles as Roles[]);
-            updatedUserData.roles = roles.map(r => r.name);
+            const roles = await this.getRoles(updatedUserData.roles.map(r => r.name) as Roles[]);
+            updatedUserData.roles = roles.map(r => ({ id: r.id, name: r.name }));
         }
 
         const updatedUser = await this.userRepository.update(userId, updatedUserData);
@@ -187,25 +196,29 @@ class UserService {
             throw new ClientError("New password does not meet strength requirements");
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await this.userRepository.update(userId, { password: hashedPassword });
+        user.password = hashedPassword;
+        await this.userRepository.update(userId, user);
         this.logger.info('User password changed successfully', { userId });
     }
 
     async enrollStudent(courseId: string, courseName: string, studentId: string): Promise<IUser> {
-        // const course = await this.courseRepository.findById(courseId);
-        // if (!course) {
-        //     throw new NotFoundError('Course not found');
-        // }
+        const course = await this.courseService.getCourseById(courseId);
+        if (!course) {
+            throw new NotFoundError('Course not found');
+        }
         const user = await this.userRepository.findById(studentId);
         if (!user) {
             throw new NotFoundError('User not found');
         }
-        const courses = user.enrolledCoursesIds !== undefined ? [...user.enrolledCoursesIds] : [];
+
+        const enrolledCourse = {
+            courseId: course.id,
+            courseName: course.title
+        }
+
         const updatedUser = await this.userRepository.update(
             studentId,
-            {
-                enrolledStudents: [...courses, courseId]
-            } as Partial<IUser>
+            { enrolledCourses: [...user.enrolledCourses || [], enrolledCourse] } as IUser
         );
         if (!updatedUser)
             throw new NotFoundError('User not updated');
@@ -280,9 +293,9 @@ class UserService {
 
     private async getDefaultUserRole(session?: any): Promise<IRole> {
         try {
-            let defaultRole = await this.roleRepository.findByName(Roles.User, session);
+            let defaultRole = await this.roleRepository.findByName(Roles.USER, session);
             if (!defaultRole) {
-                defaultRole = await this.roleRepository.create({ name: Roles.User }, session);
+                defaultRole = await this.roleRepository.create({ name: Roles.USER } as IRole, session);
                 this.logger.info('Created new default user role', { roleName: defaultRole.name });
             }
             return defaultRole;
@@ -294,18 +307,17 @@ class UserService {
 
     private generateToken(user: IUser): string {
         try {
-            return jwt.sign(
-                {
-                    id: user.id,
-                    username: user.username,
-                    roles: user.roles.map(role => role)
-                },
-                authConfig.JWT_SECRET,
-                {
-                    algorithm: 'HS256',
-                    expiresIn: authConfig.JWT_EXPIRATION || '1h'
-                }
-            );
+            const payload = {
+                id: user.id,
+                username: user.username,
+                roles: user.roles.map(role => role),
+                data: { ...user, password: undefined }
+            };
+
+            return jwt.sign(payload, authConfig.JWT_SECRET, {
+                algorithm: 'HS256',
+                expiresIn: authConfig.JWT_EXPIRATION // string | number
+            });
         } catch (error) {
             this.logger.error('Failed to generate token', { userId: user.id, error });
             throw new Error('Failed to generate token');

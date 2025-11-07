@@ -10,7 +10,7 @@ import { asyncHandler } from '../utils/asyncHandler';
 //const authController = new AuthController(userService);
 
 export default class AuthRoute {
-    public router = express.Router();
+    public router: Router = Router();
 
     constructor(private authController: AuthController) {
         this.setRoutes();
@@ -77,6 +77,8 @@ export default class AuthRoute {
          *               error: "Invalid username or password"
          */
         this.router.post('/signin', asyncHandler(this.authController.login));
+
+        this.router.post('/signup', asyncHandler(this.authController.signup));
 
         /**
          * @swagger

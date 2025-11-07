@@ -1,37 +1,37 @@
-export enum HttpStatusCode {
-    OK = 200,
-    BAD_REQUEST = 400,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER = 500,
-}
+import { HttpStatusCode } from "@/models/enums";
 
-// Note: Our custom error extends from Error, so we can throw this error as an exception.
 export class CustomError extends Error {
-    message!: string;
-    status!: number;
-    additionalInfo!: any;
-    isOperational: boolean;
+    public readonly status: HttpStatusCode;
+    public readonly code: string;
+    public readonly isOperational: boolean;
+    public readonly details?: Record<string, unknown>;
 
-    constructor(message: string, status: number = 500, additionalInfo: any = undefined, isOperational: boolean = true) {
+    constructor(
+        status: HttpStatusCode,
+        message: string,
+        code = 'INTERNAL_ERROR',
+        isOperational = true,
+        details?: Record<string, unknown>
+    ) {
         super(message);
-        //Object.setPrototypeOf(this, new.target.prototype);
-
         this.status = status;
-        this.additionalInfo = additionalInfo;
+        this.code = code;
         this.isOperational = isOperational;
-
+        this.details = details;
         Error.captureStackTrace(this, this.constructor);
     }
-};
+}
 
 export interface IResponseError {
+    status: number;
     message: string;
-    additionalInfo?: string;
+    code?: string;
+    details?: Record<string, unknown>;
 }
 
 
-class HTTP400Error extends CustomError {
-    constructor(description = 'bad request') {
-        super('NOT FOUND', HttpStatusCode.BAD_REQUEST, description, true);
+export class ConflictError extends CustomError {
+    constructor(message: string) {
+        super(HttpStatusCode.CONFLICT, message, 'CONFLICT', true);
     }
 }

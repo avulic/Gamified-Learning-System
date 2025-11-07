@@ -1,5 +1,5 @@
 export interface UnlockConditions {
-    type: 'xp' | 'module' | 'quiz' | 'assignment';
+    type: 'xp' | 'module' | 'assignment';
     requirement: number | string;
 }
 

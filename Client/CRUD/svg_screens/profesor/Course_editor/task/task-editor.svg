@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#ff7043" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">Task Editor</text>
+  
+  <!-- Tab Navigation -->
+  <rect x="30" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="60" y="105" font-family="Arial" font-size="14" fill="#ff7043">Lesson Creator</text>
+  
+  <rect x="180" y="80" width="160" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="200" y="105" font-family="Arial" font-size="14" fill="#ff7043">Assignment Workshop</text>
+  
+  <rect x="350" y="80" width="140" height="40" fill="#ff7043" rx="6" ry="6"/>
+  <text x="380" y="105" font-family="Arial" font-size="14" fill="white">Task Editor</text>
+  
+  <rect x="500" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="510" y="105" font-family="Arial" font-size="14" fill="#ff7043">Entity-Task Mapper</text>
+  
+  <!-- Task Context Bar -->
+  <rect x="30" y="140" width="740" height="40" fill="#f9f9f9" rx="6" ry="6"/>
+  <text x="50" y="165" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Assignment:</text>
+  <text x="140" y="165" font-family="Arial" font-size="14" fill="#333">The Great Photosynthesis Challenge</text>
+  <text x="420" y="165" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Task 2 of 3:</text>
+  <text x="510" y="165" font-family="Arial" font-size="14" fill="#333">Create a Photosynthesis Diagram</text>
+  
+  <!-- Main Form Area -->
+  <rect x="30" y="200" width="740" height="380" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  
+  <!-- Task Definition Section -->
+  <rect x="30" y="200" width="740" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="50" y="230" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Task Definition</text>
+  
+  <!-- Task Properties -->
+  <text x="50" y="270" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Task Title:</text>
+  <rect x="150" y="255" width="600" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="160" y="275" font-family="Arial" font-size="14" fill="#333">Create a Photosynthesis Diagram</text>
+  
+  <text x="50" y="315" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Description:</text>
+  <rect x="150" y="300" width="600" height="60" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="160" y="320" font-family="Arial" font-size="14" fill="#333">Design a visual explanation of the photosynthesis process. Include all key</text>
+  <text x="160" y="345" font-family="Arial" font-size="14" fill="#333">components and label the stages clearly.</text>
+  
+  <text x="50" y="380" font-family="Arial" font-size="14" fill="#555" font-weight="bold">XP Reward:</text>
+  <rect x="150" y="365" width="100" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="170" y="385" font-family="Arial" font-size="14" fill="#333">100</text>
+  
+  <text x="280" y="380" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Difficulty:</text>
+  <rect x="350" y="372" width="150" height="15" fill="#eee" rx="7" ry="7"/>
+  <rect x="350" y="372" width="90" height="15" fill="#ff7043" rx="7" ry="7"/>
+  <text x="510" y="385" font-family="Arial" font-size="14" fill="#555">★★★☆☆</text>
+  
+  <text x="580" y="380" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Time Estimate:</text>
+  <rect x="690" y="365" width="60" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="700" y="385" font-family="Arial" font-size="14" fill="#333">45m</text>
+  
+  <!-- Submission Requirements Section -->
+  <rect x="50" y="415" width="700" height="140" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <text x="70" y="440" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Submission Requirements</text>
+  
+  <rect x="70" y="455" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="470" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="100" y="470" font-family="Arial" font-size="14" fill="#333">Accurate representation of the light-dependent reactions</text>
+  
+  <rect x="70" y="485" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="500" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="100" y="500" font-family="Arial" font-size="14" fill="#333">Accurate representation of the Calvin cycle</text>
+  
+  <rect x="70" y="515" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="530" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="100" y="530" font-family="Arial" font-size="14" fill="#333">Clear labels for all components and processes</text>
+  
+  <rect x="400" y="455" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="405" y="470" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="430" y="470" font-family="Arial" font-size="14" fill="#333">Indication of inputs and outputs</text>
+  
+  <rect x="400" y="485" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="405" y="500" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="430" y="500" font-family="Arial" font-size="14" fill="#333">Visual clarity and organization</text>
+  
+  <rect x="400" y="515" width="20" height="20" fill="white" stroke="#ddd" stroke-width="1" rx="3" ry="3"/>
+  <text x="430" y="530" font-family="Arial" font-size="14" fill="#333">Explanation of ecological importance (optional)</text>
+  
+  <text x="690" y="530" font-family="Arial" font-size="14" fill="#ff7043" font-weight="bold">+ Add</text>
+  
+  <!-- Bottom Action Bar -->
+  <rect x="30" y="590" width="740" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  
+  <rect x="450" y="600" width="120" height="30" fill="white" stroke="#ff7043" stroke-width="2" rx="4" ry="4"/>
+  <text x="485" y="620" font-family="Arial" font-size="14" fill="#ff7043">Preview</text>
+  
+  <rect x="580" y="600" width="120" height="30" fill="#ff7043" rx="4" ry="4"/>
+  <text x="615" y="620" font-family="Arial" font-size="14" fill="white">Save</text>
+</svg>

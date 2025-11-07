@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Course Structure Editor</text>
+  
+  <!-- Navigation -->
+  <rect x="0" y="60" width="200" height="640" fill="#4a5568" />
+  
+  <!-- Main Navigation Items -->
+  <rect x="0" y="60" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="92" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Course Management</text>
+  
+  <rect x="0" y="110" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="135" font-family="Arial" font-size="14" fill="#a0aec0">Dashboard</text>
+  
+  <rect x="0" y="150" width="200" height="40" fill="#2d3748" />
+  <text x="20" y="175" font-family="Arial" font-size="14" fill="#ffffff">Course Structure</text>
+  
+  <rect x="0" y="190" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="215" font-family="Arial" font-size="14" fill="#a0aec0">Analytics</text>
+  
+  <rect x="0" y="230" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="255" font-family="Arial" font-size="14" fill="#a0aec0">Student Progress</text>
+  
+  <!-- Other Navigation Sections -->
+  <rect x="0" y="280" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="312" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">World Building</text>
+  
+  <rect x="0" y="330" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="355" font-family="Arial" font-size="14" fill="#a0aec0">World Map</text>
+  
+  <rect x="0" y="370" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="395" font-family="Arial" font-size="14" fill="#a0aec0">Module Manager</text>
+  
+  <rect x="0" y="410" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="435" font-family="Arial" font-size="14" fill="#a0aec0">Sprite Library</text>
+  
+  <rect x="0" y="450" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="475" font-family="Arial" font-size="14" fill="#a0aec0">Game Preview</text>
+  
+  <rect x="0" y="500" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="532" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Content Creation</text>
+  
+  <rect x="0" y="550" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="582" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Narrative Design</text>
+  
+  <!-- Main Content Area -->
+  <rect x="200" y="60" width="1000" height="640" fill="#ffffff" />
+  
+  <!-- Course Title -->
+  <rect x="220" y="80" width="750" height="60" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="240" y="115" font-family="Arial" font-size="18" fill="#2c5282" font-weight="bold">Data Structures and Algorithms: The Quest for Efficiency</text>
+  
+  <!-- Structure Controls -->
+  <rect x="990" y="80" width="190" height="60" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <rect x="1010" y="95" width="150" height="30" rx="5" fill="#38b2ac" />
+  <text x="1085" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">+ Add Module</text>
+  
+  <!-- Structure View Controls -->
+  <rect x="220" y="150" width="960" height="40" rx="5" fill="#edf2f7" />
+  
+  <rect x="230" y="155" width="100" height="30" rx="5" fill="#e2e8f0" />
+  <text x="280" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Tree View</text>
+  
+  <rect x="340" y="155" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="390" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff">Timeline</text>
+  
+  <rect x="450" y="155" width="100" height="30" rx="5" fill="#e2e8f0" />
+  <text x="500" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Game Map</text>
+  
+  <rect x="770" y="155" width="100" height="30" rx="5" fill="#e2e8f0" />
+  <text x="820" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Filter ▼</text>
+  
+  <rect x="880" y="155" width="130" height="30" rx="5" fill="#e2e8f0" />
+  <text x="930" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Dependencies</text>
+  
+  <rect x="1020" y="155" width="150" height="30" rx="5" fill="#e2e8f0" />
+  <text x="1070" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Zoom</text>
+  
+  <!-- Timeline Header -->
+  <rect x="220" y="200" width="960" height="50" rx="5" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1" />
+  
+  <!-- Week labels -->
+  <text x="260" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 1</text>
+  <text x="360" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 2</text>
+  <text x="460" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 3</text>
+  <text x="560" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 4</text>
+  <text x="660" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 5</text>
+  <text x="760" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 6</text>
+  <text x="860" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 7</text>
+  <text x="960" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 8</text>
+  <text x="1060" y="230" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Week 9</text>
+  
+  <!-- Timeline grid -->
+  <line x1="320" y1="200" x2="320" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="420" y1="200" x2="420" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="520" y1="200" x2="520" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="620" y1="200" x2="620" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="720" y1="200" x2="720" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="820" y1="200" x2="820" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="920" y1="200" x2="920" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="1020" y1="200" x2="1020" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="1120" y1="200" x2="1120" y2="650" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Today indicator -->
+  <line x1="370" y1="200" x2="370" y2="650" stroke="#fc8181" stroke-width="2" />
+  <polygon points="370,200 380,215 360,215" fill="#fc8181" />
+  <text x="370" y="240" font-family="Arial" font-size="12" text-anchor="middle" fill="#e53e3e" font-weight="bold">TODAY</text>
+  
+  <!-- Module 1 Timeline Bar -->
+  <rect x="220" y="260" width="320" height="60" rx="5" fill="#9ae6b4" opacity="0.8" stroke="#38a169" stroke-width="1" />
+  <rect x="220" y="260" width="50" height="60" rx="5" fill="#38a169" />
+  <text x="245" y="295" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">1</text>
+  <text x="280" y="290" font-family="Arial" font-size="14" fill="#276749" font-weight="bold">Module 1: Algorithmic Foundations</text>
+  
+  <!-- Module 1 Content Items -->
+  <!-- Lesson 1.1 -->
+  <rect x="230" y="330" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="280" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Lesson 1.1</text>
+  
+  <!-- Assignment 1.1 -->
+  <rect x="340" y="330" width="100" height="30" rx="5" fill="#f6ad55" />
+  <text x="390" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Assignment 1.1</text>
+  
+  <!-- Lesson 1.2 -->
+  <rect x="230" y="370" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="280" y="390" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Lesson 1.2</text>
+  
+  <!-- Files for Module 1 -->
+  <rect x="230" y="410" width="30" height="30" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="245" y="430" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="270" y="430" font-family="Arial" font-size="12" fill="#4a5568">slides.pptx</text>
+  
+  <rect x="350" y="410" width="30" height="30" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="365" y="430" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="405" y="430" font-family="Arial" font-size="12" fill="#4a5568">assignment_files.zip</text>
+  
+  <rect x="230" y="450" width="30" height="30" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="245" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="270" y="470" font-family="Arial" font-size="12" fill="#4a5568">notes.pdf</text>
+  
+  <!-- Module 2 Timeline Bar -->
+  <rect x="420" y="260" width="400" height="60" rx="5" fill="#4299e1" opacity="0.8" stroke="#3182ce" stroke-width="1" />
+  <rect x="420" y="260" width="50" height="60" rx="5" fill="#3182ce" />
+  <text x="445" y="295" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">2</text>
+  <text x="480" y="290" font-family="Arial" font-size="14" fill="#2c5282" font-weight="bold">Module 2: Data Structures Fundamentals</text>
+  
+  <!-- Module 2 Content Items -->
+  <!-- Lesson 2.1 -->
+  <rect x="430" y="330" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="480" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Lesson 2.1</text>
+  
+  <!-- Lesson 2.2 -->
+  <rect x="540" y="330" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="590" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Lesson 2.2</text>
+  
+  <!-- Assignment 2.1 -->
+  <rect x="650" y="330" width="100" height="30" rx="5" fill="#f6ad55" />
+  <text x="700" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Assignment 2.1</text>
+  
+  <!-- Lesson 2.3 -->
+  <rect x="430" y="370" width="100" height="30" rx="5" fill="#4299e1" />
+  <text x="480" y="390" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Lesson 2.3</text>
+  
+  <!-- Files for Module 2 -->
+  <rect x="430" y="410" width="30" height="30" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="445" y="430" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="470" y="430" font-family="Arial" font-size="12" fill="#4a5568">arrays.java</text>
+  
+  <rect x="650" y="410" width="30" height="30" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="665" y="430" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="705" y="430" font-family="Arial" font-size="12" fill="#4a5568">linked_list.py</text>
+  
+  <!-- Module 3 Timeline Bar -->
+  <rect x="820" y="260" width="300" height="60" rx="5" fill="#805ad5" opacity="0.5" stroke="#6b46c1" stroke-width="1" />
+  <rect x="820" y="260" width="50" height="60" rx="5" fill="#6b46c1" />
+  <text x="845" y="295" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">3</text>
+  <text x="880" y="290" font-family="Arial" font-size="14" fill="#44337a" font-weight="bold">Module 3: Advanced Data Structures</text>
+  
+  <!-- Module 3 Content Items -->
+  <!-- Lesson 3.1 -->
+  <rect x="830" y="330" width="100" height="30" rx="5" fill="#4299e1" opacity="0.5" />
+  <text x="880" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#2a4365">Lesson 3.1</text>
+  
+  <!-- Lesson 3.2 -->
+  <rect x="940" y="330" width="100" height="30" rx="5" fill="#4299e1" opacity="0.5" />
+  <text x="990" y="350" font-family="Arial" font-size="12" text-anchor="middle" fill="#2a4365">Lesson 3.2</text>
+  
+  <!-- Module 4 Timeline Bar -->
+  <rect x="220" y="520" width="300" height="50" rx="5" fill="#fc8181" opacity="0.5" stroke="#e53e3e" stroke-width="1" />
+  <rect x="220" y="520" width="50" height="50" rx="5" fill="#e53e3e" />
+  <text x="245" y="550" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">4</text>
+  <text x="280" y="545" font-family="Arial" font-size="14" fill="#9b2c2c" font-weight="bold">Module 4: Algorithm Design Techniques</text>
+  
+  <!-- Module 5 Timeline Bar -->
+  <rect x="520" y="520" width="200" height="50" rx="5" fill="#f6ad55" opacity="0.5" stroke="#dd6b20" stroke-width="1" />
+  <rect x="520" y="520" width="50" height="50" rx="5" fill="#dd6b20" />
+  <text x="545" y="550" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">5</text>
+  <text x="580" y="545" font-family="Arial" font-size="14" fill="#7b341e" font-weight="bold">Module 5: Advanced Algorithms</text>
+  
+  <!-- Dependency Arrows -->
+  <line x1="380" y1="320" x2="420" y2="320" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" />
+  <line x1="620" y1="320" x2="820" y2="320" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" />
+  <line x1="900" y1="320" x2="900" y2="500" stroke="#4a5568" stroke-width="2" />
+  <line x1="900" y1="500" x2="220" y2="500" stroke="#4a5568" stroke-width="2" />
+  <line x1="220" y1="500" x2="220" y2="520" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" />
+  <line x1="370" y1="520" x2="520" y2="520" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" />
+  
+  <!-- Arrow Marker Definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4a5568" />
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <rect x="220" y="600" width="960" height="80" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="240" y="625" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Legend:</text>
+  
+  <rect x="320" y="610" width="30" height="20" rx="5" fill="#9ae6b4" opacity="0.8" stroke="#38a169" stroke-width="1" />
+  <text x="360" y="625" font-family="Arial" font-size="14" fill="#4a5568">Active Module</text>
+  
+  <rect x="450" y="610" width="30" height="20" rx="5" fill="#4299e1" opacity="0.5" stroke="#3182ce" stroke-width="1" />
+  <text x="490" y="625" font-family="Arial" font-size="14" fill="#4a5568">Upcoming Module</text>
+  
+  <rect x="620" y="610" width="30" height="20" rx="5" fill="#4299e1" />
+  <text x="660" y="625" font-family="Arial" font-size="14" fill="#4a5568">Lesson</text>
+  
+  <rect x="720" y="610" width="30" height="20" rx="5" fill="#f6ad55" />
+  <text x="760" y="625" font-family="Arial" font-size="14" fill="#4a5568">Assignment</text>
+  
+  <rect x="840" y="610" width="30" height="20" rx="5" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1" />
+  <text x="875" y="615" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">F</text>
+  <text x="910" y="625" font-family="Arial" font-size="14" fill="#4a5568">File</text>
+  
+  <line x1="970" y1="620" x2="1020" y2="620" stroke="#4a5568" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="1040" y="625" font-family="Arial" font-size="14" fill="#4a5568">Dependency</text>
+</svg>

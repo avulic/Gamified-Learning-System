@@ -1,136 +1,239 @@
+<!-- AssignmentList.vue -->
 <template>
     <div class="p-4">
-        <div class="flex justify-between mb-4">
-            <Button label="New Assignment" icon="pi pi-plus" @click="openNewAssignmentModal" class="p-button-success" />
+        <!-- Header with Search and Filters -->
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex gap-2">
+                <Button label="New Assignment" icon="pi pi-plus" @click="createAssignment" 
+                    class="p-button-success" />
+            </div>
             <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                <InputText v-model="filters['global'].value" placeholder="Search assignments..." />
             </span>
         </div>
 
-        <DataTable :value="assignments" :paginator="true" :rows="10" :globalFilterFields="['title', 'description']"
-            :filters="filters" responsiveLayout="scroll" dataKey="id" :rowHover="true"
-            v-model:selection="selectedAssignments" :loading="loading">
-            <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-            <Column field="title" header="Title" :sortable="true"></Column>
-            <Column field="description" header="Description" :sortable="true"></Column>
-            <Column field="dueDate" header="Due Date" :sortable="true">
-                <template #body="slotProps">
-                    {{ new Date(slotProps.data.dueDate).toLocaleDateString() }}
+        <!-- Assignment Table -->
+        <DataTable :value="assignments" 
+            v-model:expandedRows="expandedRows"
+            v-model:filters="filters"
+            dataKey="id"
+            :rowHover="true"
+            :paginator="true"
+            :rows="10"
+            :rowsPerPageOptions="[5,10,20]"
+            :loading="loading"
+            :globalFilterFields="['title', 'description', 'status']"
+            class="p-datatable-sm">
+            
+            <Column :expander="true" headerStyle="width: 3rem" />
+            
+            <Column field="title" header="Title" sortable>
+                <template #body="{ data }">
+                    <div class="flex flex-col">
+                        <span class="font-medium">{{ data.title }}</span>
+                        <span class="text-sm text-gray-500">{{ data.description }}</span>
+                    </div>
                 </template>
             </Column>
-            <Column field="maxScore" header="Max Score" :sortable="true"></Column>
-            <Column field="xpReward" header="XP Reward" :sortable="true"></Column>
-            <Column header="Actions">
-                <template #body="slotProps">
-                    <Button icon="pi pi-pencil" @click="editAssignment(slotProps.data)"
-                        class="p-button-rounded p-button-success mr-2" />
-                    <Button icon="pi pi-trash" @click="confirmDeleteAssignment(slotProps.data.id)"
-                        class="p-button-rounded p-button-danger" />
+
+            <Column field="dueDate" header="Due Date" sortable>
+                <template #body="{ data }">
+                    {{ new Date(data.dueDate).toLocaleDateString() }}
                 </template>
             </Column>
+
+            <Column field="status" header="Status" sortable>
+                <template #body="{ data }">
+                    <Tag :value="data.status" :severity="getStatusSeverity(data.status)" />
+                </template>
+            </Column>
+
+            <Column header="Actions" :exportable="false">
+                <template #body="{ data }">
+                    <div class="flex gap-2">
+                        <Button icon="pi pi-pencil" 
+                            @click="editAssignment(data)"
+                            class="p-button-rounded p-button-text" />
+                        <Button icon="pi pi-trash" 
+                            @click="confirmDeleteAssignment(data)"
+                            class="p-button-rounded p-button-text p-button-danger" />
+                    </div>
+                </template>
+            </Column>
+
+            <!-- Expanded Content (Tasks) -->
+            <template #expansion="{ data }">
+                <TaskList 
+                    :tasks="data.tasks"
+                    :assignmentId="data.id"
+                    @task-updated="handleTaskUpdate"
+                    @task-deleted="handleTaskDelete" />
+            </template>
         </DataTable>
 
-        <Dialog v-model:visible="showModal" :style="{}" header="Assignment Details" :modal="true" class="p-fluid">
-            <Details :initialAssignment="selectedAssignment" @onSaveAssignment="saveAssignment"
-                @cancel="updateAssignment">
-            </Details>
+        <!-- Assignment Dialog -->
+        <Dialog v-model:visible="showAssignmentDialog" 
+            :header="dialogHeader"
+            :style="{ width: '70vw' }"
+            modal>
+            <AssignmentDetails
+                v-if="showAssignmentDialog"
+                :assignmentProp="selectedAssignment"
+                @save="saveAssignment"
+                @cancel="closeDialog" />
         </Dialog>
 
+        <!-- Confirmation Dialog -->
         <ConfirmDialog></ConfirmDialog>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
-import { useToast } from 'primevue/usetoast';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode } from 'primevue/api';
-import AssignmentService from '@/services/AssignmentService';
-import type Assignment from '@/types/Assignment';
-import Details from '@/components/assignment/Details.vue';
+import TaskList from '@/components/task/TaskManager.vue';
+import AssignmentDetails from './Details.vue';
+import { ProgressTypeEnum } from '@/types/enums';
+import type { Assignment } from '@/types/Assignment';
+import { Task } from '@/types/task/Task';
 
-const toast = useToast();
-const confirm = useConfirm();
-
+// State
 const assignments = ref<Assignment[]>([]);
-const selectedAssignment = ref<Assignment | null>(null);
-const selectedAssignments = ref();
-const showModal = ref(false);
+const expandedRows = ref({});
 const loading = ref(false);
+const showAssignmentDialog = ref(false);
+const selectedAssignment = ref<Assignment | null>(null);
 
+// Services
+const confirm = useConfirm();
+const toast = useToast();
+
+// Filters
 const filters = reactive({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    title: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    status: { value: null, matchMode: FilterMatchMode.EQUALS }
 });
 
-onMounted(async () => {
-    await loadAssignments();
-});
+// Computed
+const dialogHeader = computed(() => 
+    selectedAssignment.value ? 'Edit Assignment' : 'Create Assignment'
+);
 
-async function loadAssignments() {
-    loading.value = true;
+// Methods
+function getStatusSeverity(status: ProgressTypeEnum): string {
+    return {
+        [ProgressTypeEnum.NOT_STARTED]: 'info',
+        [ProgressTypeEnum.IN_PROGRESS]: 'warning',
+        [ProgressTypeEnum.COMPLETED]: 'success',
+        [ProgressTypeEnum.FAILED]: 'danger',
+        [ProgressTypeEnum.OVERDUE]: 'danger'
+    }[status] || 'info';
+}
+
+function createAssignment() {
+    selectedAssignment.value = null;
+    showAssignmentDialog.value = true;
+}
+
+function editAssignment(assignment: Assignment) {
+    selectedAssignment.value = { ...assignment };
+    showAssignmentDialog.value = true;
+}
+
+function closeDialog() {
+    showAssignmentDialog.value = false;
+    selectedAssignment.value = null;
+}
+
+async function saveAssignment(assignment: Assignment) {
     try {
-        assignments.value = await AssignmentService.getAllAssignments();
+        loading.value = true;
+        // API call to save assignment
+        if (assignment.id) {
+            // Update existing
+            const index = assignments.value.findIndex(a => a.id === assignment.id);
+            if (index !== -1) {
+                assignments.value[index] = assignment;
+            }
+        } else {
+            // Create new
+            assignments.value.push(assignment);
+        }
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment saved successfully' });
+        closeDialog();
     } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load assignments', life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to save assignment' });
     } finally {
         loading.value = false;
     }
 }
 
-function openNewAssignmentModal() {
-    selectedAssignment.value = null;
-    showModal.value = true;
-}
-
-function confirmDeleteAssignment(id: string) {
+function confirmDeleteAssignment(assignment: Assignment) {
     confirm.require({
         message: 'Are you sure you want to delete this assignment?',
-        header: 'Confirm',
+        header: 'Confirm Deletion',
         icon: 'pi pi-exclamation-triangle',
-        accept: () => deleteAssignment(id),
+        accept: () => deleteAssignment(assignment),
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Deletion cancelled' });
+        }
     });
 }
 
-async function deleteAssignment(id: string) {
+async function deleteAssignment(assignment: Assignment) {
     try {
-        await AssignmentService.deleteAssignment(id);
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment deleted', life: 3000 });
-        await loadAssignments();
+        loading.value = true;
+        // API call to delete assignment
+        assignments.value = assignments.value.filter(a => a.id !== assignment.id);
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment deleted successfully' });
     } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete assignment', life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete assignment' });
+    } finally {
+        loading.value = false;
     }
 }
 
-function editAssignment(editAssignment: Assignment) {
-    console.log(editAssignment)
-    selectedAssignment.value = { ...editAssignment };
-    showModal.value = true;
-}
-
-async function saveAssignment(assignment: Assignment) {
-    try {
-        await AssignmentService.createAssignment(assignment);
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment created', life: 3000 });
-        showModal.value = false;
-        await loadAssignments();
-    } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to create assignment', life: 3000 });
+function handleTaskUpdate(task: Task) {
+    // Update task in assignment
+    const assignment = assignments.value.find(a => a.id === task.assignmentId);
+    if (assignment) {
+        const taskIndex = assignment.tasks.findIndex(t => t.id === task.id);
+        if (taskIndex !== -1) {
+            assignment.tasks[taskIndex] = task;
+        }
     }
 }
 
-async function updateAssignment(assignment: Assignment) {
-    try {
-        await AssignmentService.updateAssignment(assignment.id, assignment);
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Assignment updated', life: 3000 });
-        showModal.value = false;
-        await loadAssignments();
-    } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update assignment', life: 3000 });
+function handleTaskDelete(taskId: string, assignmentId: string) {
+    // Remove task from assignment
+    const assignment = assignments.value.find(a => a.id === assignmentId);
+    if (assignment) {
+        assignment.tasks = assignment.tasks.filter(t => t.id !== taskId);
     }
 }
+
+// Lifecycle
+onMounted(async () => {
+    try {
+        loading.value = true;
+        // API call to fetch assignments
+        // assignments.value = await AssignmentService.getAll();
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load assignments' });
+    } finally {
+        loading.value = false;
+    }
+});
 </script>
 
 <style scoped>
-/* Add any additional component-specific styles here */
+.p-datatable ::v-deep(.p-datatable-header) {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
 </style>

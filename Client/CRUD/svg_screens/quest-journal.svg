@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#222639" rx="8" ry="8"/>
+  
+  <!-- Header/Status Bar -->
+  <rect x="0" y="0" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Character Name and Level -->
+  <text x="30" y="38" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">Alex the Biologist</text>
+  <text x="220" y="38" font-family="Arial" font-size="16" fill="#8b97c6">Level 12 | Knowledge Path: Life Sciences</text>
+  
+  <!-- Status Indicators -->
+  <rect x="550" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="565" y="35" font-family="Arial" font-size="14" fill="#4fc3f7">XP: 2450/3000</text>
+  
+  <rect x="670" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="685" y="35" font-family="Arial" font-size="14" fill="#81c784">Quests: 4</text>
+  
+  <!-- Quest Categories -->
+  <rect x="30" y="80" width="120" height="40" fill="#f9a825" rx="6" ry="6"/>
+  <text x="55" y="105" font-family="Arial" font-size="14" fill="#222639">Active</text>
+  
+  <rect x="160" y="80" width="120" height="40" fill="#354052" rx="6" ry="6"/>
+  <text x="185" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Completed</text>
+  
+  <rect x="290" y="80" width="120" height="40" fill="#354052" rx="6" ry="6"/>
+  <text x="315" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Available</text>
+  
+  <!-- Quest Journal Main Area -->
+  <rect x="30" y="140" width="440" height="380" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  
+  <!-- Quest Journal Header -->
+  <rect x="30" y="140" width="440" height="60" fill="#354052" rx="8" ry="8"/>
+  <text x="60" y="175" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">The Great Photosynthesis Challenge</text>
+  <text x="60" y="195" font-family="Arial" font-size="12" fill="#8b97c6">Quest Giver: Forest Guide | Location: Ancient Forest</text>
+  
+  <!-- Quest Description -->
+  <rect x="50" y="210" width="400" height="90" fill="#263041" rx="4" ry="4"/>
+  <text x="70" y="235" font-family="Arial" font-size="14" fill="#e0e6ff">The Ancient Forest is showing signs of distress. Some plants</text>
+  <text x="70" y="260" font-family="Arial" font-size="14" fill="#e0e6ff">are not producing energy efficiently. The Forest Guide needs</text>
+  <text x="70" y="285" font-family="Arial" font-size="14" fill="#e0e6ff">your help to understand what's happening.</text>
+  
+  <!-- Quest Tasks -->
+  <text x="50" y="320" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Tasks:</text>
+  
+  <rect x="50" y="330" width="400" height="50" fill="#263041" rx="4" ry="4"/>
+  <rect x="60" y="342" width="20" height="20" fill="#354052" stroke="#4caf50" stroke-width="2" rx="3" ry="3"/>
+  <text x="65" y="357" font-family="Arial" font-size="16" fill="#4caf50" font-weight="bold">✓</text>
+  <text x="90" y="345" font-family="Arial" font-size="14" fill="#e0e6ff">Research photosynthesis in the library</text>
+  <text x="90" y="365" font-family="Arial" font-size="12" fill="#8b97c6">Reward: 50 XP | Completed 2 days ago</text>
+  
+  <rect x="50" y="390" width="400" height="50" fill="#263041" rx="4" ry="4"/>
+  <rect x="60" y="402" width="20" height="20" fill="#354052" stroke="#4caf50" stroke-width="2" rx="3" ry="3"/>
+  <text x="65" y="417" font-family="Arial" font-size="16" fill="#4caf50" font-weight="bold">✓</text>
+  <text x="90" y="405" font-family="Arial" font-size="14" fill="#e0e6ff">Create a diagram of the photosynthesis process</text>
+  <text x="90" y="425" font-family="Arial" font-size="12" fill="#8b97c6">Reward: 100 XP | Completed yesterday</text>
+  
+  <rect x="50" y="450" width="400" height="50" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="4" ry="4"/>
+  <rect x="60" y="462" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="65" y="477" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="90" y="465" font-family="Arial" font-size="14" fill="#e0e6ff">Present your findings to the Forest Guide</text>
+  <text x="90" y="485" font-family="Arial" font-size="12" fill="#8b97c6">Reward: 75 XP | Due: Tomorrow at 3:00 PM</text>
+  
+  <!-- Quest Rewards Panel -->
+  <rect x="490" y="140" width="280" height="180" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  <rect x="490" y="140" width="280" height="40" fill="#1a1e2e" rx="8" ry="8"/>
+  <text x="550" y="165" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Quest Rewards</text>
+  
+  <!-- XP Reward -->
+  <circle cx="530" cy="205" r="20" fill="#4fc3f7"/>
+  <text x="530" y="210" font-family="Arial" font-size="14" fill="#222639" text-anchor="middle">XP</text>
+  <text x="570" y="210" font-family="Arial" font-size="14" fill="#e0e6ff">225 Total Experience</text>
+  
+  <!-- Badge Reward -->
+  <circle cx="530" cy="245" r="20" fill="#f9a825"/>
+  <text x="530" y="250" font-family="Arial" font-size="14" fill="#222639" text-anchor="middle">🌱</text>
+  <text x="570" y="250" font-family="Arial" font-size="14" fill="#e0e6ff">Plant Whisperer Badge</text>
+  
+  <!-- Unlock Reward -->
+  <circle cx="530" cy="285" r="20" fill="#7e57c2"/>
+  <text x="530" y="290" font-family="Arial" font-size="14" fill="#222639" text-anchor="middle">🔓</text>
+  <text x="570" y="290" font-family="Arial" font-size="14" fill="#e0e6ff">Advanced Biology Lab</text>
+  
+  <!-- Related Quests Panel -->
+  <rect x="490" y="340" width="280" height="180" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  <rect x="490" y="340" width="280" height="40" fill="#1a1e2e" rx="8" ry="8"/>
+  <text x="550" y="365" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Related Quests</text>
+  
+  <!-- Related Quest List -->
+  <rect x="510" y="390" width="240" height="50" fill="#354052" rx="4" ry="4"/>
+  <text x="530" y="410" font-family="Arial" font-size="14" fill="#e0e6ff">Cell Structure Analysis</text>
+  <text x="530" y="430" font-family="Arial" font-size="12" fill="#8b97c6">Prerequisite: Required for this quest</text>
+  
+  <rect x="510" y="450" width="240" height="50" fill="#354052" rx="4" ry="4"/>
+  <text x="530" y="470" font-family="Arial" font-size="14" fill="#e0e6ff">Cellular Respiration Mystery</text>
+  <text x="530" y="490" font-family="Arial" font-size="12" fill="#8b97c6">Unlocks after completing this quest</text>
+  
+  <!-- Bottom Navigation Bar -->
+  <rect x="0" y="540" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Nav Icons -->
+  <circle cx="100" cy="570" r="20" fill="#2a324b"/>
+  <text x="88" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🗺️</text>
+  <text x="90" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Map</text>
+  
+  <circle cx="200" cy="570" r="20" fill="#354052"/>
+  <text x="188" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">📋</text>
+  <text x="180" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Quests</text>
+  
+  <circle cx="300" cy="570" r="20" fill="#2a324b"/>
+  <text x="288" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🧪</text>
+  <text x="284" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Lab</text>
+  
+  <circle cx="400" cy="570" r="20" fill="#2a324b"/>
+  <text x="388" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">📚</text>
+  <text x="375" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Knowledge</text>
+  
+  <circle cx="500" cy="570" r="20" fill="#2a324b"/>
+  <text x="488" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">👤</text>
+  <text x="480" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Profile</text>
+  
+  <circle cx="600" cy="570" r="20" fill="#2a324b"/>
+  <text x="588" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🏆</text>
+  <text x="575" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Achievements</text>
+  
+  <circle cx="700" cy="570" r="20" fill="#2a324b"/>
+  <text x="688" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">⚙️</text>
+  <text x="690" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Settings</text>
+</svg>

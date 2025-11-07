@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#4a6bff" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">Game World Preview</text>
+  
+  <!-- Tabs -->
+  <rect x="30" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="50" y="105" font-family="Arial" font-size="14" fill="#4a6bff">World Map Designer</text>
+  
+  <rect x="180" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="210" y="105" font-family="Arial" font-size="14" fill="#4a6bff">Module Manager</text>
+  
+  <rect x="330" y="80" width="140" height="40" fill="#e1e6ff" rx="6" ry="6"/>
+  <text x="350" y="105" font-family="Arial" font-size="14" fill="#4a6bff">Sprite/Entity Library</text>
+  
+  <rect x="480" y="80" width="140" height="40" fill="#4a6bff" rx="6" ry="6"/>
+  <text x="490" y="105" font-family="Arial" font-size="14" fill="white">Game World Preview</text>
+  
+  <!-- Preview Area - Student View Simulation -->
+  <rect x="30" y="140" width="740" height="400" fill="#222639" stroke="#ddd" stroke-width="2" rx="6" ry="6"/>
+  
+  <!-- Game World View (Ancient Forest) -->
+  <path d="M100 250 Q220 180, 380 250 Q500 330, 680 290 Q620 430, 400 460 Q180 430, 100 350 Z" fill="#2d3d51"/>
+  
+  <!-- Forest Trees -->
+  <circle cx="200" cy="270" r="30" fill="#1f6e43"/>
+  <rect x="194" y="300" width="12" height="25" fill="#5d4037"/>
+  <circle cx="350" cy="290" r="35" fill="#1f6e43"/>
+  <rect x="343" y="325" width="14" height="30" fill="#5d4037"/>
+  <circle cx="480" cy="310" r="25" fill="#1f6e43"/>
+  <rect x="474" y="335" width="12" height="20" fill="#5d4037"/>
+  <circle cx="550" cy="280" r="30" fill="#1f6e43"/>
+  <rect x="544" y="310" width="12" height="25" fill="#5d4037"/>
+  
+  <!-- Character Avatar (student view) -->
+  <circle cx="400" cy="350" r="20" fill="#4fc3f7"/>
+  <polygon points="400,330 385,365 415,365" fill="#7986cb"/>
+  
+  <!-- NPCs -->
+  <circle cx="300" cy="250" r="15" fill="#9fa8da"/>
+  <rect x="295" y="265" width="10" height="15" fill="#7986cb"/>
+  
+  <circle cx="500" cy="240" r="15" fill="#a5d6a7"/>
+  <rect x="495" y="255" width="10" height="15" fill="#66bb6a"/>
+  
+  <!-- Quest Markers -->
+  <circle cx="300" cy="230" r="10" fill="#f9a825" stroke="#ffcc80" stroke-width="2"/>
+  <text x="297" y="234" font-family="Arial" font-size="12" fill="#222639" font-weight="bold">!</text>
+  
+  <circle cx="500" cy="220" r="10" fill="#7e57c2" stroke="#b39ddb" stroke-width="2"/>
+  <text x="497" y="224" font-family="Arial" font-size="12" fill="#222639" font-weight="bold">?</text>
+  
+  <!-- HUD Elements -->
+  <rect x="50" y="170" width="200" height="30" fill="#1a1e2e" rx="15" ry="15" opacity="0.8"/>
+  <text x="70" y="190" font-family="Arial" font-size="14" fill="#e0e6ff">Ancient Forest - Biology Region</text>
+  
+  <rect x="650" y="170" width="100" height="30" fill="#1a1e2e" rx="15" ry="15" opacity="0.8"/>
+  <text x="665" y="190" font-family="Arial" font-size="14" fill="#4fc3f7">XP: 2450</text>
+  
+  <!-- Dialogue Popup -->
+  <rect x="250" y="170" width="300" height="110" fill="#1a1e2e" stroke="#5d6e91" stroke-width="1" rx="8" ry="8" opacity="0.9"/>
+  <text x="270" y="195" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Professor Oak:</text>
+  <text x="270" y="220" font-family="Arial" font-size="12" fill="#e0e6ff">Welcome to the Ancient Forest! This area is rich</text>
+  <text x="270" y="240" font-family="Arial" font-size="12" fill="#e0e6ff">with diverse plant life perfect for studying</text>
+  <text x="270" y="260" font-family="Arial" font-size="12" fill="#e0e6ff">photosynthesis and cellular structures.</text>
+  
+  <!-- Controller Bar -->
+  <rect x="30" y="560" width="740" height="40" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="50" y="585" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Preview Controls:</text>
+  
+  <rect x="200" y="565" width="110" height="30" fill="#4a6bff" rx="15" ry="15"/>
+  <text x="222" y="585" font-family="Arial" font-size="14" fill="white">Student View</text>
+  
+  <rect x="320" y="565" width="110" height="30" fill="#e1e6ff" rx="15" ry="15"/>
+  <text x="338" y="585" font-family="Arial" font-size="14" fill="#4a6bff">Map View</text>
+  
+  <rect x="440" y="565" width="110" height="30" fill="#e1e6ff" rx="15" ry="15"/>
+  <text x="453" y="585" font-family="Arial" font-size="14" fill="#4a6bff">Quest View</text>
+  
+  <rect x="560" y="565" width="110" height="30" fill="#e1e6ff" rx="15" ry="15"/>
+  <text x="570" y="585" font-family="Arial" font-size="14" fill="#4a6bff">Dialogue Test</text>
+  
+  <!-- Watermark -->
+  <text x="400" y="520" font-family="Arial" font-size="12" fill="white" opacity="0.5" text-anchor="middle">Preview Mode - Student Perspective</text>
+</svg>

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import UserController from '../controllers/UserController';
 import { authJwt } from '../middlewares/authJwt';
 import { authorizeRoles } from '../middlewares/checkRole';
@@ -13,7 +13,7 @@ import { Roles } from '../models/enums';
  */
 
 export default class UserRoute {
-    public router = express.Router();
+     public router: Router = Router();
 
     constructor(private userController: UserController) {
         this.setRoutes();
@@ -137,6 +137,7 @@ export default class UserRoute {
          *         description: User not found
          */
         this.router.get('/users/:id', asyncHandler(this.userController.getUserById));
+        this.router.get('/users/courses/:userId', asyncHandler(this.userController.getUserEnrolledCourses));
 
         /**
          * @swagger
@@ -222,7 +223,7 @@ export default class UserRoute {
          *                      $ref: '#/components/schemas/BadRequestError'
          *         
          */
-        this.router.get('/usersProtected', [authJwt, authorizeRoles([Roles.Admin])], asyncHandler(this.userController.getAllUsers));
+        this.router.get('/usersProtected', [authJwt, authorizeRoles([Roles.ADMIN])], asyncHandler(this.userController.getAllUsers));
 
         /**
          * @swagger
@@ -249,6 +250,6 @@ export default class UserRoute {
          *           application/json:
          *             example: [{ "id": 1, "name": "John Doe", "email": "john@example.com" }]
          */
-        this.router.post('/signUp', asyncHandler(this.userController.signUpUser));
+        //this.router.post('/signUp', asyncHandler(this.userController.signUpUser));
     }
 }

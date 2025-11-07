@@ -7,35 +7,51 @@ import UserService from '../services/UserService';
 import { asyncHandler } from '../utils/asyncHandler';
 import Logger from '@/utils/logger';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '@/types';
+import { ILogger, TYPES } from '@/types';
+import { CreateUserDto } from '@/models/dto/request';
+import { userMapper } from '@/utils/mapper/autoMapper';
 
 @injectable()
 class AuthController {
     constructor(
         @inject(TYPES.UserService) private userService: UserService,
-        @inject(TYPES.Logger) private logger: Logger
-    ) {}
+        @inject(TYPES.Logger) private logger: ILogger
+    ) { }
 
-    // Function to login a user
-    public login = async (req: Request, res: Response): Promise<void> => {
+
+    public login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const { username, password } = req.body;
-            
+
             const token = await this.userService.signIn(username, password);
 
-            res.status(200).json( token );
+            res.status(200).json(token);
         } catch (err) {
-            if (err instanceof ClientError || err instanceof UnauthorizedError) {
-                res.status(err.status).json({ error: err.message });
-            } else {
-                this.logger.error('Login error:', err);
-                res.status(500).json({ error: 'An unexpected error occurred during login' });
-            }
+            this.logger.error('Login error:', err);
+            //res.status(500).json({ error: 'An unexpected error occurred during login' });
+            next(err);
         }
     }
 
-    // Function to change user password
-    public changePassword = async (req: Request, res: Response): Promise<void> => {
+    public signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const userDto: CreateUserDto = req.body;
+            const userData = userMapper.fromRequest(userDto);
+
+            const cretedUser = await this.userService.createUser(userData);
+            if (!cretedUser) {
+                throw new ClientError('User could not be created');
+            }
+            res.status(200).json({ message: "User created" });
+        } catch (err) {
+            this.logger.error('Login error:', err);
+            //res.status(500).json({ error: 'An unexpected error occurred during login' });
+            next(err);
+        }
+    }
+
+
+    public changePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = (req as any).user.id;
             const { oldPassword, newPassword } = req.body;
@@ -47,12 +63,9 @@ class AuthController {
             await this.userService.changePassword(userId, oldPassword, newPassword);
             res.status(204).send();
         } catch (err) {
-            if (err instanceof ClientError || err instanceof UnauthorizedError) {
-                res.status(err.status).json({ error: err.message });
-            } else {
-                this.logger.error('Change password error:', err);
-                res.status(500).json({ error: 'An unexpected error occurred while changing password' });
-            }
+            this.logger.error('Login error:', err);
+            //res.status(500).json({ error: 'An unexpected error occurred during login' });
+            next(err);
         }
     }
 }

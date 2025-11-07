@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import ModuleController from '../controllers/ModuleController';
 import { authJwt } from '../middlewares/authJwt';
 import { authorizeRoles } from '../middlewares/checkRole';
@@ -11,7 +11,7 @@ import { asyncHandler } from '../utils/asyncHandler';
  *   description: Operations related to Module
  */
 export default class ModuleRoute {
-    public router = express.Router();
+   public router: Router = Router();
 
     constructor(private ModuleController: ModuleController) {
         this.setRoutes();
@@ -216,5 +216,6 @@ export default class ModuleRoute {
          *         description: Module not found
          */
         this.router.delete('/modules/:id', asyncHandler(this.ModuleController.deleteModule));
+        this.router.delete('/lessons/:id', asyncHandler(this.ModuleController.deleteLessonFromModule));
     }
 }

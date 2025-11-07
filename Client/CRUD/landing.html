@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Pro - Your Learning Management System</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 0 100px;
+        }
+
+        #hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        #hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+
+
+
+
+
+
+
+        /* Carousel Styles */
+        .carousel-section {
+            margin-top: 50px;
+
+            display: flex;
+            /* Activate Flexbox */
+            flex-direction: row;
+
+            flex-wrap: wrap;
+            /* Full viewport height for demo; adjust as needed */
+
+            background-color: #0884a3;
+        }
+
+        .column {
+            flex: 1;
+            /* Equal width for both columns (grows/shrinks equally) */
+            padding: 20px;
+
+            /* For visibility */
+        }
+
+        .left {
+
+            /* Optional styling */
+        }
+
+        .right {}
+
+        .item {
+
+            /* No grow/shrink, 50% basis = two per row */
+            padding: 20px;
+
+            text-align: center;
+        }
+
+        .row-upper {
+            width: 100%;
+            display: flex;
+        }
+
+        .row-lower {
+            width: 100%;
+            display: flex;
+            height: 125px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-bottom: 60px;
+        }
+
+        .carousel-container {
+            position: relative;
+            perspective: 1800px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            --radius: 480px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .description-content {
+            height: 450px;
+            overflow: hidden;
+            background-color: #333;
+            position: absolute;
+            left: 40%;
+            width: 850px;
+
+        }
+
+        .overlay {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 200px;
+            height: 200px;
+            transform: translate(-50%, -50%) rotateY(0deg) translateZ(0px);
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            color: rgba(240 240 240 / 0.7);
+            border-radius: 20px;
+            background-image: linear-gradient(150deg,
+                    rgba(255 255 255 / 40%) 0%,
+                    rgba(255 255 255 / 10%) 100%);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 24px -1px rgba(0 0 0 / 10%);
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+
+        .card__icon {
+
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card__title {
+
+            margin-bottom: 15px;
+            color: black;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .card__content {
+            font-size: small;
+            letter-spacing: 0;
+            color: black;
+        }
+
+        .card::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            background-image: url(data:image/png;base64,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);
+            background-repeat: repeat;
+            background-size: 80px;
+        }
+
+        @supports (-webkit-mask: initial) {
+            .card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 20px;
+                padding: 2px;
+                background: linear-gradient(135deg,
+                        rgba(255 255 255 / 50%) 0%,
+                        rgba(255 255 255 / 0%) 40%,
+                        rgba(255 255 255 / 0%) 60%,
+                        rgba(20 150 250 / 50%) 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: destination-out;
+                mask-composite: exclude;
+                user-select: none;
+                z-index: -1;
+            }
+        }
+
+        .carousel-nav {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: background 0.3s ease;
+            z-index: 20;
+            color: #333;
+        }
+
+        .carousel-nav:hover {
+            background: white;
+        }
+
+        .prev {
+            left: 30%;
+        }
+
+        .next {
+            right: 30%;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+
+            flex-direction: row;
+            height: 100px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: #ff6b6b;
+        }
+
+        .floating {
+            background-color: black;
+            width: 1000px;
+            height: 100%;
+            margin: 0 auto;
+            position: absolute;
+            left: 25%;
+            border-radius: 10px;
+            top: -30px;
+        }
+
+        .gamification {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        /* Other Sections */
+        #about {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        #about h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        #about p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #666;
+        }
+
+        #footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: perspective(1000px) scale(1.05) rotateY(0deg);
+            }
+
+            100% {
+                transform: perspective(1000px) scale(1.05) rotateY(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #hero h1 {
+                font-size: 2.5em;
+            }
+
+            #hero p {
+                font-size: 1.2em;
+            }
+
+            .carousel-container {
+                height: 400px;
+                --radius: 200px;
+            }
+
+            .carousel {
+                width: 300px;
+                height: 300px;
+            }
+
+            .overlay {
+                width: 200px;
+                height: 250px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card__title {
+                font-size: 1.2em;
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+
+            .prev {
+                left: -60px;
+            }
+
+            .next {
+                right: -60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section with Carousel -->
+    <section id="hero">
+        <div class="container">
+            <div id="hero-heading">
+                <h1>Welcome to LMS Pro</h1>
+                <p>Empower your learning journey with our intuitive Learning Management System.</p>
+                <a href="/app" class="cta-button">Launch App</a>
+            </div>
+            <div class="carousel-section">
+                <div class="item row-upper">
+                    <div class="carousel-container column left">
+                        <div class="carousel" id="carousel">
+                            <!-- Cards populated by JS -->
+                        </div>
+                    </div>
+                    <div id="description" class="column right">
+                        <div class="description-content">
+                            <h2>LMS Functionalities</h2>
+                            <p>Explore the key features of our Learning Management System designed to enhance your
+                                educational experience.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item row-lower">
+                    <div class="carousel-dots" id="carouselDots">
+                        <button class="carousel-nav prev" id="prevBtn">&#8249;</button>
+                        <button class="carousel-nav next" id="nextBtn">&#8250;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container " style="position: relative; height: 500px; width: 100%;">
+            <div class="floating">
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="hero-heading">
+                <h1>Welcome to LMS Pro</h1>
+            </div>
+            <div class="carousel-section">
+                <div class="carousel-container column left">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+                <div id="description" class="column right">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div id="hero-heading">
+                <h1>Welcome to LMS Pro</h1>
+            </div>
+            <div class="carousel-section">
+                <div class="carousel-container column left">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+                <div id="description" class="column right">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div id="hero-heading">
+                <h1>Welcome to LMS Pro</h1>
+            </div>
+            <div class="carousel-section">
+                <div class="carousel-container column left">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+                <div id="description" class="column right">
+                    <h2>LMS Functionalities</h2>
+                    <p>Explore the key features of our Learning Management System designed to enhance your
+                        educational experience.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About LMS Pro</h2>
+            <p>Our Learning Management System is designed to make education accessible and engaging for everyone. From
+                course creators to learners, we provide tools that simplify management and enhance the learning
+                experience.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>&copy; 2025 LMS Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // LMS Functionalities Data
+        const functionalities = [
+            {
+                icon: '📚',
+                title: 'Course Creation',
+                description: 'Easily build and organize courses with multimedia support, quizzes, and interactive elements.'
+            },
+            {
+                icon: '👥',
+                title: 'Student Management',
+                description: 'Track progress, manage enrollments, and communicate effectively with your students.'
+            },
+            {
+                icon: '📊',
+                title: 'Assessments & Quizzes',
+                description: 'Create customizable quizzes and assessments to evaluate learner performance.'
+            },
+            {
+                icon: '📈',
+                title: 'Analytics Dashboard',
+                description: 'Gain insights with detailed reports on engagement, completion rates, and more.'
+            },
+            {
+                icon: '🎥',
+                title: 'Video Integration',
+                description: 'Seamlessly embed and stream videos from various platforms within your courses.'
+            },
+            {
+                icon: '🔔',
+                title: 'Notifications',
+                description: 'Keep everyone updated with real-time alerts for deadlines, updates, and achievements.'
+            }
+        ];
+
+        // Initialize Carousel
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const carouselDots = document.getElementById('carouselDots');
+        const carouselContainer = document.querySelector('.carousel-container');
+        let currentIndex = 0;
+        const totalCards = functionalities.length;
+        const cardAngle = 360 / totalCards;
+        const radius = 'var(--radius)';
+
+        // Render Cards
+        functionalities.forEach((func, index) => {
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <div class="card__icon">${func.icon}</div>
+                <div class="card__title">${func.title}</div>
+                <div class="card__content">${func.description}</div>
+            `;
+            overlay.appendChild(card);
+            overlay.style.transform = `translate(-50%, -50%) rotateY(${index * cardAngle}deg) translateZ(${radius})`;
+            carousel.appendChild(overlay);
+        });
+
+        // Render Dots
+        for (let i = 0; i < totalCards; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            carouselDots.appendChild(dot);
+        }
+
+        // Carousel Functions
+        function updateCarousel() {
+            carousel.style.transform = `rotateY(${-currentIndex * cardAngle - 10}deg)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            const dots = carouselDots.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            updateCarousel();
+        }
+
+        // Event Listeners for Buttons
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Auto-slide (optional, every 5 seconds)
+        //setInterval(nextSlide, 5000);
+
+        // Mouse Tilt Effect on Cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            const height = card.clientHeight;
+            const width = card.clientWidth;
+            const mouseMoveHandler = (evt) => {
+                const xRotation = -30 * ((evt.layerY - height / 2) / height);
+                const yRotation = 20 * ((evt.layerX - width / 2) / width);
+                card.style.transform = `perspective(1000px) scale(1.05) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+            };
+            card.addEventListener('mouseenter', () => {
+                card.addEventListener('mousemove', mouseMoveHandler);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg)';
+                card.removeEventListener('mousemove', mouseMoveHandler);
+            });
+            card.addEventListener('click', () => {
+                card.style.animation = 'spin 1s ease-in-out';
+                setTimeout(() => {
+                    card.style.animation = '';
+                }, 1000);
+            });
+        });
+
+        // Drag Functionality
+        let isDown = false;
+        let startX;
+        let startAngle;
+        carouselContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX;
+            startAngle = -currentIndex * cardAngle;
+            carousel.style.transition = 'none';
+        });
+        carouselContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        carouselContainer.addEventListener('mouseup', (e) => {
+            if (isDown) {
+                isDown = false;
+                carousel.style.transition = '0.5s ease';
+                const delta = (startX - e.pageX) * 1;
+                const finalAngle = startAngle + delta;
+                let newIndex = Math.round(finalAngle / -cardAngle) % totalCards;
+                if (newIndex < 0) newIndex += totalCards;
+                currentIndex = newIndex;
+                updateCarousel();
+            }
+        });
+        carouselContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX;
+            const delta = (startX - x) * 1;
+            carousel.style.transform = `rotateY(${startAngle + delta}deg)`;
+        });
+
+        // Touch Support
+        let startTouchX;
+        carouselContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startTouchX = e.touches[0].clientX;
+            startAngle = -currentIndex * cardAngle;
+            carousel.style.transition = 'none';
+        }, { passive: false });
+        carouselContainer.addEventListener('touchend', (e) => {
+            if (isDown) {
+                isDown = false;
+                carousel.style.transition = '0.5s ease';
+                const delta = (startTouchX - e.changedTouches[0].clientX) * 1;
+                const finalAngle = startAngle + delta;
+                let newIndex = Math.round(finalAngle / -cardAngle) % totalCards;
+                if (newIndex < 0) newIndex += totalCards;
+                currentIndex = newIndex;
+                updateCarousel();
+            }
+        }, { passive: false });
+        carouselContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const currentX = e.touches[0].clientX;
+            const delta = (startTouchX - currentX) * 1;
+            carousel.style.transform = `rotateY(${startAngle + delta}deg)`;
+        }, { passive: false });
+
+        // Smooth scroll for CTA
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
+            // e.preventDefault();
+            // document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Initial Update
+        updateCarousel();
+    </script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/types';
-import { FileMapper } from '@/utils/ModelMapper';
+
 import FileService from '@/services/FileService';
 
 @injectable()
@@ -12,8 +12,10 @@ export class FileController {
         try {
             const file = req.file as Express.Multer.File; // This is now correctly typed
             const userId = req.body.userId as string; // Assuming userId is part of the body
-            const uploadedFile = await this.fileService.uploadFile(file, userId);
-            res.status(201).json(FileMapper.toResponseDto(uploadedFile));
+            const parentType = req.body.parentType as string; // Assuming userId is part of the body
+            const parentId = req.body.parentId as string; // Assuming userId is part of the body
+            const uploadedFile = await this.fileService.uploadFile(file, userId, parentType, parentId);
+            res.status(201).json(uploadedFile);
         } catch (error) {
             res.status(500).json({ message: 'Error uploading file', error });
         }
@@ -23,7 +25,7 @@ export class FileController {
         try {
             const fileId = req.params.id;
             const file = await this.fileService.getFileInfo(fileId);
-            res.json(FileMapper.toResponseDto(file));
+            res.json(file);
         } catch (error) {
             res.status(404).json({ message: 'File not found', error });
         }
@@ -46,7 +48,8 @@ export class FileController {
     async deleteFile(req: Request, res: Response) {
         try {
             const fileId = req.params.id;
-            await this.fileService.deleteFile(fileId);
+            const userId = req.params.userId;
+            await this.fileService.deleteFile(fileId, userId);
             res.status(204).send();
         } catch (error) {
             res.status(404).json({ message: 'File not found', error });
@@ -57,7 +60,7 @@ export class FileController {
         try {
             const userId = req.params.id;
             const files = await this.fileService.getUserFiles(userId);
-            res.json(files.map(FileMapper.toResponseDto));
+            res.json(files);
         } catch (error) {
             res.status(500).json({ message: 'Error retrieving user files', error });
         }
@@ -68,7 +71,7 @@ export class FileController {
             const fileId = req.params.id;
             const updateData = req.body;
             const updatedFile = await this.fileService.updateFileInfo(fileId, updateData);
-            res.json(FileMapper.toResponseDto(updatedFile));
+            res.json(updatedFile);
         } catch (error) {
             res.status(404).json({ message: 'File not found', error });
         }

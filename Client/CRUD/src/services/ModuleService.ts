@@ -1,12 +1,11 @@
-import ApiService from '@/services/ApiService';
-import type { Module } from '@/types/Module'; // Ensure to import the correct Module type
+import {apiService} from '@/services/ApiService';
+import type { Module } from '@/types/Module'; 
 
-import { get, post, put } from '@/services/ApiService';
 
 class ModuleService {
     public async createModule(module: Module): Promise<Module> {
         try {
-            const response = await post<Module>('/modules', module);
+            const response = await apiService.post<Module>('/modules', module);
             return response.data;
         } catch (error) {
             // Handle createModule specific errors if needed
@@ -16,7 +15,7 @@ class ModuleService {
 
     public async createModules(modules: Module[]): Promise<Module[]> {
         try {
-            const response = await post<Module[]>('/modules', modules);
+            const response = await apiService.post<Module[]>('/modules', modules);
             return response.data;
         } catch (error) {
             // Handle createModules specific errors if needed
@@ -25,26 +24,26 @@ class ModuleService {
     }
 
     public async getAllModules(): Promise<Module[]> {
-        const response = await get<Module[]>('/modules');
+        const response = await apiService.get<Module[]>('/modules');
         return response.data;
     }
 
     public async getModuleById(moduleId: string): Promise<Module | null> {
-        const response = await get<Module>(`/modules/${moduleId}`);
+        const response = await apiService.get<Module>(`/modules/${moduleId}`);
         return response.data;
     }
 
     public async updateModule(moduleId: string, updatedModuleData: Module): Promise<Module | null> {
         try {
-            const response = await put<Module>(`/modules/${moduleId}`, updatedModuleData);
+            const response = await apiService.put<Module>(`/modules/${moduleId}`, updatedModuleData);
             return response.data;
         } catch (err) {
             throw new Error("Server error: " + err);
         }
     }
 
-    public async deleteModule(moduleId: string): Promise<Module | null> {
-        const response = await ApiService.delete<Module>(`/modules/${moduleId}`);
+    public async deleteModule(moduleId: string): Promise<boolean> {
+        const response = await apiService.delete<boolean>(`/modules/${moduleId}`);
         return response.data;
     }
 }

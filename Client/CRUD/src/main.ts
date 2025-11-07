@@ -17,18 +17,18 @@ import Lara from "@/presets/lara";
 
 import ToastService from 'primevue/toastservice';
 
-import  InputText  from "primevue/inputtext";
-import  Password  from "primevue/password";
-import  Button  from "primevue/button";
-import  Toast  from "primevue/toast";
-import  Card  from "primevue/card";
-import MultiSelect  from 'primevue/multiselect';
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
+import Button from "primevue/button";
+import Toast from "primevue/toast";
+import Card from "primevue/card";
+import MultiSelect from 'primevue/multiselect';
 import InputSwitch from 'primevue/inputswitch';
 
 import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
-import Chips  from 'primevue/chips';
+import Chips from 'primevue/chips';
 import ConfirmDialog from 'primevue/confirmdialog';
 import RadioButton from 'primevue/radiobutton';
 
@@ -48,7 +48,12 @@ import Rating from 'primevue/rating';
 import ProgressBar from 'primevue/progressbar';
 import Tag from 'primevue/tag';
 import SplitButton from 'primevue/splitbutton';
-
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Editor from 'primevue/editor';
+import Badge from 'primevue/badge';
+import Tooltip from 'primevue/tooltip';
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 import ConfirmationService from 'primevue/confirmationservice'
@@ -81,7 +86,7 @@ app.component('Card', Card);
 app.component('MultiSelect', MultiSelect);
 app.component('InputSwitch', InputSwitch);
 app.component('Textarea', Textarea);
-app.component('Calendar', Calendar );
+app.component('Calendar', Calendar);
 app.component('Checkbox', Checkbox);
 app.component('DataTable', DataTable);
 app.component('Column', Column);
@@ -102,5 +107,27 @@ app.component('ProgressBar', ProgressBar);
 app.component('Tag', Tag);
 app.component('RadioButton', RadioButton);
 app.component('SplitButton', SplitButton);
+app.component('Accordion', Accordion);
+app.component('AccordionTab', AccordionTab);
+app.component('Editor', Editor);
+app.component('Badge', Badge);
+app.component('Panel', Panel);
+app.component('ProgressSpinner', ProgressSpinner);
 
+app.directive('tooltip', Tooltip);
 app.mount('#app')
+
+/* -------------------------------------------------
+   DARK MODE AUTO-DETECT
+   ------------------------------------------------- */
+const initTheme = () => {
+    const saved = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+    if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+}
+initTheme()

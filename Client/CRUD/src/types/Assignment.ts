@@ -1,20 +1,40 @@
-import { BaseContent } from "./BaseContent";
-import Task from "./task/Task";
+import { ParentType } from "./enums";
+import { Task } from "./task/Task";
 
-export enum SubmissionTypeEnum {
-    FILE = "file",
-    TEXT = 'text',
-    LINK = 'link'
+export class RubricCriterion {
+    criterion!: string;
+    points!: number;
 }
 
-export interface Assignment extends BaseContent  {
-    moduleId: string;    
-    dueDate: Date;
-    tasks: Task[];
-    maxScore: number;
-    submissionType: SubmissionTypeEnum;
-    allowedFileTypes?: string[];
-    maxFileSize?: number;
+export class Rubric {
+    criteria!: RubricCriterion[];
 }
 
-export default Assignment;
+export class PeerReviewSettings {
+    enabled: boolean = false;
+    reviewsPerStudent: number = 0;
+    dueDate?: Date;
+}
+
+export class Assignment {
+    id?: string;
+    title!: string;
+    description!: string;
+    tasks!: Task[];
+    rubric?: Rubric;
+    peerReviewSettings?: PeerReviewSettings;
+    parentType!: ParentType; 
+    parentId?: string;
+    createdBy?: string;
+    submissionWindow!: {
+        start: Date,
+        end: Date,
+        allowLateSubmissions: boolean,
+        lateSubmissionPenalty: number  // percentage
+    }
+
+    maxAttempts!: number;
+    passingScore!: number;
+    points!: number;
+    timeLimit?: number; // In minutes, optional,
+}

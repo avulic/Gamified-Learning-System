@@ -1,22 +1,22 @@
 import { injectable } from 'inversify';
 import { MongoRepository } from "./MongoRepository";
-import File, { IFileDb } from "@/models/db/mongo/File";
-import { IFile } from "@/models/app";
-import { FileMapper } from "@/utils/ModelMapper";
+import File, { FileDocument, IFileDb } from "@/models/db/mongo/File.db";
+import { File as IFile } from "@/models/app";
+import { fileMapper } from "@/utils/mapper/autoMapper";
 import { Types } from 'mongoose';
 
 @injectable()
-export class FileRepository extends MongoRepository<IFile, IFileDb> {
+export class FileRepository extends MongoRepository<IFile, IFileDb, FileDocument> {
     constructor() {
         super(File);
     }
 
     toDomain(dbModel: IFileDb): IFile {
-        return FileMapper.toDomain(dbModel);
+        return fileMapper.toEntity(dbModel);
     }
 
-    toDatabase(domainModel: Partial<IFile>): Partial<IFileDb> {
-        return FileMapper.toDatabase(domainModel);
+    toDatabase(domainModel: IFile): IFileDb {
+        return fileMapper.toDb(domainModel);
     }
 
     async findByFilename(filename: string): Promise<IFile | null> {

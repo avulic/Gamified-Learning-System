@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Story Editor</text>
+  
+  <!-- Navigation Tabs -->
+  <rect x="300" y="0" width="120" height="60" fill="#2d3748" />
+  <text x="360" y="38" font-family="Arial" font-size="16" text-anchor="middle" fill="#a0aec0">World</text>
+  
+  <rect x="420" y="0" width="120" height="60" fill="#2d3748" />
+  <text x="480" y="38" font-family="Arial" font-size="16" text-anchor="middle" fill="#a0aec0">Modules</text>
+  
+  <rect x="540" y="0" width="120" height="60" fill="#2d3748" />
+  <text x="600" y="38" font-family="Arial" font-size="16" text-anchor="middle" fill="#a0aec0">Sprites</text>
+  
+  <rect x="660" y="0" width="120" height="60" fill="#2d3748" />
+  <text x="720" y="38" font-family="Arial" font-size="16" text-anchor="middle" fill="#a0aec0">Tasks</text>
+  
+  <rect x="780" y="0" width="120" height="60" fill="#4a5568" />
+  <text x="840" y="38" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff">Story</text>
+  
+  <!-- Left Panel - Story Structure -->
+  <rect x="0" y="60" width="280" height="640" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Story Structure Header -->
+  <rect x="0" y="60" width="280" height="50" fill="#edf2f7" />
+  <text x="20" y="92" font-family="Arial" font-size="18" fill="#4a5568" font-weight="bold">Story Structure</text>
+  
+  <!-- Module Selection -->
+  <rect x="20" y="120" width="240" height="40" rx="5" fill="#ebf8ff" />
+  <text x="40" y="145" font-family="Arial" font-size="14" fill="#2c5282" font-weight="bold">Current Module:</text>
+  <rect x="150" y="125" width="100" height="30" rx="3" fill="#ffffff" stroke="#90cdf4" stroke-width="1" />
+  <text x="160" y="145" font-family="Arial" font-size="14" fill="#4a5568">Data Struct.</text>
+  <path d="M235,140 L240,145 L245,140" stroke="#4a5568" stroke-width="2" fill="none" />
+  
+  <!-- Story Chapter List -->
+  <rect x="20" y="170" width="240" height="40" rx="5" fill="#ebf8ff" />
+  <text x="40" y="195" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Chapters</text>
+  
+  <!-- Chapter Items -->
+  <rect x="20" y="220" width="240" height="40" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="40" y="245" font-family="Arial" font-size="14" fill="#4a5568">
+    Chapter 1: Library Introduction
+  </text>
+  <circle cx="240" cy="240" r="10" fill="#9ae6b4" />
+  <text x="240" y="244" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff" font-weight="bold">✓</text>
+  
+  <rect x="20" y="270" width="240" height="40" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="2" />
+  <text x="40" y="295" font-family="Arial" font-size="14" fill="#234e52" font-weight="bold">
+    Chapter 2: Scroll Organization
+  </text>
+  <circle cx="240" cy="290" r="10" fill="#edf2f7" stroke="#a0aec0" stroke-width="1" />
+  <text x="240" y="294" font-family="Arial" font-size="12" text-anchor="middle" fill="#a0aec0">⚙</text>
+  
+  <rect x="20" y="320" width="240" height="40" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="40" y="345" font-family="Arial" font-size="14" fill="#4a5568">
+    Chapter 3: Graph Traversal Quest
+  </text>
+  <circle cx="240" cy="340" r="10" fill="#edf2f7" stroke="#a0aec0" stroke-width="1" />
+  <text x="240" y="344" font-family="Arial" font-size="12" text-anchor="middle" fill="#a0aec0">-</text>
+  
+  <rect x="20" y="370" width="240" height="40" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="40" y="395" font-family="Arial" font-size="14" fill="#4a5568">
+    Chapter 4: Hash Table Challenge
+  </text>
+  <circle cx="240" cy="390" r="10" fill="#edf2f7" stroke="#a0aec0" stroke-width="1" />
+  <text x="240" y="394" font-family="Arial" font-size="12" text-anchor="middle" fill="#a0aec0">-</text>
+  
+  <!-- Story Context -->
+  <rect x="20" y="420" width="240" height="150" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="40" y="445" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Story Context</text>
+  <text x="40" y="470" font-family="Arial" font-size="14" fill="#4a5568">
+    <tspan x="40" dy="0">The ancient library of Algorithmia</tspan>
+    <tspan x="40" dy="20">has been thrown into chaos. The</tspan>
+    <tspan x="40" dy="20">Elder Council needs help to organize</tspan>
+    <tspan x="40" dy="20">and restore order to the realm's</tspan>
+    <tspan x="40" dy="20">knowledge repositories.</tspan>
+  </text>
+  
+  <!-- New Chapter Button -->
+  <rect x="20" y="580" width="240" height="40" rx="5" fill="#4299e1" />
+  <text x="140" y="605" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">+ Add New Chapter</text>
+  
+  <!-- Import/Export Buttons -->
+  <rect x="20" y="630" width="115" height="40" rx="5" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1" />
+  <text x="77" y="655" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Import</text>
+  
+  <rect x="145" y="630" width="115" height="40" rx="5" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1" />
+  <text x="202" y="655" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Export</text>
+  
+  <!-- Middle Panel - Chapter Editor -->
+  <rect x="280" y="60" width="550" height="640" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Chapter Editor Header -->
+  <rect x="280" y="60" width="550" height="50" fill="#edf2f7" />
+  <text x="300" y="92" font-family="Arial" font-size="18" fill="#4a5568" font-weight="bold">Chapter 2: Scroll Organization</text>
+  
+  <!-- Text Editor Toolbar -->
+  <rect x="280" y="110" width="550" height="40" fill="#e2e8f0" />
+  
+  <rect x="290" y="115" width="30" height="30" rx="3" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="1" />
+  <text x="305" y="135" font-family="Arial" font-size="16" text-anchor="middle" fill="#4a5568" font-weight="bold">B</text>
+  
+  <rect x="325" y="115" width="30" height="30" rx="3" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="1" />
+  <text x="340" y="135" font-family="Arial" font-size="16" text-anchor="middle" fill="#4a5568" font-style="italic">I</text>
+  
+  <rect x="360" y="115" width="60" height="30" rx="3" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="1" />
+  <text x="390" y="135" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">H1</text>
+  
+  <rect x="425" y="115" width="60" height="30" rx="3" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="1" />
+  <text x="455" y="135" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">H2</text>
+  
+  <rect x="490" y="115" width="90" height="30" rx="3" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="1" />
+  <text x="535" y="135" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Insert ↓</text>
+  
+  <rect x="585" y="115" width="100" height="30" rx="3" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <text x="635" y="135" font-family="Arial" font-size="14" text-anchor="middle" fill="#234e52">Task Link</text>
+  
+  <rect x="690" y="115" width="100" height="30" rx="3" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1" />
+  <text x="740" y="135" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Preview</text>
+  
+  <!-- Chapter Content -->
+  <rect x="300" y="160" width="510" height="250" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="320" y="185" font-family="Arial" font-size="16" fill="#2d3748" font-weight="bold">The Scroll Organization Challenge</text>
+  <text x="320" y="215" font-family="Arial" font-size="14" fill="#4a5568">
+    <tspan x="320" dy="0">As you enter the grand library, the Village Elder approaches with</tspan>
+    <tspan x="320" dy="20">a concerned look. Scrolls and manuscripts lie scattered across</tspan>
+    <tspan x="320" dy="20">the floor, seemingly without any organization.</tspan>
+    <tspan x="320" dy="30">"Welcome, young scholar," the Elder says. "Our library is in</tspan>
+    <tspan x="320" dy="20">chaos! We need a powerful organizational system to sort our</tspan>
+    <tspan x="320" dy="20">ancient knowledge. The scrolls must be arranged in a way that</tspan>
+    <tspan x="320" dy="20">allows for quick retrieval based on their unique identifiers."</tspan>
+  </text>
+  
+  <!-- Task Integration -->
+  <rect x="320" y="365" width="470" height="35" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <text x="340" y="388" font-family="Arial" font-size="14" fill="#234e52">
+    <tspan x="340" dy="0">TASK: Implement a balanced binary search tree 📋</tspan>
+  </text>
+  
+  <!-- Chapter Content Continued -->
+  <text x="320" y="420" font-family="Arial" font-size="14" fill="#4a5568">
+    <tspan x="320" dy="0">The Elder continues, "Once you've created this organizational</tspan>
+    <tspan x="320" dy="20">system, we'll be able to access our ancient knowledge much</tspan>
+    <tspan x="320" dy="20">more efficiently. This will help us uncover the secrets that will</tspan>
+    <tspan x="320" dy="20">be needed for your journey ahead."</tspan>
+  </text>
+  
+  <!-- Story Path Flow -->
+  <rect x="300" y="420" width="510" height="260" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="320" y="445" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Story Path</text>
+  
+  <!-- Story Node - Current Chapter -->
+  <rect x="400" y="470" width="120" height="40" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="2" />
+  <text x="460" y="495" font-family="Arial" font-size="14" text-anchor="middle" fill="#234e52" font-weight="bold">Chapter 2</text>
+  
+  <!-- Path Connections -->
+  <line x1="350" y1="490" x2="400" y2="490" stroke="#cbd5e0" stroke-width="2" />
+  <rect x="320" y="470" width="30" height="40" rx="5" fill="#9ae6b4" stroke="#48bb78" stroke-width="1" />
+  <text x="335" y="495" font-family="Arial" font-size="14" text-anchor="middle" fill="#276749" font-weight="bold">1</text>
+  
+  <line x1="520" y1="490" x2="570" y2="490" stroke="#cbd5e0" stroke-width="2" />
+  <rect x="570" y="470" width="30" height="40" rx="5" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1" />
+  <text x="585" y="495" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">3</text>
+  
+  <!-- Decision Point with Task Completion -->
+  <line x1="460" y1="510" x2="460" y2="550" stroke="#cbd5e0" stroke-width="2" />
+  <rect x="400" y="550" width="120" height="40" rx="5" fill="#feebc8" stroke="#ed8936" stroke-width="1" />
+  <text x="460" y="575" font-family="Arial" font-size="14" text-anchor="middle" fill="#7b341e" font-weight="bold">Decision Point</text>
+  
+  <!-- Decision Branches -->
+  <line x1="400" y1="570" x2="350" y2="600" stroke="#cbd5e0" stroke-width="2" />
+  <rect x="290" y="600" width="120" height="40" rx="5" fill="#fed7d7" stroke="#f56565" stroke-width="1" />
+  <text x="350" y="620" font-family="Arial" font-size="12" text-anchor="middle" fill="#822727">Task Failed Path</text>
+  
+  <line x1="520" y1="570" x2="570" y2="600" stroke="#cbd5e0" stroke-width="2" />
+  <rect x="510" y="600" width="120" height="40" rx="5" fill="#c6f6d5" stroke="#48bb78" stroke-width="1" />
+  <text x="570" y="620" font-family="Arial" font-size="12" text-anchor="middle" fill="#276749">Task Success Path</text>
+  
+  <!-- Right Panel - Scene Entities -->
+  <rect x="830" y="60" width="370" height="640" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Scene Entities Header -->
+  <rect x="830" y="60" width="370" height="50" fill="#edf2f7" />
+  <text x="850" y="92" font-family="Arial" font-size="18" fill="#4a5568" font-weight="bold">Scene Entities</text>
+  
+  <!-- Entity Search -->
+  <rect x="850" y="120" width="330" height="40" rx="5" fill="#ebf8ff" />
+  <rect x="860" y="125" width="280" height="30" rx="3" fill="#ffffff" stroke="#90cdf4" stroke-width="1" />
+  <text x="875" y="145" font-family="Arial" font-size="14" fill="#a0aec0">Search entities...</text>
+  <rect x="1150" y="125" width="30" height="30" rx="3" fill="#4299e1" />
+  <text x="1165" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff">🔍</text>
+  
+  <!-- Entities in Current Scene -->
+  <rect x="850" y="170" width="330" height="40" rx="5" fill="#ebf8ff" />
+  <text x="870" y="195" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Entities in This Scene</text>
+  
+  <!-- Character Entity with Dialogue -->
+  <rect x="850" y="220" width="330" height="100" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="2" />
+  <circle cx="880" cy="255" r="25" fill="#805ad5" />
+  <text x="880" cy="255" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff" font-weight="bold">E</text>
+  <text x="920" y="240" font-family="Arial" font-size="16" fill="#234e52" font-weight="bold">Village Elder</text>
+  <text x="920" y="260" font-family="Arial" font-size="14" fill="#2c7a7b">Role: Quest Giver</text>
+  <rect x="920" y="270" width="80" height="25" rx="12" fill="#38b2ac" />
+  <text x="960" y="287" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Dialogue</text>
+  <rect x="1005" y="270" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1045" y="287" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Edit</text>
+  <rect x="1090" y="270" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1130" y="287" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Remove</text>
+  
+  <!-- Object Entity -->
+  <rect x="850" y="330" width="330" height="100" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="2" />
+  <circle cx="880" cy="365" r="25" fill="#f6ad55" />
+  <text x="880" cy="365" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff" font-weight="bold">S</text>
+  <text x="920" y="350" font-family="Arial" font-size="16" fill="#234e52" font-weight="bold">Ancient Scrolls</text>
+  <text x="920" y="370" font-family="Arial" font-size="14" fill="#2c7a7b">Role: Task Object</text>
+  <rect x="920" y="380" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="960" y="397" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Properties</text>
+  <rect x="1005" y="380" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1045" y="397" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Edit</text>
+  <rect x="1090" y="380" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1130" y="397" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Remove</text>
+  
+  <!-- Location Entity -->
+  <rect x="850" y="440" width="330" height="100" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="2" />
+  <rect x="855" cy="445" width="50" height="50" rx="5" fill="#805ad5" />
+  <text x="880" cy="470" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff" font-weight="bold">L</text>
+  <text x="920" y="460" font-family="Arial" font-size="16" fill="#234e52" font-weight="bold">Ancient Library</text>
+  <text x="920" y="480" font-family="Arial" font-size="14" fill="#2c7a7b">Role: Scene Setting</text>
+  <rect x="920" y="490" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="960" y="507" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Description</text>
+  <rect x="1005" y="490" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1045" y="507" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Edit</text>
+  <rect x="1090" y="490" width="80" height="25" rx="12" fill="#e2e8f0" />
+  <text x="1130" y="507" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Remove</text>
+  
+  <!-- Add Entity Button -->
+  <rect x="850" y="550" width="330" height="40" rx="5" fill="#4299e1" />
+  <text x="1015" y="575" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">+ Add Entity to Scene</text>
+  
+  <!-- Task Integration -->
+  <rect x="850" y="600" width="330" height="90" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="870" y="625" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Task Integration</text>
+  <text x="870" y="650" font-family="Arial" font-size="14" fill="#4a5568">
+    <tspan x="870" dy="0">Task 1: Binary Search Tree</tspan>
+  </text>
+  <rect x="870" y="660" width="150" height="20" rx="10" fill="#90cdf4" />
+  <text x="945" y="675" font-family="Arial" font-size="12" text-anchor="middle" fill="#2c5282" font-weight="bold">
+    Story Integration: 100%
+  </text>
+</svg>

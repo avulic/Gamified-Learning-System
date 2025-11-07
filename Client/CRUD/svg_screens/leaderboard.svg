@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#222639" rx="8" ry="8"/>
+  
+  <!-- Header/Status Bar -->
+  <rect x="0" y="0" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Character Name and Level -->
+  <text x="30" y="38" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">Alex the Biologist</text>
+  <text x="220" y="38" font-family="Arial" font-size="16" fill="#8b97c6">Level 12 | Knowledge Path: Life Sciences</text>
+  
+  <!-- Status Indicators -->
+  <rect x="550" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="565" y="35" font-family="Arial" font-size="14" fill="#4fc3f7">XP: 2450/3000</text>
+  
+  <rect x="670" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="685" y="35" font-family="Arial" font-size="14" fill="#81c784">Quests: 4</text>
+  
+  <!-- Task View Tabs -->
+  <rect x="30" y="80" width="140" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="70" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Task View</text>
+  
+  <rect x="180" y="80" width="180" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="215" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Inventory/Achievements</text>
+  
+  <rect x="370" y="80" width="140" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="390" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Progress Map</text>
+  
+  <rect x="520" y="80" width="140" height="40" fill="#4fc3f7" rx="6" ry="6"/>
+  <text x="550" y="105" font-family="Arial" font-size="14" fill="#222639">Leaderboard</text>
+  
+  <!-- Leaderboard Category Tabs -->
+  <rect x="30" y="140" width="120" height="40" fill="#f9a825" rx="6" ry="6"/>
+  <text x="67" y="165" font-family="Arial" font-size="14" fill="#222639">XP Ranking</text>
+  
+  <rect x="160" y="140" width="120" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="197" y="165" font-family="Arial" font-size="14" fill="#e0e6ff">Quests</text>
+  
+  <rect x="290" y="140" width="120" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="327" y="165" font-family="Arial" font-size="14" fill="#e0e6ff">Badges</text>
+  
+  <rect x="420" y="140" width="120" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="445" y="165" font-family="Arial" font-size="14" fill="#e0e6ff">Biology Skills</text>
+  
+  <!-- Filter Options -->
+  <rect x="570" y="145" width="90" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="585" y="165" font-family="Arial" font-size="12" fill="#e0e6ff">This Week</text>
+  <text x="650" y="165" font-family="Arial" font-size="12" fill="#e0e6ff">▼</text>
+  
+  <rect x="670" y="145" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="685" y="165" font-family="Arial" font-size="12" fill="#e0e6ff">Class Biology-1</text>
+  <text x="760" y="165" font-family="Arial" font-size="12" fill="#e0e6ff">▼</text>
+  
+  <!-- Leaderboard Panel -->
+  <rect x="30" y="200" width="740" height="380" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  
+  <!-- Leaderboard Header -->
+  <rect x="30" y="200" width="740" height="50" fill="#1a1e2e" rx="8" ry="8"/>
+  <text x="70" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Rank</text>
+  <text x="170" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Student</text>
+  <text x="400" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Level</text>
+  <text x="480" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">XP Total</text>
+  <text x="600" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Weekly Progress</text>
+  <text x="720" y="230" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Badges</text>
+  
+  <!-- Leaderboard Entries -->
+  <!-- Top 3 -->
+  <rect x="50" y="260" width="700" height="50" fill="#b18e35" rx="8" ry="8" opacity="0.3"/>
+  <text x="70" y="290" font-family="Arial" font-size="18" fill="#f9a825" font-weight="bold">1</text>
+  <circle cx="120" cy="285" r="15" fill="#f9a825"/>
+  <text x="170" y="290" font-family="Arial" font-size="16" fill="#e0e6ff">Sarah K.</text>
+  <text x="400" y="290" font-family="Arial" font-size="16" fill="#e0e6ff">14</text>
+  <text x="480" y="290" font-family="Arial" font-size="16" fill="#e0e6ff">3245</text>
+  <rect x="570" y="280" width="100" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="570" y="280" width="90" height="10" fill="#f9a825" rx="5" ry="5"/>
+  <text x="680" y="290" font-family="Arial" font-size="16" fill="#e0e6ff">+320</text>
+  <text x="720" y="290" font-family="Arial" font-size="16" fill="#e0e6ff">28</text>
+  
+  <rect x="50" y="320" width="700" height="50" fill="#607d8b" rx="8" ry="8" opacity="0.3"/>
+  <text x="70" y="350" font-family="Arial" font-size="18" fill="#90a4ae" font-weight="bold">2</text>
+  <circle cx="120" cy="345" r="15" fill="#90a4ae"/>
+  <text x="170" y="350" font-family="Arial" font-size="16" fill="#e0e6ff">Marcus J.</text>
+  <text x="400" y="350" font-family="Arial" font-size="16" fill="#e0e6ff">13</text>
+  <text x="480" y="350" font-family="Arial" font-size="16" fill="#e0e6ff">2950</text>
+  <rect x="570" y="340" width="100" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="570" y="340" width="85" height="10" fill="#90a4ae" rx="5" ry="5"/>
+  <text x="680" y="350" font-family="Arial" font-size="16" fill="#e0e6ff">+280</text>
+  <text x="720" y="350" font-family="Arial" font-size="16" fill="#e0e6ff">25</text>
+  
+  <rect x="50" y="380" width="700" height="50" fill="#8d6e63" rx="8" ry="8" opacity="0.3"/>
+  <text x="70" y="410" font-family="Arial" font-size="18" fill="#a1887f" font-weight="bold">3</text>
+  <circle cx="120" cy="405" r="15" fill="#a1887f"/>
+  <text x="170" y="410" font-family="Arial" font-size="16" fill="#e0e6ff">Jamie T.</text>
+  <text x="400" y="410" font-family="Arial" font-size="16" fill="#e0e6ff">13</text>
+  <text x="480" y="410" font-family="Arial" font-size="16" fill="#e0e6ff">2780</text>
+  <rect x="570" y="400" width="100" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="570" y="400" width="70" height="10" fill="#a1887f" rx="5" ry="5"/>
+  <text x="680" y="410" font-family="Arial" font-size="16" fill="#e0e6ff">+250</text>
+  <text x="720" y="410" font-family="Arial" font-size="16" fill="#e0e6ff">23</text>
+  
+  <!-- Player's Position -->
+  <rect x="50" y="440" width="700" height="50" fill="#4fc3f7" rx="8" ry="8" opacity="0.3"/>
+  <text x="70" y="470" font-family="Arial" font-size="18" fill="#4fc3f7" font-weight="bold">4</text>
+  <circle cx="120" cy="465" r="15" fill="#4fc3f7"/>
+  <text x="170" y="470" font-family="Arial" font-size="16" fill="#e0e6ff">Alex (You)</text>
+  <text x="400" y="470" font-family="Arial" font-size="16" fill="#e0e6ff">12</text>
+  <text x="480" y="470" font-family="Arial" font-size="16" fill="#e0e6ff">2450</text>
+  <rect x="570" y="460" width="100" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="570" y="460" width="65" height="10" fill="#4fc3f7" rx="5" ry="5"/>
+  <text x="680" y="470" font-family="Arial" font-size="16" fill="#e0e6ff">+210</text>
+  <text x="720" y="470" font-family="Arial" font-size="16" fill="#e0e6ff">21</text>
+  
+  <!-- Additional Entries -->
+  <rect x="50" y="500" width="700" height="30" fill="#354052" rx="8" ry="8"/>
+  <text x="70" y="520" font-family="Arial" font-size="16" fill="#e0e6ff">5</text>
+  <text x="170" y="520" font-family="Arial" font-size="16" fill="#e0e6ff">Raj P.</text>
+  <text x="400" y="520" font-family="Arial" font-size="16" fill="#e0e6ff">11</text>
+  <text x="480" y="520" font-family="Arial" font-size="16" fill="#e0e6ff">2100</text>
+  <text x="720" y="520" font-family="Arial" font-size="16" fill="#e0e6ff">19</text>
+  
+  <rect x="50" y="540" width="700" height="30" fill="#354052" rx="8" ry="8"/>
+  <text x="70" y="560" font-family="Arial" font-size="16" fill="#e0e6ff">6</text>
+  <text x="170" y="560" font-family="Arial" font-size="16" fill="#e0e6ff">Taylor B.</text>
+  <text x="400" y="560" font-family="Arial" font-size="16" fill="#e0e6ff">11</text>
+  <text x="480" y="560" font-family="Arial" font-size="16" fill="#e0e6ff">1950</text>
+  <text x="720" y="560" font-family="Arial" font-size="16" fill="#e0e6ff">18</text>
+</svg>

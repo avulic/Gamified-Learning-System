@@ -1,323 +1,430 @@
 <template>
-    <div class="p-4 bg-gray-200">
-        <div v-if="showEdit" class="absolute top-0 left-0 mt-4 ml-4">
-            <div class="flex items-center px-3 mb-6">
-                <InputSwitch name="edit" v-model="isEditable" />
-                <label for="edit" class="ml-2">Edit quiz</label>
-            </div>
-        </div>
+    <div class="p-4 bg-gray-100">
         <TabView>
-            <TabPanel header="Quiz Details">
-                <Form @submit="onSubmit" :validation-schema="schema" class="flex flex-col items-center"
-                    v-slot="{ errors, values }">
-                    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-4xl">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <Field name="title" v-model="currentQuiz.title" v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="title">Quiz Title</label>
-                                        <InputText id="title" v-model="currentQuiz.title" v-bind="field" type="text"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage name="title" class="text-red-600 text-xs italic" />
+            <!-- Quiz Configuration -->
+            <TabPanel header="Quiz Settings">
+                <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
+                    <div class="space-y-4">
+                        <!-- Basic Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-field">
+                                <label for="title">Title</label>
+                                <Field name="title" v-slot="{ field }">
+                                    <InputText v-model="quiz.title" v-bind="field"
+                                        :class="{ 'p-invalid': errors.title }" />
                                 </Field>
+                                <ErrorMessage name="title" class="text-red-500 text-sm" />
                             </div>
-                            <div class="w-full md:w-1/2 px-3">
-                                <Field name="moduleId" v-model="currentQuiz.moduleId" v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="moduleId">Module</label>
-                                        <!-- <Dropdown id="moduleId" v-model="currentQuiz.moduleId" v-bind="field"
-                                    :options="moduleOptions" optionLabel="title" optionValue="id"
-                                    class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    :disabled="!isEditable" /> -->
-                                    </span>
-                                    <ErrorMessage name="moduleId" class="text-red-600 text-xs italic" />
+
+                            <div class="form-field">
+                                <label for="assignmentId">Assignment</label>
+                                <Field name="assignmentId" v-slot="{ field }">
+                                    <Dropdown v-model="quiz.assignmentId" 
+                                        :options="assignmentOptions"
+                                        optionLabel="title"
+                                        optionValue="id"
+                                        placeholder="Select Assignment"
+                                        :class="{ 'p-invalid': errors.assignmentId }" />
                                 </Field>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full px-3">
-                                <Field name="description" v-model="currentQuiz.description"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="description">Description</label>
-                                        <Textarea id="description" v-model="currentQuiz.description" v-bind="field"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" rows="3" />
-                                    </span>
-                                    <ErrorMessage name="description" class="text-red-600 text-xs italic" />
-                                </Field>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <Field name="timeLimit" v-model="currentQuiz.timeLimit"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class=" block relative">
-                                        <label for="timeLimit">Time Limit (minutes)</label>
-                                        <InputNumber id="timeLimit" v-model="currentQuiz.timeLimit"
-                                            :modelValue="field.value" @update:modelValue="field.onChange"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage name="timeLimit" class="text-red-600 text-xs italic" />
-                                </Field>
-                            </div>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <Field name="passScore" v-model="currentQuiz.passScore"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="passScore">Passing
-                                            Score</label>
-                                        <InputNumber id="passScore" v-model="currentQuiz.passScore"
-                                            :modelValue="field.value" @update:modelValue="field.onChange"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage name="passScore" class="text-red-600 text-xs italic" />
-                                </Field>
-                            </div>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <Field name="maxAttempts" v-model="currentQuiz.maxAttempts"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="maxAttempts">Max
-                                            Attempts</label>
-                                        <InputNumber id="maxAttempts" v-model="currentQuiz.maxAttempts"
-                                            :modelValue="field.value" @update:modelValue="field.onChange"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage name="maxAttempts" class="text-red-600 text-xs italic" />
-                                </Field>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full px-3">
-                                <Field name="xpReward" v-model="currentQuiz.xpReward" v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="xpReward">XP Reward</label>
-                                        <InputNumber id="xpReward" v-model="currentQuiz.xpReward"
-                                            :modelValue="field.value" @update:modelValue="field.onChange"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage name="xpReward" class="text-red-600 text-xs italic" />
-                                </Field>
+                                <ErrorMessage name="assignmentId" class="text-red-500 text-sm" />
                             </div>
                         </div>
 
-                    </div>
-                    <div class="flex justify-between w-full max-w-4xl">
-                        <Button label="Save" type="submit"
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            :disabled="loading || !isEditable" />
-                        <Button label="Delete" type="button" @click="deleteQuiz"
-                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                            :disabled="loading || !isEditable" />
+                        <div class="form-field">
+                            <label for="description">Description</label>
+                            <Field name="description" v-slot="{ field }">
+                                <Textarea v-model="quiz.description" v-bind="field" rows="3"
+                                    :class="{ 'p-invalid': errors.description }" />
+                            </Field>
+                            <ErrorMessage name="description" class="text-red-500 text-sm" />
+                        </div>
+
+                        <!-- Quiz Settings -->
+                        <Panel header="Quiz Configuration" class="mt-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="form-field">
+                                    <label for="timeLimit">Time Limit (minutes)</label>
+                                    <Field name="content.timeLimit" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.content.timeLimit" 
+                                            :min="0"
+                                            placeholder="Time limit in minutes"
+                                            :class="{ 'p-invalid': errors['content.timeLimit'] }" />
+                                    </Field>
+                                    <ErrorMessage name="content.timeLimit" class="text-red-500 text-sm" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="passingScore">Passing Score (%)</label>
+                                    <Field name="content.passingScore" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.content.passingScore"
+                                            :min="0"
+                                            :max="100"
+                                            placeholder="Required score"
+                                            :class="{ 'p-invalid': errors['content.passingScore'] }" />
+                                    </Field>
+                                    <ErrorMessage name="content.passingScore" class="text-red-500 text-sm" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="maxAttempts">Max Attempts</label>
+                                    <Field name="content.maxAttempts" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.content.maxAttempts"
+                                            :min="1"
+                                            placeholder="Maximum attempts"
+                                            :class="{ 'p-invalid': errors['content.maxAttempts'] }" />
+                                    </Field>
+                                    <ErrorMessage name="content.maxAttempts" class="text-red-500 text-sm" />
+                                </div>
+                            </div>
+                        </Panel>
+
+                        <!-- Task Settings -->
+                        <Panel header="Task Settings" class="mt-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="form-field">
+                                    <label for="points">Points</label>
+                                    <Field name="points" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.points"
+                                            :min="0"
+                                            placeholder="Total points"
+                                            :class="{ 'p-invalid': errors.points }" />
+                                    </Field>
+                                    <ErrorMessage name="points" class="text-red-500 text-sm" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="xpReward">XP Reward</label>
+                                    <Field name="xpReward" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.xpReward"
+                                            :min="0"
+                                            placeholder="XP reward"
+                                            :class="{ 'p-invalid': errors.xpReward }" />
+                                    </Field>
+                                    <ErrorMessage name="xpReward" class="text-red-500 text-sm" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="order">Display Order</label>
+                                    <Field name="order" v-slot="{ field }">
+                                        <InputNumber v-model="quiz.order"
+                                            :min="0"
+                                            placeholder="Display order"
+                                            :class="{ 'p-invalid': errors.order }" />
+                                    </Field>
+                                    <ErrorMessage name="order" class="text-red-500 text-sm" />
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 mt-4">
+                                <div class="form-field">
+                                    <Checkbox v-model="quiz.requiredForCompletion" 
+                                        :binary="true"
+                                        inputId="requiredForCompletion" />
+                                    <label for="requiredForCompletion" class="ml-2">Required for completion</label>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="dueDate">Due Date</label>
+                                    <Calendar v-model="quiz.dueDate" 
+                                        showTime 
+                                        :showIcon="true"
+                                        dateFormat="dd/mm/yy" />
+                                </div>
+                            </div>
+                        </Panel>
                     </div>
                 </Form>
             </TabPanel>
+
+            <!-- Questions Management -->
             <TabPanel header="Questions">
-                <DataTable :value="currentQuiz.questions" @rowReorder="ontQuestionReorder"
-                    v-model:selection="selectedtQuestion">
+                <div class="mb-4 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Quiz Questions</h3>
+                    <SplitButton label="Add Question" 
+                        icon="pi pi-plus" 
+                        :model="questionTypeOptions"
+                        class="p-button-success" />
+                </div>
+
+                <DataTable :value="quiz.content.questions"
+                    v-model:selection="selectedQuestion"
+                    :reorderableRows="true"
+                    @rowReorder="onQuestionReorder"
+                    dataKey="id"
+                    class="mb-4">
                     <Column rowReorder />
-                    <Column field="title" header="Title" />
-                    <Column field="type" header="Type" />
-                    <Column field="xpReward" header="XP Reward" />
-                    <Column field="weight" header="Weight" />
-                    <Column body="actionTemplate">
-                        <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                                @click="editQuestion(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                                @click="deleteQuestion(slotProps.data)" />
+                    <Column field="question" header="Question">
+                        <template #body="{ data }">
+                            <div class="line-clamp-2">{{ data.question }}</div>
+                        </template>
+                    </Column>
+                    <Column field="questionType" header="Type">
+                        <template #body="{ data }">
+                            {{ getQuestionTypeLabel(data.questionType) }}
+                        </template>
+                    </Column>
+                    <Column header="Actions" style="width: 8rem">
+                        <template #body="{ data }">
+                            <div class="flex gap-2">
+                                <Button icon="pi pi-pencil" 
+                                    @click="editQuestion(data)"
+                                    class="p-button-outlined p-button-success p-button-sm" />
+                                <Button icon="pi pi-trash" 
+                                    @click="deleteQuestion(data)"
+                                    class="p-button-outlined p-button-danger p-button-sm" />
+                            </div>
                         </template>
                     </Column>
                 </DataTable>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                        <FieldArray name="questions" v-slot="{ fields, push, remove }">
-                            <div v-for="(question, index) in currentQuiz.questions" :key="index"
-                                class="mb-4 p-4 border rounded">
-                                <Field :name="`questions[${index}].text`" v-model="question.text"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class="block relative">
-                                        <label for="questions">Question Text</label>
-                                        <InputText :id="`questions[${index}].text`" v-bind="field"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage :name="`questions[${index}].text`"
-                                        class="text-red-600 text-xs italic" />
-                                </Field>
-                                <Field :name="`questions[${index}].type`" v-model="question.type"
-                                    v-slot="{ field, errorMessage }">
-                                    <span class="block relative mt-4">
-                                        <label :for="`questions[${index}].type`">Question Type</label>
-                                        <Dropdown :id="`questions[${index}].type`" v-bind="field"
-                                            :options="questionTypes" optionLabel="label" optionValue="value"
-                                            class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            :disabled="!isEditable" />
-                                    </span>
-                                    <ErrorMessage :name="`questions[${index}].type`"
-                                        class="text-red-600 text-xs italic" />
-                                </Field>
-                                <Button icon="pi pi-trash"
-                                    class="p-2 bg-red-500 text-white rounded hover:bg-red-700 mt-2"
-                                    @click="() => remove(index)" :disabled="!isEditable" />
-                            </div>
-
-                        </FieldArray>
-                    </div>
-                </div>
-                <Button label="Add Question" icon="pi pi-plus" @click="() => push(newQuestion())"
-                    class="p-2 bg-blue-500 text-white rounded hover:bg-blue-700" :disabled="!isEditable" />
             </TabPanel>
         </TabView>
 
-        <Dialog v-model:visible="questionDialogVisible" :style="{ width: '60vw' }" modal header="Task Details">
-            <QuestionDetails></QuestionDetails>
-
+        <!-- Question Editor Dialog -->
+        <Dialog v-model:visible="showQuestionDialog" 
+            :style="{ width: '70vw' }" 
+            :header="questionDialogTitle"
+            :modal="true">
+            <QuestionDetails v-if="currentQuestion"
+                :question="currentQuestion"
+                @save="saveQuestion"
+                @cancel="closeQuestionDialog" />
         </Dialog>
 
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-2 mt-4">
+            <Button label="Cancel" 
+                icon="pi pi-times" 
+                @click="cancel"
+                class="p-button-outlined" />
+            <Button label="Save" 
+                icon="pi pi-check" 
+                @click="save"
+                :disabled="!isValid"
+                class="p-button-primary" />
+        </div>
     </div>
-    <Toast />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { Form, Field, ErrorMessage, FieldArray } from 'vee-validate'
-import { object, string, number, array } from 'yup'
-import { useToast } from 'primevue/usetoast'
-import type Quiz from '@/types/quiz/Quiz'
-import type Module from '@/types/Module'
-import Question, { QuestionType } from '@/types/task/question/Question'
+import { ref, computed, watch } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
+import type { Assignment } from '@/types/Assignment';
+import { type Question, type BaseQuestion, MultiChoiceQuestion, TrueFalseQuestion, TextQuestion } from '@/types/task/Question';
+import { TaskTypeEnum, ProgressTypeEnum, QuestionType } from '@/types/enums';
+import QuestionDetails from '../question/QuestionDetails.vue';
+import { QuizTask } from '@/types/task/Task';
 
-import Details from '@/components/question/Details';
-
-const toast = useToast()
-const loading = ref(false)
-const isEditable = ref(true)
-const questionDialogVisible = ref(false);
-
-const schema = object({
-    title: string().required('Title is required'),
-    moduleId: string().required('Module is required'),
-    description: string().required('Description is required'),
-    timeLimit: number().positive().integer().nullable().required('Time limit is required'),
-    passScore: number().required('Passing score is required').min(0).max(100),
-    maxAttempts: number().required('Max attempts is required').positive().integer(),
-    xpReward: number().required('XP reward is required').positive().integer(),
-    questions: array().of(
-        object({
-            text: string().required('Question text is required'),
-            type: string().oneOf(Object.values(QuestionType)).required('Question type is required'),
-            // Add more validation for question options, correct answer, etc.
-        })
-    ).min(1, 'At least one question is required')
-})
-
-const currentQuiz = ref<Quiz>({
-    id: '',
-    moduleId: '',
-    title: '',
-    description: '',
-    questions: [],
-    timeLimit: 30,
-    passScore: 70,
-    maxAttempts: 3,
-    xpReward: 100,
-    createdAt: new Date(),
-    updatedAt: new Date()
-})
-
-const questionTypes = [
-    { label: 'Multiple Choice', value: QuestionType.MultipleChoice },
-    { label: 'True/False', value: QuestionType.TrueFalse },
-    { label: 'Short Answer', value: QuestionType.ShortAnswer }
-]
-
+// Props & Emits
 const props = defineProps<{
-    currentQuiz: Quiz | null
-    modules: Module[]
-}>()
+    quiz: QuizTask | null;
+    assignments: Assignment[];
+}>();
 
 const emit = defineEmits<{
-    onSaveQuiz: [quiz: Quiz]
-    onEditQuiz: [quiz: Quiz]
-    onDeleteQuiz: [quizId: string]
-}>()
+    save: [quiz: QuizTask];
+    cancel: [];
+}>();
 
-const showEdit = computed(() => {
-    return props.currentQuiz !== null && props.currentQuiz.title.length > 0
-})
+// State
+const quiz = ref<QuizTask>(props.quiz || createEmptyQuiz());
+const showQuestionDialog = ref(false);
+const currentQuestion = ref<Question | null>(null);
+const selectedQuestion = ref<Question | null>(null);
 
-const moduleOptions = computed(() =>
-    props.modules.map(module => ({ title: module.title, id: module.id }))
-)
+// Computed
+const isValid = computed(() => {
+    return quiz.value.title &&
+        quiz.value.description &&
+        quiz.value.content.questions.length > 0 &&
+        quiz.value.assignmentId;
+});
 
-onMounted(() => {
-    if (props.currentQuiz !== null && props.currentQuiz.title.length > 0) {
-        currentQuiz.value = { ...props.currentQuiz }
-        isEditable.value = false
+const questionDialogTitle = computed(() => {
+    return currentQuestion.value?.id ? 'Edit Question' : 'New Question';
+});
+
+const assignmentOptions = computed(() => {
+    return props.assignments.map(assignment => ({
+        title: assignment.title,
+        id: assignment.id
+    }));
+});
+
+const questionTypeOptions = [
+    {
+        label: 'Multiple Choice',
+        icon: 'pi pi-list',
+        command: () => addQuestion(QuestionType.MULTI_CHOICE)
+    },
+    {
+        label: 'True/False',
+        icon: 'pi pi-check-square',
+        command: () => addQuestion(QuestionType.TRUE_FALSE)
+    },
+    {
+        label: 'Text Answer',
+        icon: 'pi pi-align-left',
+        command: () => addQuestion(QuestionType.TEXT)
     }
-})
+];
 
-const onSubmit = () => {
-    if (!props.currentQuiz) {
-        emit('onSaveQuiz', currentQuiz.value)
-        clearForm()
-    } else {
-        emit('onEditQuiz', currentQuiz.value)
-    }
-}
+// Validation Schema
+const schema = yup.object({
+    title: yup.string().required('Title is required'),
+    description: yup.string().required('Description is required'),
+    assignmentId: yup.string().required('Assignment is required'),
+    'content.timeLimit': yup.number().min(0, 'Time limit must be positive'),
+    'content.passingScore': yup.number().min(0, 'Passing score must be positive').max(100, 'Maximum score is 100'),
+    'content.maxAttempts': yup.number().min(1, 'At least one attempt required'),
+    points: yup.number().min(0, 'Points must be positive'),
+    xpReward: yup.number().min(0, 'XP reward must be positive'),
+    order: yup.number().min(0, 'Order must be positive')
+});
 
-function deleteQuiz() {
-    emit('onDeleteQuiz', currentQuiz.value.id)
-}
-
-function clearForm() {
-    currentQuiz.value = {
-        id: '',
-        moduleId: '',
-        title: '',
-        description: '',
-        questions: [],
-        timeLimit: 30,
-        passScore: 70,
-        maxAttempts: 3,
-        xpReward: 100,
-        createdAt: new Date(),
-        updatedAt: new Date()
-    }
-}
-
-function newQuestion(): Question {
+// Methods
+function createEmptyQuiz(): QuizTask {
     return {
         id: '',
-        type: QuestionType.MultipleChoice,
-        text: '',
-        options: [],
-        correctAnswer: [],
-        points: 1,
-        quizId: currentQuiz.value.id
+        title: '',
+        description: '',
+        taskType: TaskTypeEnum.QUIZ,
+        status: ProgressTypeEnum.NOT_STARTED,
+        points: 0,
+        order: 0,
+        xpReward: 0,
+        requiredForCompletion: true,
+        dueDate: new Date(),
+        assignmentId: '',
+        content: {
+            questions: [],
+            timeLimit: 30,
+            passingScore: 70,
+            maxAttempts: 1
+        }
+    };
+}
+
+function getQuestionTypeLabel(type: QuestionType): string {
+    const labels: Record<QuestionType, string> = {
+        [QuestionType.MULTI_CHOICE]: 'Multiple Choice',
+        [QuestionType.TRUE_FALSE]: 'True/False',
+        [QuestionType.TEXT]: 'Text Answer'
+    };
+    return labels[type] || 'Unknown';
+}
+
+function addQuestion(type: QuestionType) {
+    const baseQuestion: BaseQuestion = {
+        id: crypto.randomUUID(),
+        question: '',
+        questionType: type,
+    };
+    var newQuestion: Question;
+
+    switch (type) {
+        case QuestionType.MULTI_CHOICE:
+            newQuestion = {
+                ...baseQuestion,
+                options:[
+                {
+                    text: 'Option 1',
+                    isCorrect: true
+                },
+                {
+                    text: 'Option 2',
+                    isCorrect: false
+                }
+            ]} as MultiChoiceQuestion;
+            break;
+        case QuestionType.TRUE_FALSE:
+        newQuestion = {
+                ...baseQuestion,
+                correctAnswer: false
+            } as TrueFalseQuestion;
+            break;
+        case QuestionType.TEXT:
+        newQuestion = {
+                ...baseQuestion,
+                correctAnswer: ''
+            } as TextQuestion;
+            break;
+        default:
+            throw new Error(`Unsupported question type: ${type}`);
+    }
+    currentQuestion.value = newQuestion;
+    showQuestionDialog.value = true;
+}
+
+function editQuestion(question: Question) {
+    currentQuestion.value = { ...question };
+    showQuestionDialog.value = true;
+}
+
+function deleteQuestion(question: Question) {
+    quiz.value.content.questions = quiz.value.content.questions.filter(
+        q => q.id !== question.id
+    );
+}
+
+function saveQuestion(question: Question) {
+    const index = quiz.value.content.questions.findIndex(q => q.id === question.id);
+    if (index === -1) {
+        quiz.value.content.questions.push(question);
+    } else {
+        quiz.value.content.questions[index] = question;
+    }
+    closeQuestionDialog();
+}
+
+function closeQuestionDialog() {
+    showQuestionDialog.value = false;
+    currentQuestion.value = null;
+}
+
+function onQuestionReorder(event: { value: Question[] }) {
+    quiz.value.content.questions = event.value;
+}
+
+function save() {
+    if (isValid.value) {
+        emit('save', quiz.value);
     }
 }
 
+function cancel() {
+    emit('cancel');
+}
 
-const editQuestion = (task: Question) => {
-    // currentTask.value = { ...task };
-    questionDialogVisible.value = true;
-};
 
-const deleteQuestion = (task: Question) => {
-    // assignment.value.tasks = assignment.value.tasks.filter(t => t.id !== task.id);
-};
+const onSubmit = () => {
 
-const onQuestionReorder = (event: any) => {
-    // assignment.value.tasks = event.value;
-};
+}
+
+// Watch for prop changes
+watch(() => props.quiz, (newQuiz) => {
+    if (newQuiz) {
+        quiz.value = { ...newQuiz };
+    }
+}, { deep: true });
 </script>
+
+<style scoped>
+.form-field {
+    @apply space-y-1;
+}
+
+:deep(.p-inputtext),
+:deep(.p-dropdown),
+:deep(.p-calendar),
+:deep(.p-inputnumber) {
+    @apply w-full;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>

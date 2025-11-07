@@ -1,416 +1,362 @@
 <template>
-    <div class="p-4 bg-gray-200">
-        <div v-if="showEdit" class="top-0 left-0 mt-4 ml-4">
-            <div class="flex px-3 mb-6 md:mb-0">
-                <InputSwitch v-model="isEditable" />
-                <label for="edit" class="ml-2">Edit assignment</label>
-            </div>
-        </div>
+    <div class="p-4 bg-gray-100">
         <TabView>
+            <!-- Assignment Details Tab -->
             <TabPanel header="Assignment Details">
                 <Form @submit="onSubmit" :validation-schema="assignmentSchema" v-slot="{ errors }">
-                    <div class="p-fluid">
-                        <div class="p-field">
-                            <label for="title">Title</label>
-                            <Field name="title" v-model="assignment.title" v-slot="{ field }">
-                                <InputText id="title" v-model="assignment.title" v-bind="field"
-                                    :class="{ 'p-invalid': errors.title }" />
-                            </Field>
-                            <ErrorMessage name="title" class="text-red-600" />
+                    <div class="space-y-4">
+                        <!-- Basic Assignment Fields -->
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-field">
+                                <label for="title">Title</label>
+                                <Field name="title" v-slot="{ field }">
+                                    <InputText id="title" v-model="assignment.title" :disabled="!isEditable"
+                                        v-bind="field" :class="{ 'p-invalid': errors.title }" />
+                                </Field>
+                                <ErrorMessage name="title" class="text-red-500" />
+                            </div>
+
+                            <div class="form-field">
+                                <label for="description">Description</label>
+                                <Field name="description" v-slot="{ field }">
+                                    <Textarea id="description" v-model="assignment.description" :disabled="!isEditable"
+                                        rows="3" v-bind="field" :class="{ 'p-invalid': errors.description }" />
+                                </Field>
+                                <ErrorMessage name="description" class="text-red-500" />
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-field">
+                                    <label for="points">Points</label>
+                                    <Field name="points" v-slot="{ field }">
+                                        <InputNumber id="points" v-model="assignment.points" :disabled="!isEditable"
+                                            v-bind="field" :min="0" :class="{ 'p-invalid': errors.points }" />
+                                    </Field>
+                                    <ErrorMessage name="points" class="text-red-500" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="passingScore">Passing Score (%)</label>
+                                    <Field name="passingScore" v-slot="{ field }">
+                                        <InputNumber id="passingScore" v-model="assignment.passingScore" :disabled="!isEditable"
+                                            v-bind="field" :min="0" :max="100" :class="{ 'p-invalid': errors.passingScore }" />
+                                    </Field>
+                                    <ErrorMessage name="passingScore" class="text-red-500" />
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-field">
+                                    <label for="maxAttempts">Max Attempts</label>
+                                    <Field name="maxAttempts" v-slot="{ field }">
+                                        <InputNumber id="maxAttempts" v-model="assignment.maxAttempts" :disabled="!isEditable"
+                                            v-bind="field" :min="1" :class="{ 'p-invalid': errors.maxAttempts }" />
+                                    </Field>
+                                    <ErrorMessage name="maxAttempts" class="text-red-500" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="timeLimit">Time Limit (minutes)</label>
+                                    <Field name="timeLimit" v-slot="{ field }">
+                                        <InputNumber id="timeLimit" v-model="assignment.timeLimit" :disabled="!isEditable"
+                                            v-bind="field" :min="0" :class="{ 'p-invalid': errors.timeLimit }" />
+                                    </Field>
+                                    <ErrorMessage name="timeLimit" class="text-red-500" />
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="parentType">Parent Type</label>
+                                <Dropdown id="parentType" v-model="assignment.parentType" :options="parentTypeOptions"
+                                    :disabled="!isEditable" optionLabel="label" optionValue="value" />
+                            </div>
+
+                            <Panel header="Submission Window" :toggleable="true">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="form-field">
+                                        <label>Start Date</label>
+                                        <Calendar v-model="assignment.submissionWindow.start" :disabled="!isEditable" 
+                                            showTime hourFormat="24" />
+                                    </div>
+                                    <div class="form-field">
+                                        <label>End Date</label>
+                                        <Calendar v-model="assignment.submissionWindow.end" :disabled="!isEditable"
+                                            showTime hourFormat="24" />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="flex items-center gap-4">
+                                            <div class="flex items-center gap-2">
+                                                <Checkbox v-model="assignment.submissionWindow.allowLateSubmissions" 
+                                                    :binary="true" :disabled="!isEditable" />
+                                                <label>Allow Late Submissions</label>
+                                            </div>
+                                            <div v-if="assignment.submissionWindow.allowLateSubmissions" class="flex items-center gap-2">
+                                                <label>Late Penalty (%)</label>
+                                                <InputNumber v-model="assignment.submissionWindow.lateSubmissionPenalty" 
+                                                    :disabled="!isEditable" :min="0" :max="100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Panel>
                         </div>
-                        <div class="p-field">
-                            <label for="description">Description</label>
-                            <Field name="description" v-model="assignment.description" v-slot="{ field }">
-                                <Textarea id="description" v-model="assignment.description" v-bind="field" rows="3"
-                                    :class="{ 'p-invalid': errors.description }" />
-                            </Field>
-                            <ErrorMessage name="description" class="text-red-600" />
-                        </div>
-                        <div class="p-field">
-                            <label for="dueDate">Due Date</label>
-                            <Field name="dueDate" v-model="assignment.description" v-slot="{ field }">
-                                <Calendar id="dueDate" v-model="assignment.dueDate" v-bind="field"
-                                    :class="{ 'p-invalid': errors.dueDate }" />
-                            </Field>
-                            <ErrorMessage name="dueDate" class="text-red-600" />
-                        </div>
-                        <div class="p-field">
-                            <label for="maxScore">Max Score</label>
-                            <Field name="maxScore" v-model="assignment.description" v-slot="{ field }">
-                                <InputNumber id="maxScore" v-model="assignment.maxScore" v-bind="field"
-                                    :class="{ 'p-invalid': errors.maxScore }" />
-                            </Field>
-                            <ErrorMessage name="maxScore" class="text-red-600" />
-                        </div>
-                        <div class="p-field">
-                            <label for="xpReward">XP Reward</label>
-                            <Field name="xpReward" v-model="assignment.description" v-slot="{ field }">
-                                <InputNumber id="xpReward" v-model="assignment.xpReward" v-bind="field"
-                                    :class="{ 'p-invalid': errors.xpReward }" />
-                            </Field>
-                            <ErrorMessage name="xpReward" class="text-red-600" />
-                        </div>
+
+                        <!-- Rubric Section -->
+                        <Panel header="Rubric" :toggleable="true">
+                            <div class="space-y-2">
+                                <div v-for="(criterion, index) in rubricCriteria" :key="index"
+                                    class="flex gap-2 items-center">
+                                    <InputText v-model="criterion.criterion" placeholder="Criterion description"
+                                        :disabled="!isEditable" class="flex-grow" />
+                                    <InputNumber v-model="criterion.points" placeholder="Points" :disabled="!isEditable"
+                                        :min="0" />
+                                    <Button icon="pi pi-trash" @click="removeCriterion(index)" :disabled="!isEditable"
+                                        class="p-button-danger p-button-outlined" />
+                                </div>
+                                <Button label="Add Criterion" icon="pi pi-plus" @click="addCriterion"
+                                    :disabled="!isEditable" class="p-button-outlined" />
+                            </div>
+                        </Panel>
+
+                        <!-- Peer Review Settings -->
+                        <Panel header="Peer Review Settings" :toggleable="true">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <Checkbox v-model="peerReviewEnabled" :binary="true" :disabled="!isEditable" />
+                                    <label>Enable Peer Review</label>
+                                </div>
+
+                                <div v-if="peerReviewEnabled" class="space-y-2">
+                                    <div class="form-field">
+                                        <label>Reviews Per Student</label>
+                                        <InputNumber v-model="reviewsPerStudent" :disabled="!isEditable" :min="0" />
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Review Due Date</label>
+                                        <Calendar v-model="reviewDueDate" :disabled="!isEditable" showTime hourFormat="24" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Panel>
                     </div>
                 </Form>
             </TabPanel>
+
+            <!-- Tasks Tab -->
             <TabPanel header="Tasks">
-                <DataTable :value="assignment.tasks" @rowReorder="onTaskReorder" v-model:selection="selectedTask">
-                    <Column rowReorder />
-                    <Column field="title" header="Title" />
-                    <Column field="type" header="Type" />
-                    <Column field="xpReward" header="XP Reward" />
-                    <Column field="weight" header="Weight" />
-                    <Column body="actionTemplate">
-                        <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                                @click="editTask(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                                @click="deleteTask(slotProps.data)" />
-                        </template>
-                    </Column>
-                </DataTable>
-                <SplitButton label="Add Task" icon="pi pi-plus" :model="addTaskItems" @click="addDefaultTask" />
+                <div class="space-y-4">
+                    <TaskManager :assignment-id="assignment.id as string" :tasks="assignment.tasks" :isEditable="isEditable" @update:tasks="updateTasks"
+                        @editTask="editTask" @deleteTask="deleteTask" @addTask="addTask" />
+                </div>
             </TabPanel>
         </TabView>
 
-        <Dialog v-model:visible="taskDialogVisible" :style="{ width: '60vw' }" modal header="Task Details">
-            <TaskDetails :task="currentTasks" :saveTask="saveTask"></TaskDetails>
-        </Dialog>
-
-        <div>
-            <Button label="Save Assignment" icon="pi pi-check" @click="saveAssignment" :disabled="!isAssignmentValid" />
-            <Button label="Cancel" icon="pi pi-times" @click="closeDialog" class="p-button-secondary" />
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-2 mt-4">
+            <Button label="Cancel" icon="pi pi-times" @click="cancel" class="p-button-outlined" />
+            <Button label="Save" icon="pi pi-check" @click="save" :disabled="!isValid" class="p-button-primary" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { Form, Field, ErrorMessage, FieldArray } from 'vee-validate';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import type Assignment from '@/types/Assignment';
-import Task, { TextTask, UploadTask, TextContent, SubmissionSettings, TaskTypeEnum } from '@/types/task/Task';
-import Quiz, { QuizContent } from '@/types/quiz/Quiz';
-import { type Question, type MultiChoiceQuestion, type TextQuestion, type TrueFalseQuestion, QuestionType } from '@/types/task/question/Question';
+import TaskManager from '@/components/task/TaskManager.vue';
+import { Assignment, Task } from '@/types';
+import { ParentType, ProgressTypeEnum, TaskTypeEnum } from '@/types/enums';
+import { BaseTask } from '@/types/task/Task';
 
-
-import { default as TaskDetails } from '@/components/task/Details.vue';
-import { ProgressTypeEnum } from '@/types/Progression';
-import { SubmissionTypeEnum } from '@/types/Assignment';
-
+// Props and Emits
 const props = defineProps<{
-    initialAssignment?: Assignment;
+    assignmentProp: Assignment | null;
+    isEditable?: boolean;
 }>();
 
-
 const emit = defineEmits<{
-    onSaveAssignment: [assignment: Assignment],
-    cancel: [assignment: void],
-    updateAssignment: [assignment: Assignment]
-}>()
+    save: [assignment: Assignment];
+    cancel: [];
+    update: [assignment: Assignment];
+}>();
 
-
-const dialogVisible = ref(true);
-const taskDialogVisible = ref(false);
-
-const showEdit = ref(props.initialAssignment !== null);
-const isEditable = ref(true);
-
-
-
-const currentTasks = ref<Task[]>([
-    {
-        id: '1',
-        assignmentId: '1',
-        taskType: TaskTypeEnum.TEXT,
-        status: ProgressTypeEnum.NOT_STARTED,
-        dueDate: new Date(),
-        title: 'Text Task',
-        description: 'Read the following text',
-        xpReward: 50,
-        requiredForCompletion: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        content: [{
-            questions: [{
-                id: 'q1',
-                taskId: '1',
-                question: 'Is the sky blue?',
-                points: 5,
-                correctAnswer: "Yes"
-            } as TextQuestion],
-            minWords: 1,
-            maxWords: 100
-        } as TextContent],
-        estimatedReadTime: 300
-    } as TextTask,
-    {
-        id: '2',
-        assignmentId: '1',
-        taskType: TaskTypeEnum.FILE_UPLOAD,
-        status: ProgressTypeEnum.NOT_STARTED,
-        title: 'File Upload Task',
-        description: 'Upload your assignment',
-        xpReward: 150,
-        requiredForCompletion: true,
-        content: {
-            allowedFileTypes: ['.pdf', '.doc', '.docx'],
-            maxFileSize: 10 * 1024 * 1024 // 10MB
-        },
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days from no
-    } as UploadTask,
-    {
-        id: '3',
-        assignmentId: '1',
-        taskType: TaskTypeEnum.QUIZ,
-        status: ProgressTypeEnum.NOT_STARTED,
-        title: 'Quiz 1',
-        description: 'First quiz',
-        xpReward: 100,
-        requiredForCompletion: true,
-        content: {
-            questions: [
-                {
-                    id: 'q2',
-                    taskId: '1',
-                    question: 'Is the sky blue?',
-                    points: 5,
-                    correctAnswer: "Yes"
-                } as TextQuestion,
-                {
-                    id: 'q2',
-                    taskId: '1',
-                    question: 'Is the sky blue?',
-                    points: 5,
-                    correctAnswer: "Yes"
-                } as TextQuestion,
-                {
-                    id: 'q2',
-                    taskId: '1',
-                    question: 'Is the sky blue?',
-                    points: 5,
-                    correctAnswer: "Yes"
-                } as TextQuestion
-            ]
-        } as QuizContent,
-        timeLimit: 600,
-        passScore: 70,
-        maxAttempts: 2
-    } as Quiz
-]);
-
-const assignment = ref<Assignment>(props.initialAssignment ? { ...props.initialAssignment } : createEmptyAssignment());
-
-
-const selectedTask = ref<Task | null>(null);
+// State
+const assignment = ref<Assignment>(createEmptyAssignment());
+const isEditable = ref(props.isEditable ?? true);
 const currentTask = ref<Task | null>(null);
 
-const dialogHeader = computed(() => currentTask.value?.id ? 'Edit Task' : 'New Task');
+// Computed
+const rubricCriteria = computed({
+    get: () => assignment.value.rubric?.criteria ?? [],
+    set: (criteria) => {
+        if (!assignment.value.rubric) {
+            assignment.value.rubric = { criteria: [] };
+        }
+        assignment.value.rubric.criteria = criteria;
+    }
+});
 
+const peerReviewEnabled = computed({
+    get: () => assignment.value.peerReviewSettings?.enabled ?? false,
+    set: (value) => {
+        if (!assignment.value.peerReviewSettings) {
+            assignment.value.peerReviewSettings = {
+                enabled: false,
+                reviewsPerStudent: 0,
+                dueDate: new Date()
+            };
+        }
+        assignment.value.peerReviewSettings.enabled = value;
+    }
+});
 
-// const taskTypes = [
-//     { name: 'Multiple Choice', value: TaskTypeEnum.MultiChoice },
-//     { name: 'Question', value: TaskTypeEnum.QUESTION },
-//     { name: 'Quiz', value: TaskTypeEnum.QUIZ },
-//     { name: 'File Upload', value: TaskTypeEnum.FILE_UPLOAD }
-// ];
+const reviewsPerStudent = computed({
+    get: () => assignment.value.peerReviewSettings?.reviewsPerStudent ?? 0,
+    set: (value) => {
+        if (assignment.value.peerReviewSettings) {
+            assignment.value.peerReviewSettings.reviewsPerStudent = value;
+        }
+    }
+});
 
+const reviewDueDate = computed({
+    get: () => assignment.value.peerReviewSettings?.dueDate ?? new Date(),
+    set: (value) => {
+        if (assignment.value.peerReviewSettings) {
+            assignment.value.peerReviewSettings.dueDate = value;
+        }
+    }
+});
+
+const isValid = computed(() => {
+    return assignment.value.title &&
+        assignment.value.description &&
+        assignment.value.points > 0 &&
+        assignment.value.passingScore >= 0 &&
+        assignment.value.maxAttempts > 0 &&
+        assignment.value.tasks.length > 0;
+});
+
+// Constants
+const parentTypeOptions = [
+    { label: 'Course', value: ParentType.COURSE },
+    { label: 'Lesson', value: ParentType.LESSON },
+    { label: 'Module', value: ParentType.MODULE }
+];
+
+// Validation Schema
 const assignmentSchema = yup.object({
     title: yup.string().required('Title is required'),
     description: yup.string().required('Description is required'),
-    dueDate: yup.date().required('Due date is required'),
-    maxScore: yup.number().required('Max score is required').positive('Max score must be positive'),
-    xpReward: yup.number().required('XP reward is required').positive('XP reward must be positive')
+    points: yup.number().required('Points are required').min(0, 'Points must be positive'),
+    passingScore: yup.number().required('Passing score is required').min(0, 'Must be at least 0').max(100, 'Must be at most 100'),
+    maxAttempts: yup.number().required('Max attempts is required').min(1, 'Must allow at least 1 attempt'),
+    timeLimit: yup.number().nullable().min(0, 'Time limit must be positive')
 });
 
-const taskSchema = yup.object({
-    title: yup.string().required('Title is required'),
-    description: yup.string().required('Description is required'),
-    type: yup.string().required('Type is required'),
-    xpReward: yup.number().required('XP reward is required').positive('XP reward must be positive'),
-    weight: yup.number().required('Weight is required').positive('Weight must be positive')
-});
-
-const isAssignmentValid = computed(() => {
-    return assignment.value.tasks && assignment.value.tasks.length > 0;
-});
-
+// Methods
 function createEmptyAssignment(): Assignment {
     return {
         id: '',
         title: '',
         description: '',
-        order: 0,
-        xpReward: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        moduleId: '',
-        dueDate: new Date(),
         tasks: [],
-        maxScore: 0,
-        submissionType: SubmissionTypeEnum.FILE, // Adjust this based on your SubmissionTypeEnum
-        allowedFileTypes: [],
-        maxFileSize: 0
+        parentType: ParentType.COURSE,
+        peerReviewSettings: {
+            enabled: false,
+            reviewsPerStudent: 0,
+            dueDate: new Date()
+        },
+        submissionWindow: {
+            start: new Date(),
+            end: new Date(),
+            allowLateSubmissions: false,
+            lateSubmissionPenalty: 0
+        },
+        maxAttempts: 1,
+        passingScore: 60,
+        points: 0,
+        timeLimit: undefined
     };
 }
 
-watch(() => props.initialAssignment, (newAssignment) => {
-    if (newAssignment) {
-        assignment.value = { ...newAssignment };
-    } else {
-        assignment.value = createEmptyAssignment();
+function addCriterion() {
+    if (!assignment.value.rubric) {
+        assignment.value.rubric = { criteria: [] };
+    }
+    assignment.value.rubric.criteria.push({
+        criterion: '',
+        points: 0
+    });
+}
+
+function removeCriterion(index: number) {
+    if (assignment.value.rubric?.criteria) {
+        assignment.value.rubric.criteria.splice(index, 1);
+    }
+}
+
+function updateTasks() {
+    assignment.value.tasks = assignment.value.tasks.map((task, index) => ({
+        ...task,
+        order: index
+    }));
+    emit('update', assignment.value);
+}
+
+function addTask(type: TaskTypeEnum) {
+    const newTask: BaseTask = {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        taskType: type,
+        status: ProgressTypeEnum.NOT_STARTED,
+        points: 0,
+        order: assignment.value.tasks.length,
+        xpReward: 0,
+        requiredForCompletion: true,
+        dueDate: new Date(),
+        assignmentId: assignment.value.id || ''
+    };
+    assignment.value.tasks.push(newTask as Task);
+    updateTasks();
+}
+
+function editTask(task: Task) {
+    currentTask.value = { ...task };
+}
+
+function deleteTask(task: Task) {
+    assignment.value.tasks = assignment.value.tasks.filter(t => t.id !== task.id);
+    updateTasks();
+}
+
+function save() {
+    if (isValid.value) {
+        emit('save', assignment.value);
+    }
+}
+
+function onSubmit() {
+    if (isValid.value) {
+        emit('save', assignment.value);
+    }
+}
+
+function cancel() {
+    emit('cancel');
+}
+
+function validateSubmissionWindow(start: Date, end: Date): boolean {
+    return start < end;
+}
+
+// Watchers
+watch(() => assignment.value.submissionWindow, (newWindow) => {
+    if (!validateSubmissionWindow(newWindow.start, newWindow.end)) {
+        // If invalid, reset end date to be after start date
+        newWindow.end = new Date(newWindow.start.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
     }
 }, { deep: true });
 
-
-
-const onSubmit = (() => {
-    // Validation passed
-});
-
-const onTaskSubmit = (() => {
-    if (currentTask.value.id) {
-        const index = assignment.value.tasks.findIndex(task => task.id === currentTask.value.id);
-        if (index !== -1) {
-            assignment.value.tasks[index] = { ...currentTask.value };
-        }
-    } else {
-        currentTask.value.id = Date.now().toString(); // Generate a temporary ID
-        currentTask.value.assignmentId = assignment.value.id;
-        assignment.value.tasks.push({ ...currentTask.value });
-    }
-    taskDialogVisible.value = false;
-});
-
-
-
-const onTaskReorder = (event: any) => {
-    assignment.value.tasks = event.value;
-};
-
-
-const saveAssignment = () => {
-    if (isAssignmentValid.value) {
-        emit('onSaveAssignment', assignment.value);
-        dialogVisible.value = false;
-    }
-};
-
-const closeDialog = () => {
-    emit('cancel');
-    dialogVisible.value = false;
-};
-
-
-const editTask = (task: Task) => {
-    currentTask.value = { ...task };
-    taskDialogVisible.value = true;
-};
-
-const deleteTask = (task: Task) => {
-    const updatedTasks = assignment.value.tasks.filter(t => t.id !== task.id);
-    updateAssignment({ ...assignment.value, tasks: updatedTasks });
-};
-
-
-const addTaskItems = [
-    {
-        label: 'Text Task',
-        icon: 'pi pi-file-text',
-        command: () => addTask(TaskTypeEnum.TEXT)
-    },
-    {
-        label: 'File Upload Task',
-        icon: 'pi pi-upload',
-        command: () => addTask(TaskTypeEnum.FILE_UPLOAD)
-    },
-    {
-        label: 'Quiz',
-        icon: 'pi pi-list',
-        command: () => addTask(TaskTypeEnum.QUIZ)
-    }
-];
-
-const addDefaultTask = () => addTask(TaskTypeEnum.TEXT);
-
-const addTask = (taskType: TaskTypeEnum) => {
-    const newTask = createNewTask(taskType);
-    currentTask.value = newTask;
-    taskDialogVisible.value = true;
-};
-
-const createNewTask = (taskType: TaskTypeEnum): Task => {
-    const baseTask = {
-        id: Date.now().toString(),
-        assignmentId: assignment.value.id,
-        taskType: taskType,
-        status: ProgressTypeEnum.NOT_STARTED,
-        title: `New ${taskType} Task`,
-        description: '',
-        xpReward: 0,
-        requiredForCompletion: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-    };
-
-    switch (taskType) {
-        case TaskTypeEnum.TEXT:
-            return {
-                ...baseTask,
-                content: [{
-                    questions: [],
-                    minWords: 1,
-                    maxWords: 100
-                } as TextContent],
-                estimatedReadTime: 0
-            } as TextTask;
-        case TaskTypeEnum.FILE_UPLOAD:
-            return {
-                ...baseTask,
-                content: {
-                    allowedFileTypes: ['.pdf', '.doc', '.docx'],
-                    maxFileSize: 10 * 1024 * 1024 // 10MB
-                }
-            } as UploadTask;
-        case TaskTypeEnum.QUIZ:
-            return {
-                ...baseTask,
-                content: {
-                    questions: []
-                } as QuizContent,
-                timeLimit: 600,
-                passScore: 70,
-                maxAttempts: 2
-            } as Quiz;
-        default:
-            throw new Error(`Unsupported task type: ${taskType}`);
-    }
-};
-
-const saveTask = (task: Task) => {
-    const taskIndex = assignment.value.tasks.findIndex(t => t.id === task.id);
-    const updatedTasks = [...assignment.value.tasks];
-    if (taskIndex !== -1) {
-        updatedTasks[taskIndex] = task;
-    } else {
-        updatedTasks.push(task);
-    }
-    updateAssignment({ ...assignment.value, tasks: updatedTasks });
-    closeTaskDialog();
-};
-
-const closeTaskDialog = () => {
-    currentTask.value = null;
-    taskDialogVisible.value = false;
-};
-
-const updateAssignment = (newAssignment: Assignment) => {
-    assignment.value = newAssignment;
-    emit('updateAssignment', newAssignment);
-};
 </script>
-
-<style scoped>
-/* Add any component-specific styles here */
-</style>

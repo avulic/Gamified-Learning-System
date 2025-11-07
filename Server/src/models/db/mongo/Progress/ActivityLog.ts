@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IActivityLog extends Document {
+export interface IActivityLog {
     user: mongoose.Types.ObjectId;
     action: string;
     entity: {
@@ -25,4 +25,5 @@ const ActivityLogSchema: Schema = new Schema({
 ActivityLogSchema.index({ user: 1, timestamp: -1 });
 ActivityLogSchema.index({ 'entity.kind': 1, 'entity.item': 1 });
 
-export const ActivityLog = mongoose.model<IActivityLog>('ActivityLog', ActivityLogSchema);
+export type ActivityLogDocument = Document & IActivityLog;
+export const ActivityLog = mongoose.model<ActivityLogDocument>('ActivityLog', ActivityLogSchema);

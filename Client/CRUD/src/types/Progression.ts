@@ -1,10 +1,11 @@
-import { TaskTypeEnum } from "./task/Task";
+import { TaskStatus } from "./enums";
 
 export enum ProgressTypeEnum {
-    NOT_STARTED = "not_started",
-    IN_PROGRESS = "in_progress",
-    COMPLETED = "completed",
-    OVERDUE = "overdue"
+    NOT_STARTED = "NOT_STARTED",
+    IN_PROGRESS = "IN_PROGRESS",
+    COMPLETED = "COMPLETED",
+    OVERDUE = "OVERDUE",
+    FAILED = "FAILED"
 }
 
 // Progress tracking for module content
@@ -53,14 +54,6 @@ export interface AssignmentProgress {
     taskProgress: TaskProgress[];
     completed: boolean;
     xpEarned: number;
-}
-
-
-export enum TaskStatus {
-    NOT_STARTED = 'not_started',
-    IN_PROGRESS = 'in_progress',
-    COMPLETED = 'completed',
-    OVERDUE = 'overdue'
 }
 
 export interface TaskProgress {

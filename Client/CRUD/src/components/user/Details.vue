@@ -96,10 +96,8 @@ import UserService from '@/services/UserService'
 import type UserDetails from '@/types/User/UserDetails'
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { object, string } from "yup";
-import AuthService from '@/services/AuthService';
-import { useToast } from 'primevue/usetoast';
-import { useRouter } from "vue-router";
-import { RoleEnum } from '@/types/Role';
+import { RoleEnum } from '@/types/enums';
+
 
 const loading = ref(false);
 const isEditable = ref(true);
@@ -122,10 +120,10 @@ const currentUser = ref(<UserDetails>{
 
 const selectedOptions = ref();
 const roleOptions = ref([
-    { name: RoleEnum.Student },
-    { name: RoleEnum.Professor },
-    { name: RoleEnum.Admin },
-    { name: RoleEnum.User }
+    { name: RoleEnum.STUDENT },
+    { name: RoleEnum.PROFESSOR },
+    { name: RoleEnum.ADMIN },
+    { name: RoleEnum.USER }
 ]);
 
 const props = defineProps<{

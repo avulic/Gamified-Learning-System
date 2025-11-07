@@ -1,6 +1,7 @@
 export enum QuestionType {
-    TRUE_FALSE = 'true_false',
-    TEXT = 'text',
+    TRUE_FALSE = 'TRUE_FALSE',
+    TEXT = 'TEXT',
+    MULTI_CHOICE = 'MULTI_CHOICE'
 }
 
 export enum ItemType {
@@ -10,30 +11,42 @@ export enum ItemType {
 }
 
 export enum Roles {
-    User = 'user',
-    Student = 'student',
-    Guest = 'guest',
-    Admin = 'admin',
-    Professor = 'professor'
+    USER = 'USER',
+    STUDENT = 'STUDENT',
+    GUEST = 'GUEST',
+    ADMIN = 'ADMIN',
+    PROFESSOR = 'PROFESSOR'
 }
 
 export enum TaskTypeEnum {
-    MULTI_CHOICE = "multi_choice",
-    QUESTION = 'question',
-    FILE_UPLOAD = 'file_upload',
+    QUIZ = 'QUIZ',
+    QUESTION = 'QUESTION',
+    FILE_UPLOAD = 'FILE_UPLOAD',
+    CODE = 'CODE'
 }
 
+
+export enum SubmissionTypeEnum {
+    QUIZ_SUBMISSION = 'QUIZ_SUBMISSION',
+    QUESTION_SUBMISSION = 'QUESTION_SUBMISSION',
+    FILE_UPLOAD_SUBMISSION = 'FILE_UPLOAD_SUBMISSION',
+    CODE_SUBMISSION = 'CODE_SUBMISSION'
+}
+
+
 export enum ProgressTypeEnum {
-    NOT_STARTED = "not_started",
-    IN_PROGRESS = "in_progress",
-    COMPLETED = "completed",
-    OVERDUE = "overdue",
-    FAILED = "failed"
+    NOT_STARTED = "NOT_STARTED",
+    IN_PROGRESS = "IN_PROGRESS",
+    COMPLETED = "COMPLETED",
+    OVERDUE = "OVERDUE",
+    FAILED = "FAILED"
 }
 
 export enum SubmissionStatus {
     PENDING = 'pending',
     SUBMITTED = 'submitted',
+    NOT_SUBMITTED = 'NOT_SUBMITTED',
+    COMPLETED = 'completed',
     GRADED = 'graded',
     LATE = 'late'
 }
@@ -52,7 +65,30 @@ export enum TaskStatus {
 }
 
 export enum ProgressType {
-    USER = 'USER',
+    NOT_STARTED = 'NOT_STARTED',
+	IN_PROGRESS = 'IN_PROGRESS',
+	COMPLETED = 'COMPLETED',
+	FAILED = 'FAILED'
+}
+
+export enum GradingStatus {
+    GRADED = "GRADED",
+    NOT_GRADED = "NOT_GRADED"
+}
+
+export enum ParentType {
+    ASSIGNMENT = 'ASSIGNMENT',
     COURSE = 'COURSE',
-    TASK = 'TASK'
+    MODULE = 'MODULE',
+    LESSON = 'LESSON'
+}
+
+export enum HttpStatusCode {
+    OK = 200,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    INTERNAL_SERVER = 500,
+    CONFLICT = 429
 }

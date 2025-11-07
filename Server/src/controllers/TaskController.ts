@@ -1,40 +1,42 @@
 // TaskController.ts
+import { Task } from '@/models/app';
+import { TaskService } from '@/services/TaskService';
+import { ILogger, TYPES } from '@/types';
+import Logger from '@/utils/logger';
 import { Request, Response } from 'express';
-import TaskService from '../services/TaskService';
-import { IBaseTask } from '../models/app/Task/BaseTask';
+
+
 
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../types';
-import { IFileUploadTask } from '../models/app/Task/FileUploadTask';
-import { IMultiChoiceTask } from '../models/app/Task/MultiChoiceTask';
-import { IQuestionTask } from '../models/app/Task/QuestionTask';
+
 
 @injectable()
 class TaskController {
-    constructor() {
-        
+    constructor(
+        @inject(TYPES.TaskService) private taskService: TaskService,
+        @inject(TYPES.Logger) private logger: ILogger
+    ) { }
+
+    public createTask = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const newTask: Task = req.body.task;
+            const assignmentId: string = req.body.assignmentId;
+
+            const createdTask = await this.taskService.createTask(assignmentId, newTask);
+            res.status(201).json(createdTask);
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to create task' });
+        }
     }
 
-    // public createTask = async (req: Request, res: Response): Promise<void> => {
-    //     try {
-    //         const newTask: (IQuestionTask | IFileUploadTask | IMultiChoiceTask) = req.body;
-    //         const createdTask = await this.taskService.createTask(newTask);
-    //         res.status(201).json(createdTask);
-    //     } catch (err) {
-    //         logger.error('Failed to create task', err);
-    //         res.status(500).json({ error: 'Failed to create task' });
-    //     }
-    // }
-
-    // public getAllTasks = async (req: Request, res: Response): Promise<void> => {
-    //     try {
-    //         const tasks = await this.taskService.getAllTasks();
-    //         res.status(200).json(tasks);
-    //     } catch (err) {
-    //         logger.error('Failed to fetch tasks', err);
-    //         res.status(500).json({ error: 'Failed to fetch tasks' });
-    //     }
-    // }
+    public getAllTasks = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const tasks = await this.taskService.getAllTasks();
+            res.status(200).json(tasks);
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to fetch tasks' });
+        }
+    }
 
     // public getTaskById = async (req: Request, res: Response): Promise<void> => {
     //     try {
@@ -82,20 +84,20 @@ class TaskController {
     //     }
     // }
 
-    // public getTasksByAssignment = async (req: Request, res: Response): Promise<void> => {
-    //     try {
-    //         const assignmentId = req.params.id;
-    //         const tasks = await this.taskService.getTasksByAssignment(assignmentId);
-    //         if (!tasks) {
-    //             res.status(404).json({ error: 'Tasks not found' });
-    //             return;
-    //         }
-    //         res.status(200).json(tasks);
-    //     } catch (err) {
-    //         logger.error('Failed to get task', err);
-    //         res.status(500).json({ error: 'Failed to get task' });
-    //     }
-    // }
+    public getTasksByAssignment = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const assignmentId = req.params.assignmentId;
+            const tasks = await this.taskService.getTasksByAssignmentId(assignmentId);
+            if (!tasks) {
+                res.status(404).json({ error: 'Tasks not found' });
+                return;
+            }
+            res.status(200).json(tasks);
+        } catch (err) {
+            this.logger.error('Failed to get task', err);
+            res.status(500).json({ error: 'Failed to get task' });
+        }
+    }
 }
 
 export default TaskController;

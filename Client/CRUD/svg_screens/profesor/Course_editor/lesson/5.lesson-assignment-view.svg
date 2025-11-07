@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Content Editor</text>
+  
+  <!-- Navigation -->
+  <rect x="0" y="60" width="200" height="640" fill="#4a5568" />
+  
+  <!-- Main Navigation Items -->
+  <rect x="0" y="60" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="92" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Course Management</text>
+  
+  <rect x="0" y="110" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="135" font-family="Arial" font-size="14" fill="#a0aec0">Dashboard</text>
+  
+  <rect x="0" y="150" width="200" height="40" fill="#2d3748" />
+  <text x="20" y="175" font-family="Arial" font-size="14" fill="#ffffff">Course Structure</text>
+  
+  <rect x="0" y="190" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="215" font-family="Arial" font-size="14" fill="#a0aec0">Analytics</text>
+  
+  <rect x="0" y="230" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="255" font-family="Arial" font-size="14" fill="#a0aec0">Student Progress</text>
+  
+  <!-- Other Navigation Sections -->
+  <rect x="0" y="280" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="312" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">World Building</text>
+  
+  <rect x="0" y="330" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="355" font-family="Arial" font-size="14" fill="#a0aec0">World Map</text>
+  
+  <rect x="0" y="370" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="395" font-family="Arial" font-size="14" fill="#a0aec0">Module Manager</text>
+  
+  <rect x="0" y="410" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="435" font-family="Arial" font-size="14" fill="#a0aec0">Sprite Library</text>
+  
+  <rect x="0" y="450" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="475" font-family="Arial" font-size="14" fill="#a0aec0">Game Preview</text>
+  
+  <rect x="0" y="500" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="532" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Content Creation</text>
+  
+  <rect x="0" y="550" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="582" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Narrative Design</text>
+  
+  <!-- Main Content Area -->
+  <rect x="200" y="60" width="1000" height="640" fill="#ffffff" />
+  
+  <!-- Left Panel - Content Browser -->
+  <rect x="200" y="60" width="300" height="640" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Left Panel Header -->
+  <rect x="200" y="60" width="300" height="60" fill="#edf2f7" />
+  <text x="220" y="95" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Module 1: Algorithmic Foundations</text>
+  
+  <!-- Left Panel Search -->
+  <rect x="210" y="130" width="280" height="30" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="230" y="150" font-family="Arial" font-size="14" fill="#a0aec0">Search content...</text>
+  <rect x="460" y="130" width="30" height="30" rx="5" fill="#e2e8f0" />
+  <text x="475" y="150" font-family="Arial" font-size="14" fill="#4a5568">🔍</text>
+  
+  <!-- Content Tabs -->
+  <rect x="210" y="170" width="140" height="30" rx="5" fill="#4299e1" />
+  <text x="280" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff">Lessons</text>
+  
+  <rect x="350" y="170" width="140" height="30" rx="5" fill="#e2e8f0" />
+  <text x="420" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Assignments</text>
+  
+  <!-- Lesson List -->
+  <!-- Lesson 1.1 -->
+  <rect x="210" y="210" width="280" height="60" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="2" />
+  <rect x="220" y="220" width="40" height="40" rx="5" fill="#4299e1" />
+  <text x="240" y="245" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">L</text>
+  <text x="270" y="235" font-family="Arial" font-size="14" fill="#2c5282" font-weight="bold">Lesson 1.1:</text>
+  <text x="270" y="255" font-family="Arial" font-size="12" fill="#4a5568">Algorithm Analysis Basics</text>
+  
+  <!-- Lesson 1.2 -->
+  <rect x="210" y="280" width="280" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="220" y="290" width="40" height="40" rx="5" fill="#4299e1" />
+  <text x="240" y="315" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">L</text>
+  <text x="270" y="305" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Lesson 1.2:</text>
+  <text x="270" y="325" font-family="Arial" font-size="12" fill="#4a5568">Recursive Algorithms</text>
+  
+  <!-- Lesson 1.3 -->
+  <rect x="210" y="350" width="280" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="220" y="360" width="40" height="40" rx="5" fill="#4299e1" />
+  <text x="240" y="385" font-family="Arial" font-size="16" text-anchor="middle" fill="#ffffff" font-weight="bold">L</text>
+  <text x="270" y="375" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Lesson 1.3:</text>
+  <text x="270" y="395" font-family="Arial" font-size="12" fill="#4a5568">Iterative vs Recursive</text>
+  
+  <!-- Assignment button at bottom -->
+  <rect x="210" y="630" width="280" height="40" rx="5" fill="#38b2ac" />
+  <text x="270" y="655" font-family="Arial" font-size="14" fill="#ffffff" font-weight="bold">+ Add New Lesson</text>
+  <text x="440" y="655" font-family="Arial" font-size="14" text-anchor="end" fill="#ffffff" font-weight="bold">✚</text>
+  
+  <!-- Right Panel - Content Editor -->
+  <rect x="500" y="60" width="700" height="640" fill="#ffffff" />
+  
+  <!-- Content Editor Header -->
+  <rect x="500" y="60" width="700" height="60" fill="#edf2f7" />
+  <text x="520" y="95" font-family="Arial" font-size="18" fill="#2c5282" font-weight="bold">Lesson 1.1: Algorithm Analysis Basics</text>
+  
+  <!-- Content Editor Toolbar -->
+  <rect x="500" y="120" width="700" height="40" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Text Formatting Tools -->
+  <rect x="510" y="125" width="30" height="30" rx="5" fill="#e2e8f0" />
+  <text x="525" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">B</text>
+  
+  <rect x="545" y="125" width="30" height="30" rx="5" fill="#e2e8f0" />
+  <text x="560" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-style="italic">I</text>
+  
+  <rect x="580" y="125" width="40" height="30" rx="5" fill="#e2e8f0" />
+  <text x="600" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">H1</text>
+  
+  <rect x="625" y="125" width="40" height="30" rx="5" fill="#e2e8f0" />
+  <text x="645" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">H2</text>
+  
+  <rect x="670" y="125" width="60" height="30" rx="5" fill="#e2e8f0" />
+  <text x="700" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">List</text>
+  
+  <rect x="735" y="125" width="60" height="30" rx="5" fill="#e2e8f0" />
+  <text x="765" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Code</text>
+  
+  <rect x="800" y="125" width="70" height="30" rx="5" fill="#e2e8f0" />
+  <text x="835" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Image</text>
+  
+  <rect x="875" y="125" width="70" height="30" rx="5" fill="#e2e8f0" />
+  <text x="910" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Video</text>
+  
+  <rect x="950" y="125" width="70" height="30" rx="5" fill="#e2e8f0" />
+  <text x="985" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Quiz</text>
+  
+  <rect x="1025" y="125" width="70" height="30" rx="5" fill="#e2e8f0" />
+  <text x="1060" y="145" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Game</text>
+  
+  <!-- Main Content Area -->
+  <rect x="500" y="160" width="700" height="440" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Content Sections -->
+  <rect x="520" y="180" width="660" height="40" rx="5" fill="#ebf8ff" />
+  <text x="540" y="205" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Introduction to Algorithm Analysis</text>
+  
+  <rect x="520" y="230" width="660" height="70" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="540" y="255" font-family="Arial" font-size="14" fill="#4a5568">In this lesson, we will learn how to analyze algorithms in terms of their efficiency. We'll explore</text>
+  <text x="540" y="275" font-family="Arial" font-size="14" fill="#4a5568">the concepts of time complexity and space complexity, and how they help us compare different</text>
+  <text x="540" y="295" font-family="Arial" font-size="14" fill="#4a5568">algorithms that solve the same problem.</text>
+  
+  <!-- Code Example Section -->
+  <rect x="520" y="310" width="660" height="40" rx="5" fill="#ebf8ff" />
+  <text x="540" y="335" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Example: Linear Search Algorithm</text>
+  
+  <rect x="520" y="360" width="660" height="120" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="530" y="370" width="640" height="100" rx="3" fill="#2d3748" />
+  <text x="540" y="390" font-family="Courier New" font-size="14" fill="#a0aec0">function linearSearch(arr, target) {</text>
+  <text x="540" y="410" font-family="Courier New" font-size="14" fill="#a0aec0">    for (let i = 0; i  arr.length; i++) {</text>
+  <text x="540" y="430" font-family="Courier New" font-size="14" fill="#a0aec0">        if (arr[i] === target) return i;</text>
+  <text x="540" y="450" font-family="Courier New" font-size="14" fill="#a0aec0">    }</text>
+  <text x="540" y="470" font-family="Courier New" font-size="14" fill="#a0aec0">    return -1; // Not found</text>
+  <text x="540" y="490" font-family="Courier New" font-size="14" fill="#a0aec0">}</text>
+  
+  <!-- Game Element Section -->
+  <rect x="520" y="490" width="660" height="40" rx="5" fill="#ebf8ff" />
+  <text x="540" y="515" font-family="Arial" font-size="16" fill="#2c5282" font-weight="bold">Interactive Challenge: The Time Complexity Hunter</text>
+  
+  <rect x="520" y="540" width="660" height="50" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <rect x="530" y="550" width="30" height="30" rx="5" fill="#38b2ac" />
+  <text x="545" y="570" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">🎮</text>
+  <text x="570" y="565" font-family="Arial" font-size="14" fill="#2c7a7b" font-weight="bold">Time Complexity Hunter</text>
+  <text x="570" y="585" font-family="Arial" font-size="12" fill="#2c7a7b">Help the adventurer identify algorithms by their time complexity.</text>
+  <rect x="1050" y="550" width="120" height="30" rx="5" fill="#38b2ac" />
+  <text x="1110" y="570" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">Configure Game</text>
+  
+  <!-- Bottom Toolbar -->
+  <rect x="500" y="600" width="700" height="100" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Game Settings -->
+  <text x="520" y="625" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Game Settings:</text>
+  
+  <text x="520" y="650" font-family="Arial" font-size="12" fill="#4a5568">XP Award:</text>
+  <rect x="580" y="635" width="60" height="25" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="610" y="652" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">50</text>
+  
+  <text x="650" y="650" font-family="Arial" font-size="12" fill="#4a5568">Badge:</text>
+  <rect x="690" y="635" width="100" height="25" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="740" y="652" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Algorithm Explorer</text>
+  
+  <text x="520" y="680" font-family="Arial" font-size="12" fill="#4a5568">Unlocks:</text>
+  <rect x="580" y="665" width="120" height="25" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="640" y="682" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Assignment 1.1</text>
+  
+  <text x="720" y="680" font-family="Arial" font-size="12" fill="#4a5568">Required:</text>
+  <rect x="780" y="665" width="60" height="25" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="810" y="682" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Yes</text>
+  
+  <!-- Save/Publish Buttons -->
+  <rect x="900" y="635" width="140" height="40" rx="5" fill="#e2e8f0" />
+  <text x="970" y="660" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">Save as Draft</text>
+  
+  <rect x="1050" y="635" width="140" height="40" rx="5" fill="#38b2ac" />
+  <text x="1120" y="660" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">Publish</text>
+</svg>

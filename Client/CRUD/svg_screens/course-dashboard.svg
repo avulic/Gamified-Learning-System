@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Course Dashboard</text>
+  
+  <!-- Navigation -->
+  <rect x="0" y="60" width="200" height="640" fill="#4a5568" />
+  
+  <!-- Main Navigation Items -->
+  <rect x="0" y="60" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="92" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Course Management</text>
+  
+  <rect x="0" y="110" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="135" font-family="Arial" font-size="14" fill="#ffffff">Dashboard</text>
+  
+  <rect x="0" y="150" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="175" font-family="Arial" font-size="14" fill="#a0aec0">Course Structure</text>
+  
+  <rect x="0" y="190" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="215" font-family="Arial" font-size="14" fill="#a0aec0">Analytics</text>
+  
+  <rect x="0" y="230" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="255" font-family="Arial" font-size="14" fill="#a0aec0">Student Progress</text>
+  
+  <!-- Other Navigation Sections -->
+  <rect x="0" y="280" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="312" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">World Building</text>
+  
+  <rect x="0" y="330" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="355" font-family="Arial" font-size="14" fill="#a0aec0">World Map</text>
+  
+  <rect x="0" y="370" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="395" font-family="Arial" font-size="14" fill="#a0aec0">Module Manager</text>
+  
+  <rect x="0" y="410" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="435" font-family="Arial" font-size="14" fill="#a0aec0">Sprite Library</text>
+  
+  <rect x="0" y="450" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="475" font-family="Arial" font-size="14" fill="#a0aec0">Game Preview</text>
+  
+  <rect x="0" y="500" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="532" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Content Creation</text>
+  
+  <rect x="0" y="550" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="582" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Narrative Design</text>
+  
+  <!-- Main Content Area -->
+  <rect x="200" y="60" width="1000" height="640" fill="#ffffff" />
+  
+  <!-- Course Overview -->
+  <rect x="220" y="80" width="960" height="80" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="240" y="110" font-family="Arial" font-size="20" fill="#2c5282" font-weight="bold">Data Structures and Algorithms: The Quest for Efficiency</text>
+  <text x="240" y="140" font-family="Arial" font-size="14" fill="#4a5568">Fall Semester 2025 • 15 Weeks • 45 Students Enrolled • Last edited: Yesterday at 15:42</text>
+  
+  <!-- Quick Stats -->
+  <rect x="220" y="180" width="230" height="120" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="240" y="210" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Course Completion</text>
+  <circle cx="335" cy="250" r="40" fill="none" stroke="#e2e8f0" stroke-width="8" />
+  <path d="M 335 210 A 40 40 0 0 1 371 270" fill="none" stroke="#48bb78" stroke-width="8" />
+  <text x="335" y="255" font-family="Arial" font-size="18" text-anchor="middle" fill="#2d3748" font-weight="bold">65%</text>
+  
+  <rect x="470" y="180" width="230" height="120" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="490" y="210" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Student Engagement</text>
+  <circle cx="585" cy="250" r="40" fill="none" stroke="#e2e8f0" stroke-width="8" />
+  <path d="M 585 210 A 40 40 0 0 1 621 270" fill="none" stroke="#4299e1" stroke-width="8" />
+  <text x="585" y="255" font-family="Arial" font-size="18" text-anchor="middle" fill="#2d3748" font-weight="bold">78%</text>
+  
+  <rect x="720" y="180" width="230" height="120" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="740" y="210" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Assignments Submitted</text>
+  <circle cx="835" cy="250" r="40" fill="none" stroke="#e2e8f0" stroke-width="8" />
+  <path d="M 835 210 A 40 40 0 1 1 795 250" fill="none" stroke="#9f7aea" stroke-width="8" />
+  <text x="835" y="255" font-family="Arial" font-size="18" text-anchor="middle" fill="#2d3748" font-weight="bold">92%</text>
+  
+  <rect x="970" y="180" width="210" height="120" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="990" y="210" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Average Score</text>
+  <text x="1075" y="255" font-family="Arial" font-size="36" text-anchor="middle" fill="#2d3748" font-weight="bold">B+</text>
+  <text x="1075" y="280" font-family="Arial" font-size="14" text-anchor="middle" fill="#718096">85.7%</text>
+  
+  <!-- Course Modules Progress -->
+  <rect x="220" y="320" width="710" height="360" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="240" y="350" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Module Progress</text>
+  
+  <!-- Module 1 -->
+  <rect x="240" y="370" width="670" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="260" y="400" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module 1: Algorithmic Foundations</text>
+  <rect x="490" y="385" width="320" height="20" rx="10" fill="#edf2f7" />
+  <rect x="490" y="385" width="320" height="20" rx="10" fill="#9ae6b4" />
+  <text x="820" y="400" font-family="Arial" font-size="14" fill="#2f855a" font-weight="bold">100%</text>
+  
+  <!-- Module 2 -->
+  <rect x="240" y="430" width="670" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="260" y="460" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module 2: Data Structures Fundamentals</text>
+  <rect x="490" y="445" width="320" height="20" rx="10" fill="#edf2f7" />
+  <rect x="490" y="445" width="288" height="20" rx="10" fill="#4299e1" />
+  <text x="820" y="460" font-family="Arial" font-size="14" fill="#2c5282" font-weight="bold">90%</text>
+  
+  <!-- Module 3 -->
+  <rect x="240" y="490" width="670" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="260" y="520" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module 3: Advanced Data Structures</text>
+  <rect x="490" y="505" width="320" height="20" rx="10" fill="#edf2f7" />
+  <rect x="490" y="505" width="192" height="20" rx="10" fill="#805ad5" />
+  <text x="820" y="520" font-family="Arial" font-size="14" fill="#553c9a" font-weight="bold">60%</text>
+  
+  <!-- Module 4 -->
+  <rect x="240" y="550" width="670" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="260" y="580" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module 4: Algorithm Design Techniques</text>
+  <rect x="490" y="565" width="320" height="20" rx="10" fill="#edf2f7" />
+  <rect x="490" y="565" width="96" height="20" rx="10" fill="#fc8181" />
+  <text x="820" y="580" font-family="Arial" font-size="14" fill="#c53030" font-weight="bold">30%</text>
+  
+  <!-- Module 5 -->
+  <rect x="240" y="610" width="670" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="260" y="640" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module 5: Advanced Algorithms</text>
+  <rect x="490" y="625" width="320" height="20" rx="10" fill="#edf2f7" />
+  <rect x="490" y="625" width="32" height="20" rx="10" fill="#f6ad55" />
+  <text x="820" y="640" font-family="Arial" font-size="14" fill="#c05621" font-weight="bold">10%</text>
+  
+  <!-- Recent Activity -->
+  <rect x="950" y="320" width="230" height="360" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="970" y="350" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Recent Activity</text>
+  
+  <!-- Activity Items -->
+  <rect x="970" y="370" width="190" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="990" y="390" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Assignment Submission</text>
+  <text x="990" y="410" font-family="Arial" font-size="12" fill="#718096">Emma S. submitted "Binary Tree Implementation"</text>
+  <text x="990" y="425" font-family="Arial" font-size="12" fill="#718096">10 minutes ago</text>
+  
+  <rect x="970" y="440" width="190" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="990" y="460" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Task Published</text>
+  <text x="990" y="480" font-family="Arial" font-size="12" fill="#718096">You published "Graph Traversal Quest"</text>
+  <text x="990" y="495" font-family="Arial" font-size="12" fill="#718096">2 hours ago</text>
+  
+  <rect x="970" y="510" width="190" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="990" y="530" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module Completion</text>
+  <text x="990" y="550" font-family="Arial" font-size="12" fill="#718096">8 students completed "Data Structures"</text>
+  <text x="990" y="565" font-family="Arial" font-size="12" fill="#718096">Yesterday</text>
+  
+  <rect x="970" y="580" width="190" height="60" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="990" y="600" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Map Update</text>
+  <text x="990" y="620" font-family="Arial" font-size="12" fill="#718096">You modified "Algorithmic Forest" region</text>
+  <text x="990" y="635" font-family="Arial" font-size="12" fill="#718096">2 days ago</text>
+</svg>

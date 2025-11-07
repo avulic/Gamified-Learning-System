@@ -4,31 +4,47 @@ import { IBaseRepository } from "./interface/IBaseRepository";
 import { injectable, unmanaged } from "inversify";
 
 @injectable()
-export abstract class MongoRepository<TDomain, TDb extends Document> implements IBaseRepository<TDomain, ClientSession> {
+export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document> implements IBaseRepository<TDomain, ClientSession> {
     constructor(
-        @unmanaged() protected model: Model<TDb>, 
+        @unmanaged() protected model: Model<TDbDocument>, 
         @unmanaged() protected populateOnFind: string[] = []
     ) { }
 
     abstract toDomain(dbModel: TDb): TDomain;
-    abstract toDatabase(domainModel: Partial<TDomain>): Partial<TDb>;
+    abstract toDatabase(domainModel: TDomain): TDb;
 
-    async create(item: Partial<TDomain>, options?: { populate?: string[] }, context?: ClientSession): Promise<TDomain> {
-        const { populate = [] } = options || {};
-
-        const dbItem = this.toDatabase(item);
-        const created = await this.model.create([dbItem], { session: context });
-
-        // Populate the created document if populate options are provided
-        let populatedItem = created[0];
-        if (populate.length > 0) {
-            populatedItem = await populatedItem.populate(populate);
+    async create(item: TDomain, options?: { populate?: string[] }, session?: ClientSession): Promise<TDomain> {
+        try {
+            const { populate = [] } = options || {};
+        
+            const dbItem = this.toDatabase(item);    
+            let created;
+            if (session) {
+                // save() with session instead of create()
+                const doc = new this.model(dbItem);
+                created = await doc.save({ session });
+            } else {
+                created = (await this.model.create([dbItem]))[0];
+            }
+        
+            //console.log('Post-save created:', JSON.stringify(created, null, 2));
+        
+            let populatedItem = created;
+            if (populate.length > 0) {
+                const query = this.model.findById(created._id).populate(populate);
+                if (session) {
+                    query.session(session);
+                }
+                populatedItem = await query.exec();
+            }
+        
+            return this.toDomain(populatedItem.toObject());
+        } catch (error) {
+            throw error;
         }
-
-        return this.toDomain(populatedItem);
     }
 
-    async createMany(items: Partial<TDomain>[], context?: ClientSession): Promise<TDomain[]> {
+    async createMany(items: TDomain[], context?: ClientSession): Promise<TDomain[]> {
         const dbItems = items.map(item => this.toDatabase(item));
         const created = await this.model.insertMany(dbItems, { session: context });
         return created.map(item => this.toDomain(item.toObject()));
@@ -41,7 +57,7 @@ export abstract class MongoRepository<TDomain, TDb extends Document> implements 
             query.session(session);
         }
         const found = await query.exec();
-        return found ? this.toDomain(found as TDb) : null;
+        return found ? this.toDomain(found.toObject()) : null;
     }
 
     async findOne(query: FilterQuery<TDb>, session?: ClientSession): Promise<TDomain | null> {
@@ -50,15 +66,15 @@ export abstract class MongoRepository<TDomain, TDb extends Document> implements 
             queryBuilder.session(session);
         }
         const found = await queryBuilder.exec();
-        return found ? this.toDomain(found as TDb) : null;
+        return found ? this.toDomain(found.toObject()) : null;
     }
 
     async find(
-        filter: Partial<TDomain>,
+        filter: TDomain,
         options?: { limit?: number; skip?: number; sort?: any; populate?: string[], session?: ClientSession }
     ): Promise<TDomain[]> {
         const { limit = 0, skip = 0, sort = {}, session, populate = [] } = options || {};
-        const dbFilter = this.toDatabase(filter) as FilterQuery<TDb>;
+        const dbFilter = this.toDatabase(filter) as FilterQuery<TDb> | any;
         let query = this.model.find(dbFilter).populate(populate);
 
         if (sort) query = query.sort(sort);
@@ -67,17 +83,46 @@ export abstract class MongoRepository<TDomain, TDb extends Document> implements 
         if (session) query = query.session(session);
 
         const results = await query.exec();
-        return results.map(result => this.toDomain(result));
+        return results.map(result => this.toDomain(result.toObject()));
     }
 
-    async update(id: string, item: Partial<TDomain>, session?: ClientSession): Promise<TDomain | null> {
-        const dbItem = this.toDatabase(item);
-        const query = this.model.findByIdAndUpdate(id, dbItem as UpdateQuery<TDb>, { new: true });
-        if (session) {
-            query.session(session);
+    async update(id: string, item: TDomain, session?: ClientSession): Promise<TDomain | null> {
+        try {
+            const dbItem = this.toDatabase(item) as UpdateQuery<TDb> | any;
+            const query = this.model.findByIdAndUpdate(id, dbItem, { new: true });
+            if (session) {
+                query.session(session);
+            }
+            const updated = await query.exec();
+            return updated ? this.toDomain(updated.toObject()) : null;
+        } catch (error) {
+            throw error;
         }
-        const updated = await query.exec();
-        return updated ? this.toDomain(updated) : null;
+    }
+
+    async findByIdAndUpdate(id: string,update: Partial<TDomain> | any, options: {  session?: ClientSession,populate?: string[],new?: boolean } = {}): Promise<TDomain | null> {
+        const { populate = [], session, new: returnNew = true } = options;
+    
+        // Don't convert to DB model if it's a $set operation
+        const updateObj = update.$set 
+            ? update 
+            : { $set: this.toDatabase(update as TDomain) };
+    
+        const query = this.model.findByIdAndUpdate(
+            id, 
+            updateObj, 
+            { 
+                new: returnNew,
+                session 
+            }
+        );
+    
+        if (populate.length > 0) {
+            query.populate(populate);
+        }
+    
+        const result = await query.exec();
+        return result ? this.toDomain(result.toObject()) : null;
     }
 
     async delete(id: string, session?: ClientSession): Promise<boolean> {
@@ -89,7 +134,7 @@ export abstract class MongoRepository<TDomain, TDb extends Document> implements 
         return result.deletedCount === 1;
     }
 
-    async deleteMany(filter: Partial<TDomain>, context?: unknown): Promise<number> {
+    async deleteMany(filter: TDomain, context?: unknown): Promise<number> {
         throw new Error("Method not implemented.");
     }
 

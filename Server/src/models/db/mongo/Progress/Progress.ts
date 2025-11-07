@@ -1,7 +1,8 @@
+import { ProgressType } from "@/models/enums";
 import mongoose, { Document, Schema, Types } from "mongoose";
 
 
-export interface IUserProgressDb extends Document {
+export interface IUserProgressDb {
     _id: Types.ObjectId;
     userId: Types.ObjectId;
     courseId: Types.ObjectId;
@@ -86,11 +87,12 @@ const userProgressSchema = new Schema({
 
 userProgressSchema.index({ userId: 1, courseId: 1 });
 
-export const UserProgressDb = mongoose.model<IUserProgressDb>('UserProgress', userProgressSchema);
+export type UserProgressDocument = Document & IUserProgressDb;
+export const UserProgressDb = mongoose.model<UserProgressDocument>('UserProgress', userProgressSchema);
 
 
 
-export interface ITaskProgressDb extends Document {
+export interface ITaskProgressDb  {
     _id: Types.ObjectId;
     userId: Types.ObjectId;
     assignmentId: Types.ObjectId;
@@ -101,13 +103,21 @@ export interface ITaskProgressDb extends Document {
 
 const taskProgressSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    assignmentId: { type: Schema.Types.ObjectId, ref: 'Assignment', required: true },
     taskId: { type: Schema.Types.ObjectId, ref: 'Task', required: true },
-    completed: { type: Boolean, default: false },
-    earnedXP: { type: Number, default: 0 }
+    assignmentId: { type: Schema.Types.ObjectId, ref: 'Assignment', required: true },
+    status: { type: String, enum: Object.values(ProgressType), default: ProgressType.NOT_STARTED },
+    attempts: [{
+        submissionId: { type: Schema.Types.ObjectId, ref: 'Submission' },
+        score: Number,
+        submittedAt: Date,
+        status: String,
+    }],
+    bestScore: Number,
+    lastAttemptAt: Date,
+    completedAt: Date,
 });
 
-taskProgressSchema.index({ userId: 1, assignmentId: 1, taskId: 1 });
 
-export const TaskProgressDb = mongoose.model<ITaskProgressDb>('TaskProgress', taskProgressSchema);
 
+export type TaskProgressDocument = Document & IUserProgressDb;
+export const TaskProgress = mongoose.model<TaskProgressDocument>('TaskProgress', taskProgressSchema);

@@ -1,39 +1,39 @@
-'use Strict'
+
 import { Request, Response } from 'express';
 
 import Logger from '../utils/logger';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '@/types';
+import { ILogger, TYPES } from '@/types';
 import ModuleService from '@/services/ModuleService';
-import { IModule } from '@/models/app';
-import { CreateModuleDto, ModuleResponseDto } from '@/models/dto';
-import { ModuleMapper } from '@/utils/ModelMapper';
+import { Module } from '@/models/app';
+import { RequestDto, ResponseDto } from '@/models/dto';
+
+import { CreateModuleDto } from '@/models/dto/request';
+import { ModuleResponseDto } from '@/models/dto/response';
 
 @injectable()
 class ModuleController {
     constructor(
         @inject(TYPES.ModuleService) private moduleService: ModuleService,
-        @inject(TYPES.Logger) private logger: Logger
+        @inject(TYPES.Logger) private logger: ILogger
     ) { }
 
-    // Function to create a new Module
     public createModule = async (req: Request, res: Response): Promise<void> => {
         try {
             const newModuleDTO: CreateModuleDto = req.body;
-            const newModule: IModule = ModuleMapper.createDtoToDomain(newModuleDTO);
+            const newModule: Module = newModuleDTO as unknown as Module;
 
             const createdModule = await this.moduleService.createModule(newModule);
-            const response: ModuleResponseDto = ModuleMapper.toResponseDto(createdModule);
+            const response: ModuleResponseDto = createdModule as unknown as ModuleResponseDto;
             res.status(201).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to create Module' + err });
         }
     }
 
-    // Function to create a new Modules
     // public createModules = async (req: Request, res: Response): Promise<void> => {
     //     try {
-    //         const newModules: IModule[] = req.body;
+    //         const newModules: Module[] = req.body;
     //         console.log(req.body)
     //         const createdModules = await this.ModuleService.createModules(newModules);
     //         res.status(201).json(createdModules);
@@ -42,19 +42,17 @@ class ModuleController {
     //     }
     // }
 
-    // Function to get all Modules
     public getAllModules = async (req: Request, res: Response): Promise<void> => {
         try {
             const modules = await this.moduleService.getAllModules();
-            const response: ModuleResponseDto[] = modules.map(ModuleMapper.toResponseDto);
-            
+            const response: ModuleResponseDto[] = modules as unknown as ModuleResponseDto[];
+
             res.status(200).json(response);
         } catch (err) {
             res.status(500).json({ error: 'Failed to fetch Modules' });
         }
     }
 
-    // Function to get a Module by ID
     public getModuleById = async (req: Request, res: Response): Promise<void> => {
         try {
             const moduleId = req.params.id;
@@ -63,7 +61,7 @@ class ModuleController {
                 res.status(404).json({ error: 'Module not found' });
                 return;
             }
-            const response: ModuleResponseDto = ModuleMapper.toResponseDto(module);
+            const response: ModuleResponseDto = module as unknown as ModuleResponseDto;
 
             res.status(200).json(response);
         } catch (err) {
@@ -71,19 +69,18 @@ class ModuleController {
         }
     }
 
-    // Function to update a Module
     public updateModule = async (req: Request, res: Response): Promise<void> => {
         try {
             const moduleId = req.params.id;
             const updatedModuleDTO: CreateModuleDto = req.body;
-            const moduleData: Partial<IModule> = ModuleMapper.updateDtoToDomain(updatedModuleDTO);
+            const moduleData: Module = updatedModuleDTO as unknown as Module;
 
             const updatedModule = await this.moduleService.updateModule(moduleId, moduleData);
             if (!updatedModule) {
                 res.status(404).json({ error: 'Module not found' });
                 return;
             }
-            const response: ModuleResponseDto = ModuleMapper.toResponseDto(updatedModule);
+            const response: ModuleResponseDto = updatedModule as unknown as ModuleResponseDto;
 
             res.status(200).json(response);
         } catch (err) {
@@ -91,7 +88,6 @@ class ModuleController {
         }
     }
 
-    // Function to delete a Module
     public deleteModule = async (req: Request, res: Response): Promise<void> => {
         try {
             const moduleId = req.params.id;
@@ -107,7 +103,21 @@ class ModuleController {
         }
     }
 
-    
+    public deleteLessonFromModule = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const lessonId = req.params.lessonId;
+            const deletedModule = await this.moduleService.deleteLessonFromModule(lessonId);
+
+            if (!deletedModule) {
+                res.status(404).json({ error: 'Module not found' });
+                return;
+            }
+            res.status(200).json({ message: 'Module deleted successfully' });
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to delete Module' });
+        }
+    }
+
 }
 
 export default ModuleController;

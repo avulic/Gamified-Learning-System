@@ -47,41 +47,6 @@
                 </div>
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/2 px-3">
-                        <Field name="startDate" v-model="editableCourse.startDate" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="startDate">Start Date</label>
-
-                                <Calendar id="startDate" v-model="editableCourse.startDate" v-bind="field"
-                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="startDate" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                    <div class="md:w-1/2 px-3">
-                        <Field name="endDate" v-model="editableCourse.endDate" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="endDate">End Date</label>
-
-                                <Calendar id="endDate" v-model="editableCourse.endDate" v-bind="field"
-                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="endDate" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-1/2 px-3">
-                        <Field name="tags" v-model="editableCourse.tags" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="tags">Tags</label>
-
-                                <Chips id="tags" v-model="editableCourse.tags" :class="{ 'p-invalid': errorMessage }"
-                                    :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="tags" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                    <div class="md:w-1/2 px-3">
                         <Field name="category" v-slot="{ field, errorMessage }">
                             <span class="p-float-label">
                                 <label for="category">Categories</label>
@@ -132,15 +97,16 @@ import { ref, computed, onMounted, watch, watchEffect } from 'vue';
 import { useForm, Field, Form, SubmissionHandler, ErrorMessage } from 'vee-validate';
 import { array, boolean, date, number, object, string } from "yup";
 
-import type Course from '@/types/Course';
+
 import type UserDetails from '@/types/User/UserDetails';
 import CourseService from '@/services/CourseService';
 import UserService from '@/services/UserService';
 
-import { RoleEnum } from '@/types/Role'
 import User from '@/types/User/User';
+import { Course } from '@/types';
+import { RoleEnum } from '@/types/enums';
 const props = defineProps<{
-    editableCourse: Course | null;
+    editableCourse: Course | undefined;
 }>();
 
 
@@ -159,16 +125,17 @@ const editableCourse = ref<Course>({
     title: "",
     description: "",
     instructors: [],
-    enrolledStudents: [],
     modules: [],
-    startDate: new Date(),
-    endDate: new Date(),
     isPublished: false,
-    tags: [],
     categories: [],
     xpReward: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    assignments: [],
+    enrolledStudentCount: 10,
+    enrollmentCode: "das",
+    materials: [],
+    lastUpdated: new Date(),
+    prerequisites: [],
+    version: 1
 });
 
 const categoryOptions = ref([
@@ -206,7 +173,7 @@ const schema = object({
 
 onMounted(async () => {
     try {
-        const instructors = await UserService.getUsersByRoles([RoleEnum.Professor]);
+        const instructors = await UserService.getUsersByRoles([RoleEnum.PROFESSOR]);
         instructorOptions.value = instructors.map(instructor => ({
             id: instructor.id, name: `${instructor.name}`
         }));
@@ -228,16 +195,17 @@ watchEffect(() => {
             title: "",
             description: "",
             instructors: [],
-            enrolledStudents: [],
             modules: [],
-            startDate: new Date(),
-            endDate: new Date(),
             isPublished: false,
-            tags: [],
             categories: [],
             xpReward: 0,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            assignments: [],
+            enrolledStudentCount: 10,
+            enrollmentCode: "das",
+            materials: [],
+            lastUpdated: new Date(),
+            prerequisites: [],
+            version: 1
         };
         showEdit.value = false;
         isEditing.value = true;

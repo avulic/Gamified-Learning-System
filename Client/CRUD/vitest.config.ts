@@ -9,9 +9,9 @@ export default defineViteConfig({
     ...((viteConfig as UserConfig).test || {}),
     environment: 'jsdom',
     exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
-      root: fileURLToPath(new URL('./', import.meta.url)),
-      transformMode: {
-        web: [/\.[jt]sx$/]
-      }
+    root: fileURLToPath(new URL('./', import.meta.url)),
+    transformMode: {
+      web: [/\.[jt]sx$/]
     }
-  } as UserConfig)
+  }
+} as UserConfig)

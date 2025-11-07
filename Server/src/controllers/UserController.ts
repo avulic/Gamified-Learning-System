@@ -1,62 +1,64 @@
-'use Strict'
-import { Request, Response } from 'express';
+
+import { NextFunction, Request, Response } from 'express';
 import UserService from '../services/UserService';
 import Logger from '../utils/logger';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '@/types';
-import { CreateUserDto, UserResponseDto } from '@/models/dto';
-import { UserMapper } from '@/utils/ModelMapper';
-import { IUser } from '@/models/app';
-import { Roles } from '@/models/enums';
+import { ILogger, TYPES } from '@/types';
+import { } from '@/models/dto';
 
+import { Course, User } from '@/models/app';
+import { Roles } from '@/models/enums';
+import { CreateUserDto } from '@/models/dto/request';
+import { UserResponseDto } from '@/models/dto/response';
+import { userMapper } from '@/utils/mapper/autoMapper';
 @injectable()
 class UserController {
     constructor(
         @inject(TYPES.UserService) private userService: UserService,
-        @inject(TYPES.Logger) private logger: Logger
+        @inject(TYPES.Logger) private logger: ILogger
     ) { }
 
-    public createUser = async (req: Request, res: Response): Promise<void> => {
+    public createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const requestDTO: CreateUserDto = req.body;
-            const newUser: IUser = UserMapper.createDtoToDomain(requestDTO);
+            const newUser: User = userMapper.fromRequest(requestDTO);
 
-            const createdUser: IUser = await this.userService.createUser(newUser);
-            const response: UserResponseDto = UserMapper.toResponseDto(createdUser);
+            const createdUser: User = await this.userService.createUser(newUser);
+            const response: UserResponseDto = createdUser as unknown as UserResponseDto;
 
             res.status(201).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to create user' + err });
+            next(err);
         }
     }
 
     //TO-DO: dont return all users
-    public createUsers = async (req: Request, res: Response): Promise<void> => {
+    public createUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const requestDTO: CreateUserDto[] = req.body;
-            const newUsers: IUser[] = requestDTO.map(UserMapper.createDtoToDomain);
+            const newUsers: User[] = requestDTO as unknown as User[];
 
-            const createdUsers: IUser[] = await this.userService.createUsers(newUsers);
-            const response: UserResponseDto[] = createdUsers.map(UserMapper.toResponseDto);
+            const createdUsers: User[] = await this.userService.createUsers(newUsers);
+            const response: UserResponseDto[] = createdUsers as unknown as UserResponseDto[];
 
             res.status(20).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to create users' + err });
+            next(err);
         }
     }
 
-    public getAllUsers = async (req: Request, res: Response): Promise<void> => {
+    public getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const users: IUser[] = await this.userService.getAllUsers();
-            const response: UserResponseDto[] = users.map(UserMapper.toResponseDto);
-            
+            const users: User[] = await this.userService.getAllUsers();
+            const response: UserResponseDto[] = users as unknown as UserResponseDto[];
+
             res.status(200).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to fetch users' });
+            next(err);
         }
     }
 
-    public getUsersByRoles = async (req: Request, res: Response): Promise<void> => {
+    public getUsersByRoles = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const roles = req.query.roles;
 
@@ -82,48 +84,61 @@ class UserController {
                 validatedRoles.push(Roles[role as keyof typeof Roles]);
             }
 
-            const users: IUser[] = await this.userService.getUsersByRoles(validatedRoles);
-            const response: UserResponseDto[] = users.map(UserMapper.toResponseDto);
+            const users: User[] = await this.userService.getUsersByRoles(validatedRoles);
+            const response: UserResponseDto[] = users as unknown as UserResponseDto[];
 
-            res.status(200).json(response); 
+            res.status(200).json(response);
 
         } catch (err) {
             console.error('Error fetching users by roles:', err);
-            res.status(500).json({ error: 'Failed to fetch users by roles' });
+            next(err);
         }
     }
 
-    public getUserById = async (req: Request, res: Response): Promise<void> => {
+    public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = req.params.id;
-            const user: IUser = await this.userService.getUserById(userId);
+            const user: User = await this.userService.getUserById(userId);
             // if (!user) {
             //     res.status(404).json({ error: 'User not found' });
             //     return;
             // }
-            const response: UserResponseDto = UserMapper.toResponseDto(user);
 
-            res.status(200).json(response);
+
+            res.status(200).json(user);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to fetch user' });
+            next(err);
         }
     }
 
-    public updateUser = async (req: Request, res: Response): Promise<void> => {
+    public getUserEnrolledCourses = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const userId = req.params.userId;
+            const user: Course[] = await this.userService.getUserEnrolledCourses(userId);
+
+            res.status(200).json(user);
+        } catch (err) {
+            console.error('Error fetching users by roles:', err);
+            next(err);
+        }
+    }
+
+    public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = req.params.id;
-            const updatedUserData: Partial<IUser> = req.body;
-            const updatedUser = await this.userService.updateUser(userId, updatedUserData);
+            const updatedUserDto: CreateUserDto = req.body;
+            const user = userMapper.fromRequest(updatedUserDto);
+            const updatedUser = await this.userService.updateUser(userId, user);
 
-            const response: UserResponseDto = UserMapper.toResponseDto(updatedUser);
+            const response: UserResponseDto = updatedUser as unknown as UserResponseDto;
 
             res.status(200).json(response);
         } catch (err) {
-            res.status(500).json({ error: 'Failed to update user' });
+            next(err);
         }
     }
 
-    public deleteUser = async (req: Request, res: Response): Promise<void> => {
+    public deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = req.params.id;
             const userDeleted = await this.userService.deleteUser(userId);
@@ -134,32 +149,9 @@ class UserController {
             }
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (err) {
-            res.status(500).json({ error: 'Failed to delete user' });
+            next(err);
         }
     }
-
-
-    public signInUser = async (req: Request, res: Response) => {
-        try {
-            const { username, password } = req.body;
-
-            const userSigned = await this.userService.signIn(username, password);
-
-            if (!userSigned) {
-                res.status(401).json({ error: 'Invalid credentials' });
-                return;
-            }
-            res.status(200).json(userSigned);
-        } catch (e) {
-            res.status(401).json({ error: 'Invalid credentials' });
-            return;
-        }
-    };
-
-    public signUpUser = async (req: Request, res: Response) => {
-        this.createUser(req, res);
-    };
-
 }
 
 export default UserController;

@@ -35,9 +35,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
-import QuestionDetails from './QuestionDetails.vue';
-import type Question from '@/types/task/question/Question';
 import QuestionService from '@/services/QuestionService';
+import { Question } from '@/types';
 
 const toast = useToast();
 const questions = ref<Question[]>([]);
@@ -48,8 +47,8 @@ const selectedQuestion = ref<Question | null>(null);
 const filteredQuestions = computed(() => {
     if (!searchTerm.value) return questions.value;
     return questions.value.filter(q =>
-        q.text.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-        q.type.toLowerCase().includes(searchTerm.value.toLowerCase())
+        q.question.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+        q.question.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
 });
 

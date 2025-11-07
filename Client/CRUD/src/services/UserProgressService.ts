@@ -1,5 +1,7 @@
-import { get, post, put, patch } from '@/services/ApiService';
-import { UserProgress, CourseProgress, ModuleProgress, LessonProgress, AssignmentProgress, TaskProgress, TaskStatus } from '@/types/Progression';
+import { UserProgress, CourseProgress, ModuleProgress, LessonProgress, AssignmentProgress, TaskProgress } from '@/types/Progression';
+import {apiService} from '@/services/ApiService';
+import { TaskStatus } from '@/types/enums';
+const { get, post, patch } = apiService;
 
 class UserProgressService {
     public async getUserProgress(userId: string): Promise<UserProgress> {

@@ -4,56 +4,65 @@ import type UserSignUp from '@/types/User/UserDetails';
 import type User from '@/types/User/User';
 
 import jwt_decode from 'jwt-decode';
-import type { Role, RoleEnum } from '@/types/Role';
+import type { Role } from '@/types/Role';
 import { BehaviorSubject } from 'rxjs';
-import { post } from '@/services/ApiService';
-import type { ApiResponse } from '@/types/respons/Response';
+import { apiService } from '@/services/ApiService';
+import { AuthError, AuthResponse, type ApiResponse } from '@/types/respons/Response';
 import { JwtToken } from '@/types/JwtToken';
+import { RoleEnum } from '@/types/enums';
 
 class AuthService {
-    currentUserSubject = new BehaviorSubject<User | null>(null);
+    private currentUserSubject = new BehaviorSubject<User | null>(null);
     private TOKEN_KEY = 'auth_token';
 
-    public async signIn(user: UserSignIn): Promise<any> {
+    public async signIn(user: UserSignIn): Promise<AuthResponse<JwtToken>> {
         try {
-            const response = await post<User>('/signin', user);
+            const response = await apiService.post<JwtToken>('/signin', user);
             
-            return response.data;
-        } catch (error) {
-            //console.error('Error during login:', error);
-            throw new Error('Failed to login. Please check your credentials and try again.');
+            if (!response.data) {
+                throw new AuthError('Invalid response from server', response.status);
+            }
+
+            this.setToken(response.data);
+
+            return {
+                success: true,
+                data: response.data,
+                message: 'Successfully signed in',
+                status: response.status
+            };
+        } catch (error: any) {
+            const errorMessage = error.status === 500
+                ? 'Server error occurred. Please try again later.'
+                : error.message || 'Failed to login. Please check your credentials and try again.';
+            
+            throw new AuthError(errorMessage, error.status || 500);
         }
     }
 
-    public async signUp(user: UserSignUp): Promise<boolean> {
+    public async signUp(user: UserSignUp): Promise<AuthResponse<void>> {
         try {
-            const response: ApiResponse = await post<UserSignUp>('/signup', user);
-
-            // Assuming a successful response has a status code of 200 or 201
-            // You might need to adjust this based on your API's specific response structure
-            if (response.status === 200 || response.status === 201) {
-                console.log('User signed up successfully');
-                return true;
-            } else {
-                console.log('Signup failed:', response.data);
-                return false;
-            }
-        } catch (error) {
-            console.error('Error during signup:', error);
-            // You might want to handle different types of errors differently
-            // For now, we'll return false for any error
-            return false;
+            const response = await apiService.post('/signup', user);
+            
+            return {
+                success: true,
+                message: 'Registration successful! You can now log in.',
+                status: response.status
+            };
+        } catch (error: any) {
+            const errorMessage = error.status === 500
+            ? 'Server error occurred. Please try again later.'
+            : error.message || 'Failed to register. Please try again.';
+        
+        throw new AuthError(errorMessage, error.status || 500);
         }
     }
 
 
     public setToken(token: JwtToken | string): void {
-        if (typeof token === 'string') {
-            localStorage.setItem(this.TOKEN_KEY, token);
-        } else {
-            localStorage.setItem(this.TOKEN_KEY, token.value);
-        }
-        this.getUserFromLocalStorage();
+        const tokenValue = typeof token === 'string' ? token : token.value;
+        localStorage.setItem(this.TOKEN_KEY, tokenValue);
+        this.loadUserFromLocalStorage();
     }
 
     public getToken(): string | null {
@@ -62,31 +71,39 @@ class AuthService {
 
     public removeToken(): void {
         localStorage.removeItem(this.TOKEN_KEY);
+        this.currentUserSubject.next(null);
     }
 
-    public getUserFromLocalStorage(): void {
-        var userData = {} as User;
+    public loadUserFromLocalStorage(): void {
         const token = this.getToken();
-        if (!token) return;
+        if (!token) {
+            this.currentUserSubject.next(null);
+            return;
+        }
 
         try {
-            const tokenData:JwtToken = jwt_decode(token);
-            userData.token = tokenData;
+            const userData = jwt_decode<User>(token);
             this.currentUserSubject.next(userData);
         } catch (error) {
             console.error('Error decoding token:', error);
-            this.removeToken(); // Remove invalid token
-            return;
+            this.removeToken();
         }
     }
 
     public getCurentUserValues(): User | null {
-        return this.currentUserSubject.value
+        const user = this.currentUserSubject.value
+        if (!user) {
+            return null;
+        }
+        return user;
+    }
+
+    public getCurrentUserObservable() {
+        return this.currentUserSubject.asObservable();
     }
 
     public userLogOut(): void {
-        localStorage.removeItem('token');
-        this.currentUserSubject.next(null);
+        this.removeToken()
     }
 
     public currentUserHasPermission(requiredRoles: Array<Role | RoleEnum>): boolean {
@@ -109,18 +126,16 @@ class AuthService {
     public isAuthenticated(): boolean {
         const user:User|null = this.getCurentUserValues();
         if (!user) return false;
+        if (!user.exp) return false;
 
-        try {
-            const currentTime = Date.now() / 1000;
+        const currentTime = Date.now() / 1000;
+        const isValid = user.exp > currentTime;
 
+        if (!isValid) {
+            this.removeToken();
+        }      
 
-            return !!user.token.exp && user.token.exp > currentTime;
-
-        } catch (error) {
-            console.error('Error decoding token:', error);
-            this.removeToken(); // Remove invalid token
-            return false;
-        }
+        return isValid;
     }
 }
 

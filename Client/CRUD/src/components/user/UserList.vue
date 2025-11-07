@@ -18,7 +18,7 @@
             <Column field="email" header="Email" :sortable="true"></Column>
             <Column field="roles" header="Roles">
                 <template #body="slotProps">
-                    <Chip v-for="role in slotProps.data.roles" :key="role" :label="role" class="mr-2" />
+                    <Chip v-for="role in slotProps.data.roles" :key="role.id" :label="role.name" class="mr-2" />
                 </template>
             </Column>
             <Column header="Actions">
@@ -31,7 +31,7 @@
         </DataTable>
 
         <Dialog v-model:visible="showModal" :style="{}" header="User Details" :modal="true" class="p-fluid">
-            <Details :currentUser="null" @onSaveUser="confirm1()" @onDeleteUser="confirmDeleteUser()"></Details>
+            <Details :currentUser="user" @onSaveUser="confirm1()" @onDeleteUser="confirmDeleteUser()"></Details>
         </Dialog>
 
         <ConfirmDialog></ConfirmDialog>
@@ -48,13 +48,11 @@ import * as yup from 'yup';
 import UserService from '@/services/UserService';
 import type UserDetails from '@/types/User/UserDetails';
 import Details from '@/components/user/Details.vue';
-import { RoleEnum, isValidRole } from '@/types/Role';
-
-
+import { RoleEnum } from '@/types/enums';
+import { isValidRole } from '@/types/Role';
 
 const toast = useToast();
 let confirm = useConfirm();
-
 
 
 const users = ref<UserDetails[]>([]);
@@ -64,8 +62,8 @@ const user = ref<UserDetails>({
     lastName: '',
     username: '',
     email: '',
-    password: '',
     roles: [""],
+    profilePicture: ''
 });
 const selectedUsers = ref();
 const showModal = ref(false);
@@ -99,7 +97,8 @@ onMounted(async () => {
 async function loadUsers() {
     loading.value = true;
     try {
-        users.value = await UserService.getAllUsers() as any;
+        users.value = await UserService.getAllUsers();
+        
     } catch (error) {
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load users', life: 3000 });
     } finally {
@@ -108,7 +107,7 @@ async function loadUsers() {
 }
 
 function openNewUserModal() {
-    user.value = { id: '', name: '', lastName: '', username: '', email: '', password: '', roles: [""] };
+    user.value = { id: '', name: '', lastName: '', username: '', email: '', roles: [""], profilePicture: '' };
     showModal.value = true;
 }
 
@@ -159,7 +158,7 @@ async function deleteUser(id: string) {
 }
 
 function editUser(editUser: UserDetails) {
-    user.value = { ...editUser, password: '' }; // Clear password when editing
+    user.value = { ...editUser }; 
     showModal.value = true;
 }
 
@@ -182,5 +181,5 @@ async function saveUser() {
 </script>
 
 <style scoped>
-/* Add any additional component-specific styles here */
+
 </style>

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import CourseController from '../controllers/CourseController';
 import { authJwt } from '../middlewares/authJwt';
 import {  authorizeRoles } from '../middlewares/checkRole';
@@ -12,13 +12,15 @@ import { asyncHandler } from '../utils/asyncHandler';
      *   description: Operations related to Course
      */
 export default class CourseRoute {
-    public router = express.Router();
+    public router: Router = Router();
 
     constructor(private courseController: CourseController) {
         this.setRoutes();
     }
 
     setRoutes() {
+
+        this.router.post('/import', asyncHandler(this.courseController.importCourse));
 
         /**
          * @swagger
@@ -64,6 +66,8 @@ export default class CourseRoute {
          */
         this.router.get('/courses', asyncHandler(this.courseController.getAllCourses));
 
+        this.router.get('/courses/full/:id', asyncHandler(this.courseController.getCourseByIdFull));
+
         /**
          * @swagger
          * /Courses/{id}:
@@ -88,6 +92,8 @@ export default class CourseRoute {
          *         description: Course not found
          */
         this.router.get('/courses/:id', asyncHandler(this.courseController.getCourseById));
+
+        this.router.get('/courses/instructor/:instructorId', asyncHandler(this.courseController.getCoursesByInstructor));
 
         /**
          * @swagger

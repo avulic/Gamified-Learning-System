@@ -1,99 +1,73 @@
-import MultiChoice from "./question/MultiChoise";
-import {Question} from "./question/Question";
-import { ProgressTypeEnum } from "../Progression";
-import { BaseContent } from "../BaseContent";
-import Quiz from "../quiz/Quiz";
+import { ProgressTypeEnum,TaskTypeEnum } from "@/types/enums";
+import { Question } from "./Question";
 
-export enum TaskTypeEnum {
-    MULTI_CHOICE = "multi_choice",
-    QUESTION = 'question',
-    QUIZ = 'quiz',
-    FILE_UPLOAD = 'file_upload',
-    TEXT = 'text'
+
+
+export class BaseTask {
+    id?: string;
+    title!: string;
+    description!: string;
+    taskType!: TaskTypeEnum;
+    status!: ProgressTypeEnum;
+    points!: number;
+    order!: number;
+    xpReward!: number;
+    requiredForCompletion!: boolean;
+    dueDate!: Date;
+    assignmentId!: string;
+    prerequisites?: string[];
+    maxAttempts?: number;
 }
 
-// Base Task Interface
-export interface BaseTask {
-    id: string;
-    assignmentId: string;
-    taskType: TaskTypeEnum;
-    status: ProgressTypeEnum;
-    dueDate?: Date;
-    title: string;
-    description: string;
-    xpReward: number;
-    requiredForCompletion: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+// File Upload Task Interface
+export class FileUploadTaskContent {
+    allowedFileTypes!: string[];
+    maxFileSize!: number;
 }
 
-
-// export interface Task {
-//     assignmentId: string;
-//     type: TaskTypeEnum;
-//     status: ProgressTypeEnum;
-//     dueDate?: Date;
-//     weight: number; // Percentage weight in the assignment's total score
-//     submissionSettings?: SubmissionSettings | null;
-    
-//     allowedFileTypes?: string[];
-//     maxFileSize?: number;
-//     dependencies?: string[];
-
-//     requiredForCompletion: boolean;
-//     content?: TaskContent[] | null;
-// }
-
-export interface SubmissionSettings {
-    required: boolean;
-    attemptsAllowed: number;
-    submissionType: 'file' | 'text' | 'code' | 'choice';
-    allowLateSubmissions: boolean;
-    latePenalty?: number; // Percentage penalty for late submissions
+export class FileUploadTask extends BaseTask {
+    taskType!: TaskTypeEnum.FILE_UPLOAD;
+    content!: FileUploadTaskContent;
 }
 
-
-
-// Quiz Content
-export interface TextContent {
-    questions: Question[];
-    minWords?: number;
-    maxWords?: number;
+// Question Task Interface
+export class QuestionTask extends BaseTask {
+    taskType!: TaskTypeEnum.QUESTION;
+    content!: Question;
 }
 
-interface FileUploadContent {
-    type: 'fileUpload';
-    allowedFileTypes: string[];
-    maxFileSize: number;
+// Code Task Interface
+export class CodeTestCase {
+    input!: string;
+    expectedOutput!: string;
+    isHidden?: boolean;
 }
 
-interface TestCase {
-    input: string;
-    expectedOutput: string;
+export class CodeTaskContent {
+    question?: string;
+    language!: string;
+    initialCode?: string;
+    testCases!: CodeTestCase[];
 }
 
-
-
-export interface CodeSubmissionTask extends BaseTask {
-    language: string;
-    testCases?: TestCase[];
+export class CodeTask extends BaseTask {
+    taskType!: TaskTypeEnum.CODE;
+    content!: CodeTaskContent;
 }
 
-// Other task types (for completeness)
-export interface TextTask extends BaseTask {
-    content: TextContent[];
-    estimatedReadTime: number;
+// Quiz Task Interface
+export class QuizTaskContent {
+    questions!: Question[];
+    timeLimit?: number;
+    passingScore?: number;
+    maxAttempts?: number;
 }
 
-export interface UploadTask extends BaseTask {
-    content: FileUploadContent;
-    dueDate: Date;
-    submissionSettings?: SubmissionSettings | null;
+export class QuizTask extends BaseTask {
+    taskType!: TaskTypeEnum.QUIZ;
+    content!: QuizTaskContent;
 }
 
-// Union type for all task types
-type Task = Quiz | TextTask | UploadTask;
+// Combined Task Type
+export type Task = FileUploadTask | QuestionTask | CodeTask | QuizTask;
 
-
-
-export default Task;

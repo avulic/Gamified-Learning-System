@@ -27,6 +27,10 @@ import ModuleController from "./controllers/ModuleController";
 import ModuleRoute from "./routes/ModuleRoute";
 import { ProgressController } from "./controllers/ProgressController";
 import ProgressRoute from "./routes/ProgressRoutes";
+import TaskRoute from "./routes/TaskRouts";
+import TaskController from "./controllers/TaskController";
+import SubmissionController from "./controllers/SubmissionController";
+import SubmissionRoute from "./routes/SubmissionRoutes";
 
 
 
@@ -45,10 +49,14 @@ function setConfig(app: Application) {
     app.use(express.urlencoded({ limit: "50mb", extended: true }));
     app.use(cors());
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-    app.use(errorHandler);
+    
 }
 
 function setRoutes(app: Application) {
+    const authController = container.get<AuthController>(TYPES.AuthController);
+    const authRoute = new AuthRoute(authController);
+    app.use("/api", authRoute.router);
+    
     const userController = container.get<UserController>(TYPES.UserController);
     const userRoute = new UserRoute(userController);
     app.use("/api", userRoute.router);
@@ -56,6 +64,10 @@ function setRoutes(app: Application) {
     const assignmentController = container.get<AssignmentController>(TYPES.AssignmentController);
     const assignmentRoute = new AssignmentRoute(assignmentController);
     app.use("/api", assignmentRoute.router);
+
+    const taskController = container.get<TaskController>(TYPES.TaskController);
+    const taskRoute = new TaskRoute(taskController);
+    app.use("/api", taskRoute.router);
 
     const courseController = container.get<CourseController>(TYPES.CourseController);
     const courseRoute = new CourseRoute(courseController);
@@ -69,8 +81,9 @@ function setRoutes(app: Application) {
     const progressRoute = new ProgressRoute(progressController);
     app.use("/api/progress", progressRoute.router);
 
+    const submissionController = container.get<SubmissionController>(TYPES.SubmissionController);
+    const submissionRoute = new SubmissionRoute(submissionController);
+    app.use("/api", submissionRoute.router);
 
-    const authController = container.get<AuthController>(TYPES.AuthController);
-    const authRoute = new AuthRoute(authController);
-    app.use("/api", authRoute.router);
+    app.use(errorHandler);
 }

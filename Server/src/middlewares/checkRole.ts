@@ -5,7 +5,7 @@ import { UnauthorizedError } from "../models/app/Errors/UnauthorizedError";
 import { CustomRequest } from './authJwt';
 import UserService from '../services/UserService';
 import { Roles } from '../models/enums';
-import User, { IUserDb } from '@/models/db/mongo/User';
+import User, { IUserDb } from '@/models/db/mongo/User.db';
 
 
 
@@ -22,7 +22,7 @@ export const authorizeRoles = (roles: Roles[]) => {
                     throw new UnauthorizedError("User roles not found");
                 }
     
-                const hasAuthorizedRole = user.roles.some(role => roles.includes(role as Roles));
+                const hasAuthorizedRole = user.roles.some(role => roles.includes(role.name as Roles));
                 if (!hasAuthorizedRole) {
                     throw new ForbiddenError("Insufficient permissions");
                 }

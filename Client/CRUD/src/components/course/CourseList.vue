@@ -14,7 +14,7 @@
             </template>
         </Toolbar>
 
-        <DataTable :value="courses" dataKey="id" :paginator="true" :rows="10" :filters="filters"
+        <DataTable :value="courses" dataKey="id" :paginator="true" :rows="10" :filters="filters" :loading="loading"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             :rowsPerPageOptions="[5, 10, 25]"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products">
@@ -45,7 +45,7 @@
             <Column field="startDate" header="Start" sortable filterField="date" dataType="date"
                 style="min-width: 10rem">
                 <template #body="{ data }">
-                    {{ formatDate(data.startDate) }}
+                    {{ data.startDate }}
                 </template>
                 <template #filter="{ filterModel }">
                     <Calendar v-model="filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy"
@@ -63,13 +63,16 @@
     </div>
 
 
-    <Dialog v-model:visible="showModal" :style="{ width: 'auto' }" header="User Details" :modal="true" class="p-fluid">
-        <Details :editable-course="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
+    <Dialog v-model:visible="showModal" :style="{ width: 'auto' }" header="Course Details" :modal="true" class="p-fluid">
+        <!-- <Details :editable-course="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
             @onEditCourse="saveCourse">
+        </Details> -->
+        <Details :course="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
+            @onEditCourse="saveCourse" :isEditable="true">
         </Details>
     </Dialog>
 
-    <ConfirmDialog></ConfirmDialog>
+
 
 
 </template>
@@ -78,26 +81,34 @@
 import { ref, onMounted, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import type { Course } from '@/types/Course';
+import CourseService from '@/services/CourseService';
+//import Details from '@/components/course/Details.vue'
+import Details from '@/components/course/CourseDetailsProfesor.vue'
+import { FilterMatchMode } from 'primevue/api';
+import { useRoleAccess } from '@/composables/useRoleAccess'
+import { useCourseManagement } from '@/composables/useCourseManagement';
 
 const toast = useToast();
 const confirm = useConfirm();
 
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
+const props = defineProps<{
+    instructorId?: string
+}>()
 
-import type { Course } from '@/types/Course';
-import CourseService from '@/services/CourseService';
-import Details from '@/components/course/Details.vue'
-import { FilterMatchMode } from 'primevue/api';
+const { isProfessor, currentUser } = useRoleAccess()
+const { courses, loading, error, loadCourses } = useCourseManagement(props.instructorId)
 
-const courses = ref<Course[]>([]);
+
 const showModal = ref(false);
 const selectedCourse = ref<Course | null>(null);
 
 var isImportSelected = ref(true);
 var isNewCourseSelected = ref(false);
 
-const loading = ref(true);
+
 const modalTitle = computed(() => selectedCourse.value ? 'Edit Course' : 'New Course');
 
 
@@ -106,22 +117,8 @@ const filters = ref({
 });
 
 
-
 onMounted(async () => {
-    try {
-        CourseService.getAllCourses().then(fetchedCourses => {
-            courses.value = fetchedCourses.map(course => ({
-                ...course,
-                startDate: new Date(course.startDate),
-                endDate: new Date(course.endDate),
-                instructors: course.instructors
-            }));
-            console.log(courses.value)
-            loading.value = false;
-        });
-    } catch (error) {
-        console.error('Failed to fetch courses:', error);
-    }
+    await loadCourses();
 });
 
 const openNew = () => {
@@ -136,8 +133,8 @@ const hideDialog = () => {
     //submitted.value = false;
 };
 
-const formatDate = (value) => {
-    return value.toLocaleDateString('en-US', {
+const formatDate = (value: Date) => {
+    return value.toLocaleDateString('en-Eu', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
@@ -157,11 +154,21 @@ const publishedTemplate = (slotProps: { data: Course }) => {
     return slotProps.data.isPublished ? 'Yes' : 'No';
 };
 
-const editProduct = (prod: Course) => {
-    selectedCourse.value = { ...prod };
-    showModal.value = true;
-};
+const editProduct = async (prod: Course) => {
+    try {
+        loading.value = true;
+        
+        const courseSelectedDetails = await CourseService.getCourseDetailsById(prod.id);
+        selectedCourse.value = courseSelectedDetails
 
+        showModal.value = true;
+    } catch (error) {
+        console.error('Error fetching course details:', error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load course details', life: 3000 });
+    } finally {
+        loading.value = false;
+    }
+};
 
 const closeModal = () => {
     showModal.value = false;

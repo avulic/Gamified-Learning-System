@@ -1,28 +1,36 @@
-import { IUserProgressDb, UserProgressDb } from '@/models/db/mongo';
+import { IUserProgressDb, UserProgressDb, UserProgressDocument } from '@/models/db/mongo';
 import { inject, injectable } from 'inversify';
 import { MongoRepository } from '../MongoRepository';
-import { IUserProgress, ICourseProgress } from '@/models/app/Progress/Progress';
-import { ProgressMapper } from '@/utils/ModelMapper';
-import { TYPES } from '@/types';
+
+
+import { ILogger, TYPES } from '@/types';
 import Logger from '@/utils/logger';
+import { IUserProgress as IUserProgress } from '@/models/app/Progress/UserProgress.entity';
+import { User } from '@/models/app';
 
 
 
 
 @injectable()
-export class UserProgressRepository extends MongoRepository<IUserProgress,  IUserProgressDb> {
+export class UserProgressRepository extends MongoRepository<IUserProgress, IUserProgressDb, UserProgressDocument> {
     constructor(
-        @inject(TYPES.Logger) private logger:Logger
+        @inject(TYPES.Logger) private logger: ILogger
     ) {
         super(UserProgressDb);
     }
 
     toDomain(dbModel: IUserProgressDb): IUserProgress {
-        return ProgressMapper.userProgressDbToAppModel(dbModel);
+        return {} as unknown as IUserProgress;
     }
 
-    toDatabase(domainModel: Partial<IUserProgress>): Partial<IUserProgressDb> {
-        return ProgressMapper.userProgressToDbModel(domainModel);
+    toDatabase(domainModel: IUserProgress): IUserProgressDb {
+        return {} as unknown as IUserProgressDb;
+    }
+
+    async getUserProgress(userId: string,): Promise<IUserProgress | null> {
+        const dbProgress = await this.model.findOne({ userId: userId });
+        this.logger.info(dbProgress)
+        return dbProgress ? this.toDomain(dbProgress) : null;
     }
 
     async findByUserIdAndCourseId(userId: string, courseId: string): Promise<IUserProgress | null> {
@@ -31,7 +39,7 @@ export class UserProgressRepository extends MongoRepository<IUserProgress,  IUse
         return dbProgress ? this.toDomain(dbProgress) : null;
     }
 
-    async updateUserProgress(userId: string, courseId: string, update: Partial<IUserProgress>): Promise<IUserProgress | null> {
+    async updateUserProgress(userId: string, courseId: string, update: IUserProgress): Promise<IUserProgress | null> {
         const dbUpdate = this.toDatabase(update);
         const updatedDbProgress = await this.model.findOneAndUpdate(
             { userId: userId, courseId: courseId },

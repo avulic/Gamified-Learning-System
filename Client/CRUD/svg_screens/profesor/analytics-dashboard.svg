@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Analytics Dashboard</text>
+  
+  <!-- Navigation -->
+  <rect x="0" y="60" width="200" height="640" fill="#4a5568" />
+  
+  <!-- Main Navigation Items -->
+  <rect x="0" y="60" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="92" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Course Management</text>
+  
+  <rect x="0" y="110" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="135" font-family="Arial" font-size="14" fill="#a0aec0">Dashboard</text>
+  
+  <rect x="0" y="150" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="175" font-family="Arial" font-size="14" fill="#a0aec0">Course Structure</text>
+  
+  <rect x="0" y="190" width="200" height="40" fill="#2d3748" />
+  <text x="20" y="215" font-family="Arial" font-size="14" fill="#ffffff">Analytics</text>
+  
+  <rect x="0" y="230" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="255" font-family="Arial" font-size="14" fill="#a0aec0">Student Progress</text>
+  
+  <!-- Other Navigation Sections -->
+  <rect x="0" y="280" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="312" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">World Building</text>
+  
+  <rect x="0" y="330" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="355" font-family="Arial" font-size="14" fill="#a0aec0">World Map</text>
+  
+  <rect x="0" y="370" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="395" font-family="Arial" font-size="14" fill="#a0aec0">Module Manager</text>
+  
+  <rect x="0" y="410" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="435" font-family="Arial" font-size="14" fill="#a0aec0">Sprite Library</text>
+  
+  <rect x="0" y="450" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="475" font-family="Arial" font-size="14" fill="#a0aec0">Game Preview</text>
+  
+  <rect x="0" y="500" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="532" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Content Creation</text>
+  
+  <rect x="0" y="550" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="582" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Narrative Design</text>
+  
+  <!-- Main Content Area -->
+  <rect x="200" y="60" width="1000" height="640" fill="#ffffff" />
+  
+  <!-- Course Title and Time Range -->
+  <rect x="220" y="80" width="550" height="60" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="240" y="110" font-family="Arial" font-size="18" fill="#2c5282" font-weight="bold">Data Structures and Algorithms: The Quest for Efficiency</text>
+  <text x="240" y="130" font-family="Arial" font-size="14" fill="#4a5568">Fall Semester 2025 (Sep 1 - Dec 15)</text>
+  
+  <!-- Time Range Selector -->
+  <rect x="790" y="80" width="390" height="60" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <text x="810" y="105" font-family="Arial" font-size="14" fill="#234e52" font-weight="bold">Time Range:</text>
+  
+  <rect x="810" y="110" width="100" height="25" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="860" y="127" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Last Week</text>
+  
+  <rect x="915" y="110" width="100" height="25" rx="5" fill="#38b2ac" />
+  <text x="965" y="127" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff">Last Month</text>
+  
+  <rect x="1020" y="110" width="140" height="25" rx="5" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  <text x="1090" y="127" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Entire Semester</text>
+  
+  <!-- Student Engagement Graph -->
+  <rect x="220" y="150" width="960" height="250" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="240" y="175" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Student Engagement</text>
+  
+  <!-- Graph Background -->
+  <rect x="240" y="185" width="910" height="190" rx="5" fill="#f7fafc" />
+  
+  <!-- X-Axis -->
+  <line x1="240" y1="375" x2="1150" y2="375" stroke="#cbd5e0" stroke-width="1" />
+  <text x="250" y="395" font-family="Arial" font-size="10" fill="#718096">Oct 1</text>
+  <text x="380" y="395" font-family="Arial" font-size="10" fill="#718096">Oct 8</text>
+  <text x="510" y="395" font-family="Arial" font-size="10" fill="#718096">Oct 15</text>
+  <text x="640" y="395" font-family="Arial" font-size="10" fill="#718096">Oct 22</text>
+  <text x="770" y="395" font-family="Arial" font-size="10" fill="#718096">Oct 29</text>
+  <text x="900" y="395" font-family="Arial" font-size="10" fill="#718096">Nov 5</text>
+  <text x="1030" y="395" font-family="Arial" font-size="10" fill="#718096">Nov 12</text>
+  <text x="1130" y="395" font-family="Arial" font-size="10" fill="#718096">Nov 19</text>
+  
+  <!-- Y-Axis -->
+  <line x1="240" y1="185" x2="240" y2="375" stroke="#cbd5e0" stroke-width="1" />
+  <text x="225" y="375" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">0%</text>
+  <text x="225" y="327" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">25%</text>
+  <text x="225" y="280" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">50%</text>
+  <text x="225" y="233" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">75%</text>
+  <text x="225" y="185" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">100%</text>
+  
+  <!-- Horizontal Grid Lines -->
+  <line x1="240" y1="327" x2="1150" y2="327" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  <line x1="240" y1="280" x2="1150" y2="280" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  <line x1="240" y1="233" x2="1150" y2="233" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  
+  <!-- Data Lines -->
+  <polyline points="250,310 380,280 510,290 640,260 770,220 900,245 1030,230 1130,200" fill="none" stroke="#4299e1" stroke-width="3" />
+  <polyline points="250,340 380,330 510,345 640,320 770,300 900,310 1030,290 1130,270" fill="none" stroke="#38b2ac" stroke-width="3" />
+  <polyline points="250,280 380,290 510,270 640,285 770,260 900,270 1030,250 1130,230" fill="none" stroke="#9f7aea" stroke-width="3" />
+  
+  <!-- Data Points -->
+  <circle cx="250" cy="310" r="5" fill="#4299e1" />
+  <circle cx="380" cy="280" r="5" fill="#4299e1" />
+  <circle cx="510" cy="290" r="5" fill="#4299e1" />
+  <circle cx="640" cy="260" r="5" fill="#4299e1" />
+  <circle cx="770" cy="220" r="5" fill="#4299e1" />
+  <circle cx="900" cy="245" r="5" fill="#4299e1" />
+  <circle cx="1030" cy="230" r="5" fill="#4299e1" />
+  <circle cx="1130" cy="200" r="5" fill="#4299e1" />
+  
+  <circle cx="250" cy="340" r="5" fill="#38b2ac" />
+  <circle cx="380" cy="330" r="5" fill="#38b2ac" />
+  <circle cx="510" cy="345" r="5" fill="#38b2ac" />
+  <circle cx="640" cy="320" r="5" fill="#38b2ac" />
+  <circle cx="770" cy="300" r="5" fill="#38b2ac" />
+  <circle cx="900" cy="310" r="5" fill="#38b2ac" />
+  <circle cx="1030" cy="290" r="5" fill="#38b2ac" />
+  <circle cx="1130" cy="270" r="5" fill="#38b2ac" />
+  
+  <circle cx="250" cy="280" r="5" fill="#9f7aea" />
+  <circle cx="380" cy="290" r="5" fill="#9f7aea" />
+  <circle cx="510" cy="270" r="5" fill="#9f7aea" />
+  <circle cx="640" cy="285" r="5" fill="#9f7aea" />
+  <circle cx="770" cy="260" r="5" fill="#9f7aea" />
+  <circle cx="900" cy="270" r="5" fill="#9f7aea" />
+  <circle cx="1030" cy="250" r="5" fill="#9f7aea" />
+  <circle cx="1130" cy="230" r="5" fill="#9f7aea" />
+  
+  <!-- Legend -->
+  <rect x="850" y="170" width="20" height="4" fill="#4299e1" />
+  <text x="880" y="175" font-family="Arial" font-size="12" fill="#4a5568">Game World Visits</text>
+  
+  <rect x="1000" y="170" width="20" height="4" fill="#38b2ac" />
+  <text x="1030" y="175" font-family="Arial" font-size="12" fill="#4a5568">Task Completion</text>
+  
+  <rect x="850" y="190" width="20" height="4" fill="#9f7aea" />
+  <text x="880" y="195" font-family="Arial" font-size="12" fill="#4a5568">Story Progression</text>
+  
+  <!-- Engagement Heatmap -->
+  <rect x="220" y="410" width="470" height="280" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="240" y="435" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Game World Engagement Heatmap</text>
+  
+  <!-- Heatmap Grid -->
+  <rect x="240" y="450" width="430" height="220" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Map Elements -->
+  <!-- Forest/Logic Region -->
+  <path d="M270,480 C290,470 330,470 350,480 C360,490 360,510 350,520 C330,530 290,530 270,520 C260,510 260,490 270,480 Z" fill="#68d391" opacity="0.7" />
+  <text x="310" y="500" font-family="Arial" font-size="10" text-anchor="middle" fill="#2f855a" font-weight="bold">Logic Forest</text>
+  
+  <!-- Algorithms Lake -->
+  <circle cx="400" cy="510" r="30" fill="#4299e1" opacity="0.7" />
+  <text x="400" y="510" font-family="Arial" font-size="10" text-anchor="middle" fill="#2c5282" font-weight="bold">Algorithm Lake</text>
+  
+  <!-- Data Structures Mountain -->
+  <path d="M340,550 L370,520 L400,550 L450,540 L490,570 L450,600 L410,590 L370,610 L330,590 Z" fill="#805ad5" opacity="0.7" />
+  <text x="410" y="570" font-family="Arial" font-size="10" text-anchor="middle" fill="#553c9a" font-weight="bold">Data Struct. Mountain</text>
+  
+  <!-- Optimization Desert -->
+  <path d="M450,470 C480,450 520,450 550,470 C570,490 570,520 550,540 C520,560 480,560 450,540 C430,520 430,490 450,470 Z" fill="#f6ad55" opacity="0.7" />
+  <text x="500" y="500" font-family="Arial" font-size="10" text-anchor="middle" fill="#c05621" font-weight="bold">Optimization Desert</text>
+  
+  <!-- Heatmap Overlay -->
+  <circle cx="310" cy="500" r="15" fill="#fc8181" opacity="0.5" />
+  <circle cx="350" cy="530" r="25" fill="#fc8181" opacity="0.6" />
+  <circle cx="400" cy="510" r="30" fill="#fc8181" opacity="0.8" />
+  <circle cx="460" cy="580" r="20" fill="#fc8181" opacity="0.7" />
+  <circle cx="500" cy="500" r="30" fill="#fc8181" opacity="0.3" />
+  
+  <!-- Heatmap Legend -->
+  <text x="240" y="680" font-family="Arial" font-size="12" fill="#4a5568" font-weight="bold">Engagement Level:</text>
+  <rect x="350" y="670" width="20" height="15" fill="#fc8181" opacity="0.2" />
+  <rect x="375" y="670" width="20" height="15" fill="#fc8181" opacity="0.4" />
+  <rect x="400" y="670" width="20" height="15" fill="#fc8181" opacity="0.6" />
+  <rect x="425" y="670" width="20" height="15" fill="#fc8181" opacity="0.8" />
+  <rect x="450" y="670" width="20" height="15" fill="#fc8181" opacity="1" />
+  <text x="350" y="660" font-family="Arial" font-size="10" fill="#718096">Low</text>
+  <text x="470" y="660" font-family="Arial" font-size="10" fill="#718096">High</text>
+  
+  <!-- Assignment Analytics -->
+  <rect x="710" y="410" width="470" height="280" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="730" y="435" font-family="Arial" font-size="16" fill="#4a5568" font-weight="bold">Assignment Performance</text>
+  
+  <!-- Bar Chart -->
+  <rect x="730" y="450" width="430" height="220" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Y-Axis -->
+  <line x1="760" y1="460" x2="760" y2="650" stroke="#cbd5e0" stroke-width="1" />
+  <text x="755" y="650" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">0%</text>
+  <text x="755" y="603" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">25%</text>
+  <text x="755" y="555" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">50%</text>
+  <text x="755" y="508" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">75%</text>
+  <text x="755" y="460" font-family="Arial" font-size="10" text-anchor="end" fill="#718096">100%</text>
+  
+  <!-- Horizontal Grid Lines -->
+  <line x1="760" y1="603" x2="1140" y2="603" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  <line x1="760" y1="555" x2="1140" y2="555" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  <line x1="760" y1="508" x2="1140" y2="508" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5" />
+  
+  <!-- Bars -->
+  <rect x="790" y="508" width="40" height="142" fill="#9ae6b4" />
+  <rect x="850" y="485" width="40" height="165" fill="#9ae6b4" />
+  <rect x="910" y="520" width="40" height="130" fill="#9ae6b4" />
+  <rect x="970" y="555" width="40" height="95" fill="#9ae6b4" />
+  <rect x="1030" y="580" width="40" height="70" fill="#9ae6b4" />
+  
+  <!-- X-Axis Labels -->
+  <text x="810" y="670" font-family="Arial" font-size="10" text-anchor="middle" fill="#718096">Complexity</text>
+  <text x="870" y="670" font-family="Arial" font-size="10" text-anchor="middle" fill="#718096">BST</text>
+  <text x="930" y="670" font-family="Arial" font-size="10" text-anchor="middle" fill="#718096">Graph</text>
+  <text x="990" y="670" font-family="Arial" font-size="10" text-anchor="middle" fill="#718096">Hash</text>
+  <text x="1050" y="670" font-family="Arial" font-size="10" text-anchor="middle" fill="#718096">Sorting</text>
+  
+  <!-- Legend -->
+  <rect x="850" y="435" width="20" height="10" fill="#9ae6b4" />
+  <text x="880" y="443" font-family="Arial" font-size="12" fill="#4a5568">Success Rate</text>
+  
+  <rect x="1000" y="435" width="20" height="10" fill="#fc8181" />
+  <text x="1030" y="443" font-family="Arial" font-size="12" fill="#4a5568">Difficulty</text>
+  
+  <!-- Difficulty Markers -->
+  <line x1="810" y1="520" x2="810" y2="520" stroke="#fc8181" stroke-width="5" stroke-linecap="round" />
+  <line x1="870" y1="490" x2="870" y2="490" stroke="#fc8181" stroke-width="5" stroke-linecap="round" />
+  <line x1="930" y1="470" x2="930" y2="470" stroke="#fc8181" stroke-width="5" stroke-linecap="round" />
+  <line x1="990" y1="450" x2="990" y2="450" stroke="#fc8181" stroke-width="5" stroke-linecap="round" />
+  <line x1="1050" y1="440" x2="1050" y2="440" stroke="#fc8181" stroke-width="5" stroke-linecap="round" />
+</svg>

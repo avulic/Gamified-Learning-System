@@ -1,6 +1,6 @@
 
 // submissionRoutes.ts
-import express from 'express';
+import express, { Router } from 'express';
 import SubmissionController from '../controllers/SubmissionController';
 import { asyncHandler } from '../utils/asyncHandler';
 
@@ -11,8 +11,8 @@ import { asyncHandler } from '../utils/asyncHandler';
  *   description: Operations related to users
  */
 
-export default class UserRoute {
-    public router = express.Router();
+export default class SubmissionRoute {
+    public router: Router = Router();
 
     constructor(private SubmissionController: SubmissionController) {
         this.setRoutes();
@@ -44,7 +44,7 @@ export default class UserRoute {
          *       500:
          *         description: Server error
          */
-        this.router.post('/', asyncHandler(this.SubmissionController.createSubmission));
+        this.router.post('/submissions', asyncHandler(this.SubmissionController.submitTasks));
 
         /**
          * @swagger

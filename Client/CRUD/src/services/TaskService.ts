@@ -1,6 +1,6 @@
-import ApiService from '@/services/ApiService';
-import Task from '@/types/task/Task';
-import { get, post, put, del } from '@/services/ApiService';
+import {apiService} from '@/services/ApiService';
+import { Task } from '@/types/task/Task';
+const { get, post, put } = apiService;
 
 class TaskService {
     private readonly baseUrl = '/tasks';
@@ -46,7 +46,7 @@ class TaskService {
 
     public async getTasksByAssignment(assignmentId: string): Promise<Task[]> {
         try {
-            const response = await get<Task[]>(`${this.baseUrl}?assignmentId=${assignmentId}`);
+            const response = await apiService.get<Task[]>(`${this.baseUrl}/${assignmentId}`);
             return response.data;
         } catch (error) {
             throw new Error('Failed to fetch tasks for assignment: ' + error);
@@ -62,14 +62,14 @@ class TaskService {
         }
     }
 
-    public async deleteTask(taskId: string): Promise<boolean> {
-        try {
-            await del(`${this.baseUrl}/${taskId}`);
-            return true;
-        } catch (error) {
-            throw new Error('Failed to delete task: ' + error);
-        }
-    }
+    // public async deleteTask(taskId: string): Promise<boolean> {
+    //     try {
+    //         await del(`${this.baseUrl}/${taskId}`);
+    //         return true;
+    //     } catch (error) {
+    //         throw new Error('Failed to delete task: ' + error);
+    //     }
+    // }
 
     public async updateTaskOrder(taskId: string, newOrder: number): Promise<Task | null> {
         try {

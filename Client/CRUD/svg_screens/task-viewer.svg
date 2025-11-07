@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#222639" rx="8" ry="8"/>
+  
+  <!-- Header/Status Bar -->
+  <rect x="0" y="0" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Character Name and Level -->
+  <text x="30" y="38" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">Alex the Biologist</text>
+  <text x="220" y="38" font-family="Arial" font-size="16" fill="#8b97c6">Level 12 | Knowledge Path: Life Sciences</text>
+  
+  <!-- Status Indicators -->
+  <rect x="550" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="565" y="35" font-family="Arial" font-size="14" fill="#4fc3f7">XP: 2450/3000</text>
+  
+  <rect x="670" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="685" y="35" font-family="Arial" font-size="14" fill="#81c784">Quests: 4</text>
+  
+  <!-- Task View Tabs -->
+  <rect x="30" y="80" width="140" height="40" fill="#4fc3f7" rx="6" ry="6"/>
+  <text x="70" y="105" font-family="Arial" font-size="14" fill="#222639">Task View</text>
+  
+  <rect x="180" y="80" width="180" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="215" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Inventory/Achievements</text>
+  
+  <rect x="370" y="80" width="140" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="390" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Progress Map</text>
+  
+  <rect x="520" y="80" width="140" height="40" fill="#2a324b" rx="6" ry="6"/>
+  <text x="550" y="105" font-family="Arial" font-size="14" fill="#e0e6ff">Leaderboard</text>
+  
+  <!-- Task Filter Bar -->
+  <rect x="30" y="140" width="740" height="50" fill="#1a1e2e" rx="6" ry="6"/>
+  <text x="50" y="170" font-family="Arial" font-size="14" fill="#e0e6ff">Filter by:</text>
+  
+  <rect x="130" y="150" width="90" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="155" y="170" font-family="Arial" font-size="12" fill="#e0e6ff">All</text>
+  
+  <rect x="230" y="150" width="90" height="30" fill="#4fc3f7" rx="15" ry="15"/>
+  <text x="255" y="170" font-family="Arial" font-size="12" fill="#222639">Current</text>
+  
+  <rect x="330" y="150" width="90" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="345" y="170" font-family="Arial" font-size="12" fill="#e0e6ff">Completed</text>
+  
+  <rect x="430" y="150" width="90" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="445" y="170" font-family="Arial" font-size="12" fill="#e0e6ff">Upcoming</text>
+  
+  <rect x="600" y="150" width="150" height="30" fill="#354052" rx="4" ry="4"/>
+  <text x="620" y="170" font-family="Arial" font-size="12" fill="#8b97c6">🔍 Search tasks...</text>
+  
+  <!-- Current Task Detail View -->
+  <rect x="30" y="210" width="740" height="320" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  
+  <!-- Task Header -->
+  <rect x="30" y="210" width="740" height="60" fill="#354052" rx="8" ry="8"/>
+  <text x="50" y="240" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">Create a Photosynthesis Diagram</text>
+  <text x="50" y="260" font-family="Arial" font-size="12" fill="#8b97c6">Part of: The Great Photosynthesis Challenge | Due: Tomorrow at 3:00 PM</text>
+  
+  <!-- Task Description -->
+  <rect x="50" y="280" width="700" height="70" fill="#263041" rx="4" ry="4"/>
+  <text x="70" y="305" font-family="Arial" font-size="14" fill="#e0e6ff">Design a visual explanation of the photosynthesis process. Include all key</text>
+  <text x="70" y="330" font-family="Arial" font-size="14" fill="#e0e6ff">components and label the stages clearly to help the Forest Guide understand</text>
+  <text x="70" y="355" font-family="Arial" font-size="14" fill="#e0e6ff">why some plants in the forest are struggling.</text>
+  
+  <!-- Task Requirements -->
+  <text x="50" y="390" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Requirements:</text>
+  
+  <rect x="70" y="400" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="415" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="100" y="415" font-family="Arial" font-size="14" fill="#e0e6ff">Accurate representation of the light-dependent reactions</text>
+  
+  <rect x="70" y="430" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="445" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="100" y="445" font-family="Arial" font-size="14" fill="#e0e6ff">Accurate representation of the Calvin cycle</text>
+  
+  <rect x="70" y="460" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="75" y="475" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="100" y="475" font-family="Arial" font-size="14" fill="#e0e6ff">Clear labels for all components and processes</text>
+  
+  <rect x="390" y="400" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="395" y="415" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="420" y="415" font-family="Arial" font-size="14" fill="#e0e6ff">Indication of inputs and outputs</text>
+  
+  <rect x="390" y="430" width="20" height="20" fill="#354052" stroke="#f9a825" stroke-width="2" rx="3" ry="3"/>
+  <text x="395" y="445" font-family="Arial" font-size="16" fill="#f9a825" font-weight="bold">!</text>
+  <text x="420" y="445" font-family="Arial" font-size="14" fill="#e0e6ff">Visual clarity and organization</text>
+  
+  <rect x="390" y="460" width="20" height="20" fill="#354052" stroke="#8b97c6" stroke-width="1" rx="3" ry="3"/>
+  <text x="420" y="475" font-family="Arial" font-size="14" fill="#8b97c6">Explanation of ecological importance (optional)</text>
+  
+  <!-- Task Submission -->
+  <rect x="50" y="500" width="700" height="20" fill="#1a1e2e" rx="4" ry="4"/>
+  <text x="370" y="515" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">Reward: 100 XP | Priority: High</text>
+  
+  <!-- Submit Button -->
+  <rect x="580" y="530" width="150" height="40" fill="#4fc3f7" rx="6" ry="6"/>
+  <text x="625" y="555" font-family="Arial" font-size="14" fill="#222639" font-weight="bold" text-anchor="middle">Submit Task</text>
+  
+  <!-- Resources Button -->
+  <rect x="400" y="530" width="150" height="40" fill="#354052" rx="6" ry="6"/>
+  <text x="445" y="555" font-family="Arial" font-size="14" fill="#e0e6ff" text-anchor="middle">View Resources</text>
+  
+  <!-- Bottom Navigation Bar -->
+  <rect x="0" y="590" width="800" height="10" fill="#1a1e2e"/>
+</svg>

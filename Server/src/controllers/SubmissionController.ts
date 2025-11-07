@@ -1,9 +1,10 @@
-import { ISubmission } from '@/models/app';
-import { CreateSubmissionDto } from '@/models/dto';
+import { CustomRequest } from '@/middlewares/authJwt';
+import { BaseTaskSubmission as Submission } from '@/models/app';
+import { AssignmentSubmissionDto } from '@/models/dto/request';
 import { SubmissionService } from '@/services/SubmissionService';
-import { TYPES } from '@/types';
+import { ILogger, TYPES } from '@/types';
 import Logger from '@/utils/logger';
-import { SubmissionMapper } from '@/utils/ModelMapper';
+
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 
@@ -12,29 +13,43 @@ import { inject, injectable } from 'inversify';
 class SubmissionController {
     constructor(
         @inject(TYPES.SubmissionService) private submissionService: SubmissionService,
-        @inject(TYPES.Logger) private logger: Logger
-    ) {}
+        @inject(TYPES.Logger) private logger: ILogger
+    ) { }
 
-    public createSubmission = async (req: Request, res: Response): Promise<void> => {
+    public submitTasks = async (req: Request, res: Response): Promise<void> => {
         try {
-            const submissionData: CreateSubmissionDto = req.body;
-            const newSubmission: ISubmission = SubmissionMapper.fromCreateDto(
-                submissionData
-            );
-            const submission = await this.submissionService.createSubmission(newSubmission);
-            const response = SubmissionMapper.toResponseDto(submission);
-            res.status(201).json(response);
-        } catch (error) {
-            this.logger.error('Error creating submission', error);
-            res.status(500).json({ error: 'Failed to create submission' });
+            const userId = "67c623aa93b42c36efb8d9ea"//(req as CustomRequest).token.payload.id;
+            if (!userId) {
+                res.status(401).json({ error: 'User not authenticated' });
+                return;
+            }
+
+            const submissionsData: AssignmentSubmissionDto = req.body;
+
+            const progress = await this.submissionService.submitTasks(userId, submissionsData);
+
+            res.status(201).json({
+                message: 'Submissions processed successfully',
+                progress
+            });
+        } catch (error: any) {
+            this.logger.error('Error processing submissions', error);
+            if (error.name === 'NotFoundError') {
+                res.status(404).json({ error: error.message });
+            } else if (error.name === 'ClientError') {
+                res.status(400).json({ error: error.message });
+            } else {
+                res.status(500).json({ error: 'Failed to process submissions: ' + error.message });
+            }
         }
     }
+
 
     public getSubmissionById = async (req: Request, res: Response): Promise<void> => {
         try {
             const submissionId = req.params.id;
             const submission = await this.submissionService.getSubmissionById(submissionId);
-            const response = SubmissionMapper.toResponseDto(submission);
+            const response = submission;
 
             res.status(200).json(response);
         } catch (error) {
@@ -46,9 +61,9 @@ class SubmissionController {
     public updateSubmission = async (req: Request, res: Response): Promise<void> => {
         try {
             const submissionId = req.params.id;
-            const submissionData: Partial<ISubmission> = req.body;
+            const submissionData: Partial<Submission> = req.body;
             const updatedSubmission = await this.submissionService.updateSubmission(submissionId, submissionData);
-            const response = SubmissionMapper.toResponseDto(updatedSubmission);
+            const response = updatedSubmission;
 
             res.status(200).json(response);
         } catch (error) {
@@ -76,7 +91,7 @@ class SubmissionController {
         try {
             const userId = req.params.userId;
             const submissions = await this.submissionService.getSubmissionsByUser(userId);
-            const response = submissions.map(SubmissionMapper.toResponseDto);
+            const response = submissions;
 
             res.status(200).json(response);
         } catch (error) {
@@ -89,7 +104,7 @@ class SubmissionController {
         try {
             const assignmentId = req.params.assignmentId;
             const submissions = await this.submissionService.getSubmissionsByAssignment(assignmentId);
-            const response = submissions.map(SubmissionMapper.toResponseDto);
+            const response = submissions;
 
             res.status(200).json(response);
         } catch (error) {

@@ -33,3 +33,7 @@ new 1.txt
 /DB/
 proucavanje
 .aider*
+
+
+Client/CRUD/src/presets/*
+Server/packages/*

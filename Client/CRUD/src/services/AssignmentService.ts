@@ -1,9 +1,10 @@
-import ApiService from '@/services/ApiService';
-import type Assignment from '@/types/Assignment'; // Make sure to import the correct Assignment type
 
-import { get, post, put } from '@/services/ApiService';
+import { Assignment } from '@/types';
 
 
+import { apiService } from './ApiService';
+
+const{ get, post, put } = apiService;
 class AssignmentService {
     public async createAssignment(assignment: Assignment): Promise<Assignment> {
         try {
@@ -31,7 +32,12 @@ class AssignmentService {
     }
 
     public async getAssignmentById(assignmentId: string): Promise<Assignment | null> {
-        const response = await get<Assignment>(`/assignments/${assignmentId}`);
+        const response = await apiService.get<Assignment>(`/assignments/${assignmentId}`);
+        return response.data;
+    }
+
+    public async getAssignmentByModuleId(moduleId: string): Promise<Assignment | null> {
+        const response = await get<Assignment>(`/assignments/module/${moduleId}`);
         return response.data;
     }
 
@@ -45,11 +51,9 @@ class AssignmentService {
     }
 
     public async deleteAssignment(assignmentId: string): Promise<Assignment | null> {
-        const response = await ApiService.delete<Assignment>(`/assignments/${assignmentId}`);
+        const response = await apiService.delete<Assignment>(`/assignments/${assignmentId}`);
         return response.data;
     }
-
-    
 }
 
 export default new AssignmentService();

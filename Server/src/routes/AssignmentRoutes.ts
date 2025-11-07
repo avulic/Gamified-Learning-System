@@ -1,10 +1,10 @@
 import express from 'express';
 import AssignmentController from '../controllers/AssignmentController';
 import { asyncHandler } from '../utils/asyncHandler';
-
+import { Router } from 'express';
 
 export default class AssignmentRoute {
-    public router = express.Router();
+    public router: Router = Router();
 
     constructor(private AssignmentController: AssignmentController) {
         this.setRoutes();
@@ -84,6 +84,28 @@ export default class AssignmentRoute {
          *         description: Assignment not found
          */
         this.router.get('/assignments/:id',asyncHandler( this.AssignmentController.getAssignmentById));
+
+        /**
+         * @swagger
+         * /assignments:
+         *   get:
+         *     summary: Get all assignment 
+         *     tags: [Assignments]
+         *     security:
+         *       - bearerAuth: []
+         *     parameters:
+         *       
+         *     responses:
+         *       200:
+         *         description: The assignment
+         *         content:
+         *           application/json:
+         *             schema:
+         *               $ref: '#/components/schemas/Assignment'
+         *       404:
+         *         description: Assignment not found
+         */
+        this.router.get('/assignments',asyncHandler( this.AssignmentController.getAllAssignments));
 
         /**
          * @swagger

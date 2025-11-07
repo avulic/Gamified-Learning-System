@@ -51,6 +51,22 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-6">
+                        <h2 class="text-xl font-semibold mb-2">Totla Progress</h2>
+                        <Card>
+                            <template #content>
+                                <div class="flex items-center mb-4">
+                                    <ProgressBar :value="overallProgress" class="flex-grow mr-4" />
+                                    <span class="text-lg font-semibold">{{ overallProgress }}%</span>
+                                </div>
+                                <div>
+                                    <p class="mb-2">Total XP: {{ userProgress.totalXpEarned }}</p>
+                                    <p>Current Level: {{ userProgress.level }}</p>
+                                </div>
+                            </template>
+                        </Card>
+                    </div>
                 </template>
             </Card>
         </div>
@@ -58,7 +74,9 @@
 </template>
 
 <script setup lang="ts">
-import { CourseProgress, TaskStatus } from '@/types/Progression';
+import { TaskStatus } from '@/types/enums';
+import { CourseProgress, UserProgress } from '@/types/Progression';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
     courseProgress: CourseProgress;
@@ -78,10 +96,51 @@ const getStatusSeverity = (status: TaskStatus): 'success' | 'info' | 'warning' |
             return 'warning';
         case TaskStatus.NOT_STARTED:
             return 'info';
-        case TaskStatus.OVERDUE:
+        case TaskStatus.FAILED:
             return 'danger';
         default:
             return 'info';
     }
 };
+
+const overallProgress = computed(() => {
+    const totalCourses = 10;
+    const completedCourses = 5;
+    return Math.round((completedCourses / totalCourses) * 100);
+});
+
+
+const userProgress = ref<UserProgress>({
+    userId: '1',
+    courseProgresses: [
+        {
+            courseId: 'c1',
+            moduleProgresses: [
+                {
+                    moduleId: 'm1',
+                    lessonProgress: [
+                        { lessonId: 'l1', completed: true, xpEarned: 50 },
+                        { lessonId: 'l2', completed: false, xpEarned: 0 }
+                    ],
+                    assignmentProgress: [
+                        {
+                            assignmentId: 'a1',
+                            taskProgress: [
+                                { taskId: 't1', status: TaskStatus.COMPLETED, xpEarned: 30, userId: '1', attempts: 1, timeSpent: 600 }
+                            ],
+                            completed: true,
+                            xpEarned: 100
+                        }
+                    ],
+                    completed: false,
+                    xpEarned: 150
+                }
+            ],
+            overallProgress: 75,
+            completed: false
+        }
+    ],
+    totalXpEarned: 250,
+    level: 2
+});
 </script>

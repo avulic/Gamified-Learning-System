@@ -1,9 +1,8 @@
-import ApiService from '@/services/ApiService';
+import {apiService} from '@/services/ApiService';
 import type ResponseData from '@/types/ResponseData'
 
 class CommonService {
     public async uploadFile(file: File): Promise<any> {
-        var response: ResponseData;
 
         try {
             // Create a new FormData object
@@ -12,7 +11,7 @@ class CommonService {
             formData.append('file', file);
 
             // Make a POST request using the apiService instance to send the file to the server
-            const response: ResponseData = await ApiService.post('/upload', formData, {
+            const response = await apiService.post('/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Important: Set the correct content type for sending files
                 },

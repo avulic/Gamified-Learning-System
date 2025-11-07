@@ -1,32 +1,32 @@
-import { IRole } from "@/models/app";
-import { IRoleDb } from "@/models/db/mongo";
-import Role from "@/models/db/mongo/Role";
+import { Role as IRole } from "@/models/app";
+import { IRoleDb, RoleDocument } from "@/models/db/mongo/Role.db";
+import Role from "@/models/db/mongo/Role.db";
 import { Roles } from "@/models/enums";
-import { RoleMapper } from "@/utils/ModelMapper";
+
 import { injectable } from "inversify";
 import { ClientSession } from "mongoose";
 import { MongoRepository } from "./MongoRepository";
-
+import { roleMapper } from "@/utils/mapper/autoMapper";
 
 
 @injectable()
-export class RoleRepository extends MongoRepository<IRole, IRoleDb> {
+export class RoleRepository extends MongoRepository<IRole, IRoleDb, RoleDocument> {
     constructor() {
         super(Role);
     }
 
     toDomain(dbModel: IRoleDb): IRole {
-        return RoleMapper.dbToDomain(dbModel);
+        return roleMapper.toEntity(dbModel);
     }
 
-    toDatabase(domainModel: IRole): Partial<IRoleDb> {
-        return RoleMapper.toDb(domainModel);
+    toDatabase(domainModel: IRole): IRoleDb {
+        return roleMapper.toDb(domainModel);
     }
 
     async findByName(roleName: Roles, session?: ClientSession): Promise<IRole | null> {
-        //const roleDb = await this.model.findOne({ name: roleName }).session(session || null);
-        const roleDb = {name: roleName} as  IRoleDb;
-        return roleDb ? this.toDomain(roleDb) : null;
+        const roleDb = await this.model.findOne({ name: roleName }).session(session || null);
+        
+        return roleDb ? this.toDomain(roleDb.toObject()) : null;
     
     }
 
@@ -37,6 +37,6 @@ export class RoleRepository extends MongoRepository<IRole, IRoleDb> {
         // }
 
         const rolesDb = await this.model.find({ name: { $in: roleNames } }).session(session || null);
-        return rolesDb.map(roleDb => this.toDomain(roleDb));
+        return rolesDb.map(roleDb => this.toDomain(roleDb.toObject()));
     }
 }

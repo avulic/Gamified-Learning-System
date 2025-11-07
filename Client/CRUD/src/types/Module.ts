@@ -1,36 +1,21 @@
-// src/models/Module.ts
-
-import Assignment from "./Assignment";
-import { BaseContent } from "./BaseContent";
+import { Assignment } from "./Assignment";
 import { Lesson } from "./Lesson";
-import Quiz from "./quiz/Quiz";
 import { Resource } from "./Resource";
-import UnlockCondition  from "./UnlockConditions";
 
-// Union type for all content types
-type ModuleContent = Lesson | Quiz | Assignment | Resource;
-
-export interface Module {
-    id:string,
-    title: string;
-    description: string;
-    order: number;
-    
-    courseId: string;
-    status: 'draft' | 'published' | 'archived';
-    contentItems: ModuleContent[];
-    prerequisites: string[]; // IDs of modules that must be completed first
-    unlockConditions?: UnlockCondition[];
-    xpReward?: number;
-
-    badgeReward?: string; // ID of badge awarded for completing the module
-    learningObjectives?: string[];
-    estimatedDuration?: number; // in minutes
-    difficulty?: 'beginner' | 'intermediate' | 'advanced';
-    tags?: string[];
-    publishedAt?: Date;
-    createdAt: Date;
-    updatedAt: Date;
+export class Module {
+    id?: string;
+    title!: string;
+    description!: string;
+    order!: number;
+    courseId!: string;
+    lessons: Lesson[] = [];
+    learningObjectives!: string[];
+    estimatedDuration!: number;
+    difficulty!: number;
+    publishedAt!: Date;
+    xpReward: number = 0;
+    badgeReward!: string;
+    prerequisites: Module[] = [];
+    assignments: Assignment[] = [];
+    fileIds: Resource[] = [];
 }
-
-export default Module;

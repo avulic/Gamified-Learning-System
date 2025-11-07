@@ -1,7 +1,7 @@
 // taskRoutes.ts
-import express from 'express';
+import express, { Router } from 'express';
 import TaskController from '../controllers/TaskController';
-import TaskService from '../services/TaskService';
+
 import { authJwt } from '../middlewares/authJwt';
 import { authorizeRoles } from '../middlewares/checkRole';
 import { asyncHandler } from '../utils/asyncHandler';
@@ -13,7 +13,7 @@ import { asyncHandler } from '../utils/asyncHandler';
  *   description: Operations related to Module
  */
 class TaskRoute {
-    public router = express.Router();
+    public router: Router = Router();
 
     constructor(private taskController: TaskController) {
         this.setRoutes();
@@ -44,7 +44,7 @@ class TaskRoute {
         //  *       500:
         //  *         description: Server error
         //  */
-        // this.router.post('/', asyncHandler(this.taskController.createTask));
+        this.router.post('/tasks', asyncHandler(this.taskController.createTask));
         
         // /**
         //  * @swagger
@@ -66,7 +66,7 @@ class TaskRoute {
         //  *       500:
         //  *         description: Server error
         //  */
-        // this.router.get('/',  asyncHandler(this.taskController.getAllTasks));
+        this.router.get('/tasks',  asyncHandler(this.taskController.getAllTasks));
         
         // /**
         //  * @swagger
@@ -92,7 +92,7 @@ class TaskRoute {
         //  *       404:
         //  *         description: Task not found
         //  */
-        // this.router.get('/:id',  asyncHandler(this.taskController.getTaskById));
+        //this.router.get('/:id',  asyncHandler(this.taskController.getTaskById));
         
         // /**
         //  * @swagger
@@ -174,7 +174,7 @@ class TaskRoute {
         //  *       500:
         //  *         description: Server error
         //  */
-        // this.router.get('/assignment/:assignmentId', asyncHandler(this.taskController.getTasksByAssignment));
+        this.router.get('/tasks/:assignmentId', asyncHandler(this.taskController.getTasksByAssignment));
     }
 }
 

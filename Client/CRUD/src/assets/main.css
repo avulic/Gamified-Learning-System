@@ -1,23 +1,32 @@
 @import './base.css';
-
 @import 'primeicons/primeicons.css';
 
-
 @tailwind base;
+@tailwind components;
 @tailwind utilities;
-@tailwind variants;
 
+/* -------------------------------------------------
+   OPTIONAL: force the root (fallback for non-Tailwind elements)
+   ------------------------------------------------- */
+@layer base {
 
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+  html,
+  body,
+  #app {
+    @apply bg-app-bg text-app-text min-h-screen;
+  }
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+/* -------------------------------------------------
+   Navbar / layout helpers
+   ------------------------------------------------- */
+@layer components {
+
+  .layout,
+  .wrapper,
+  nav,
+  header,
+  main {
+    @apply bg-app-bg text-app-text;
   }
 }

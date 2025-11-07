@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#222639" rx="8" ry="8"/>
+  
+  <!-- Header/Status Bar -->
+  <rect x="0" y="0" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Character Name and Level -->
+  <text x="30" y="38" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold">Alex the Biologist</text>
+  <text x="220" y="38" font-family="Arial" font-size="16" fill="#8b97c6">Level 12 | Knowledge Path: Life Sciences</text>
+  
+  <!-- Status Indicators -->
+  <rect x="550" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="565" y="35" font-family="Arial" font-size="14" fill="#4fc3f7">XP: 2450/3000</text>
+  
+  <rect x="670" y="15" width="100" height="30" fill="#2a324b" rx="15" ry="15"/>
+  <text x="685" y="35" font-family="Arial" font-size="14" fill="#81c784">Quests: 4</text>
+  
+  <!-- Main Character Profile Area -->
+  <rect x="30" y="80" width="320" height="440" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  
+  <!-- Character Avatar -->
+  <circle cx="175" cy="150" r="50" fill="#4fc3f7"/>
+  <polygon points="175,110 155,190 195,190" fill="#7986cb"/>
+  
+  <!-- Avatar Customization Button -->
+  <circle cx="235" cy="150" r="15" fill="#1a1e2e"/>
+  <text x="231" y="155" font-family="Arial" font-size="16" fill="#e0e6ff">✎</text>
+  
+  <!-- Character Info -->
+  <text x="175" y="220" font-family="Arial" font-size="18" fill="#e0e6ff" font-weight="bold" text-anchor="middle">Alex the Biologist</text>
+  <text x="175" y="245" font-family="Arial" font-size="14" fill="#8b97c6" text-anchor="middle">Level 12 Explorer</text>
+  
+  <!-- XP Progress Bar -->
+  <rect x="70" y="265" width="210" height="15" fill="#354052" rx="7" ry="7"/>
+  <rect x="70" y="265" width="170" height="15" fill="#4fc3f7" rx="7" ry="7"/>
+  <text x="175" y="292" font-family="Arial" font-size="12" fill="#8b97c6" text-anchor="middle">2450/3000 XP to Level 13</text>
+  
+  <!-- Character Stats -->
+  <text x="60" y="325" font-family="Arial" font-size="14" fill="#e0e6ff" font-weight="bold">Primary Stats</text>
+  
+  <text x="60" y="355" font-family="Arial" font-size="13" fill="#e0e6ff">Biology: </text>
+  <rect x="130" y="345" width="180" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="130" y="345" width="150" height="10" fill="#81c784" rx="5" ry="5"/>
+  <text x="320" y="355" font-family="Arial" font-size="13" fill="#e0e6ff">82%</text>
+  
+  <text x="60" y="385" font-family="Arial" font-size="13" fill="#e0e6ff">Chemistry: </text>
+  <rect x="130" y="375" width="180" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="130" y="375" width="100" height="10" fill="#81c784" rx="5" ry="5"/>
+  <text x="320" y="385" font-family="Arial" font-size="13" fill="#e0e6ff">56%</text>
+  
+  <text x="60" y="415" font-family="Arial" font-size="13" fill="#e0e6ff">Physics: </text>
+  <rect x="130" y="405" width="180" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="130" y="405" width="70" height="10" fill="#81c784" rx="5" ry="5"/>
+  <text x="320" y="415" font-family="Arial" font-size="13" fill="#e0e6ff">38%</text>
+  
+  <text x="60" y="445" font-family="Arial" font-size="13" fill="#e0e6ff">Math: </text>
+  <rect x="130" y="435" width="180" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="130" y="435" width="112" height="10" fill="#81c784" rx="5" ry="5"/>
+  <text x="320" y="445" font-family="Arial" font-size="13" fill="#e0e6ff">62%</text>
+  
+  <text x="60" y="475" font-family="Arial" font-size="13" fill="#e0e6ff">Research: </text>
+  <rect x="130" y="465" width="180" height="10" fill="#354052" rx="5" ry="5"/>
+  <rect x="130" y="465" width="160" height="10" fill="#81c784" rx="5" ry="5"/>
+  <text x="320" y="475" font-family="Arial" font-size="13" fill="#e0e6ff">89%</text>
+  
+  <text x="175" y="505" font-family="Arial" font-size="13" fill="#ffcc80" text-anchor="middle">View Complete Stats</text>
+  
+  <!-- Achievements Panel -->
+  <rect x="370" y="80" width="400" height="220" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  <rect x="370" y="80" width="400" height="40" fill="#1a1e2e" rx="8" ry="8"/>
+  <text x="390" y="105" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Recent Achievements</text>
+  
+  <!-- Achievement Badges -->
+  <circle cx="420" cy="155" r="25" fill="#f9a825"/>
+  <text x="420" y="160" font-family="Arial" font-size="20" fill="#222639" text-anchor="middle">🌱</text>
+  <text x="420" y="195" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">Plant Expert</text>
+  
+  <circle cx="490" cy="155" r="25" fill="#7e57c2"/>
+  <text x="490" y="160" font-family="Arial" font-size="20" fill="#222639" text-anchor="middle">🧫</text>
+  <text x="490" y="195" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">Cell Biologist</text>
+  
+  <circle cx="560" cy="155" r="25" fill="#4fc3f7"/>
+  <text x="560" y="160" font-family="Arial" font-size="20" fill="#222639" text-anchor="middle">🔬</text>
+  <text x="560" y="195" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">10 Lab Tasks</text>
+  
+  <circle cx="630" cy="155" r="25" fill="#ef5350"/>
+  <text x="630" y="160" font-family="Arial" font-size="20" fill="#222639" text-anchor="middle">⭐</text>
+  <text x="630" y="195" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">First in Class</text>
+  
+  <circle cx="700" cy="155" r="25" fill="#66bb6a"/>
+  <text x="700" y="160" font-family="Arial" font-size="20" fill="#222639" text-anchor="middle">🏃</text>
+  <text x="700" y="195" font-family="Arial" font-size="12" fill="#e0e6ff" text-anchor="middle">Fast Learner</text>
+  
+  <text x="540" y="235" font-family="Arial" font-size="13" fill="#ffcc80" text-anchor="middle">View All Achievements (23)</text>
+  
+  <!-- Skill Tree Panel -->
+  <rect x="370" y="320" width="400" height="200" fill="#2a324b" stroke="#5d6e91" stroke-width="2" rx="8" ry="8"/>
+  <rect x="370" y="320" width="400" height="40" fill="#1a1e2e" rx="8" ry="8"/>
+  <text x="390" y="345" font-family="Arial" font-size="16" fill="#e0e6ff" font-weight="bold">Biology Skill Tree</text>
+  
+  <!-- Skill Tree Visualization -->
+  <circle cx="420" cy="390" r="15" fill="#81c784"/>
+  <text x="420" y="395" font-family="Arial" font-size="12" fill="#222639" text-anchor="middle">B</text>
+  <text x="420" y="415" font-family="Arial" font-size="10" fill="#e0e6ff" text-anchor="middle">Basics</text>
+  
+  <line x1="435" y1="390" x2="470" y2="390" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="485" cy="390" r="15" fill="#81c784"/>
+  <text x="485" y="395" font-family="Arial" font-size="12" fill="#222639" text-anchor="middle">C</text>
+  <text x="485" y="415" font-family="Arial" font-size="10" fill="#e0e6ff" text-anchor="middle">Cells</text>
+  
+  <line x1="500" y1="390" x2="535" y2="390" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="550" cy="390" r="15" fill="#81c784"/>
+  <text x="550" y="395" font-family="Arial" font-size="12" fill="#222639" text-anchor="middle">P</text>
+  <text x="550" y="415" font-family="Arial" font-size="10" fill="#e0e6ff" text-anchor="middle">Photosyn</text>
+  
+  <line x1="565" y1="390" x2="600" y2="390" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="615" cy="390" r="15" fill="#81c784"/>
+  <text x="615" y="395" font-family="Arial" font-size="12" fill="#222639" text-anchor="middle">R</text>
+  <text x="615" y="415" font-family="Arial" font-size="10" fill="#e0e6ff" text-anchor="middle">Respiration</text>
+  
+  <line x1="630" y1="390" x2="665" y2="390" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="680" cy="390" r="15" fill="#354052"/>
+  <text x="680" y="395" font-family="Arial" font-size="12" fill="#8b97c6" text-anchor="middle">E</text>
+  <text x="680" y="415" font-family="Arial" font-size="10" fill="#8b97c6" text-anchor="middle">Expert</text>
+  
+  <line x1="485" y1="405" x2="485" y2="435" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="485" cy="450" r="15" fill="#81c784"/>
+  <text x="485" y="455" font-family="Arial" font-size="12" fill="#222639" text-anchor="middle">G</text>
+  <text x="485" y="475" font-family="Arial" font-size="10" fill="#e0e6ff" text-anchor="middle">Genetics</text>
+  
+  <line x1="550" y1="405" x2="550" y2="435" stroke="#5d6e91" stroke-width="2"/>
+  <circle cx="550" cy="450" r="15" fill="#354052"/>
+  <text x="550" y="455" font-family="Arial" font-size="12" fill="#8b97c6" text-anchor="middle">E</text>
+  <text x="550" y="475" font-family="Arial" font-size="10" fill="#8b97c6" text-anchor="middle">Ecology</text>
+  
+  <text x="540" y="505" font-family="Arial" font-size="13" fill="#ffcc80" text-anchor="middle">View Full Skill Tree</text>
+  
+  <!-- Bottom Navigation Bar -->
+  <rect x="0" y="540" width="800" height="60" fill="#1a1e2e" rx="8" ry="8"/>
+  
+  <!-- Nav Icons -->
+  <circle cx="100" cy="570" r="20" fill="#2a324b"/>
+  <text x="88" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🗺️</text>
+  <text x="90" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Map</text>
+  
+  <circle cx="200" cy="570" r="20" fill="#2a324b"/>
+  <text x="188" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">📋</text>
+  <text x="180" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Quests</text>
+  
+  <circle cx="300" cy="570" r="20" fill="#2a324b"/>
+  <text x="288" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🧪</text>
+  <text x="284" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Lab</text>
+  
+  <circle cx="400" cy="570" r="20" fill="#2a324b"/>
+  <text x="388" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">📚</text>
+  <text x="375" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Knowledge</text>
+  
+  <circle cx="500" cy="570" r="20" fill="#354052"/>
+  <text x="488" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">👤</text>
+  <text x="480" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Profile</text>
+  
+  <circle cx="600" cy="570" r="20" fill="#2a324b"/>
+  <text x="588" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">🏆</text>
+  <text x="575" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Achievements</text>
+  
+  <circle cx="700" cy="570" r="20" fill="#2a324b"/>
+  <text x="688" y="576" font-family="Arial" font-size="20" fill="#e0e6ff">⚙️</text>
+  <text x="690" y="600" font-family="Arial" font-size="10" fill="#8b97c6">Settings</text>
+</svg>

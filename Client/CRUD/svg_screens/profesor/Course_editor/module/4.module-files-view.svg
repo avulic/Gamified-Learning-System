@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f4f8" />
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2d3748" />
+  <text x="30" y="38" font-family="Arial" font-size="24" fill="#ffffff" font-weight="bold">Module Files Manager</text>
+  
+  <!-- Navigation -->
+  <rect x="0" y="60" width="200" height="640" fill="#4a5568" />
+  
+  <!-- Main Navigation Items -->
+  <rect x="0" y="60" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="92" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Course Management</text>
+  
+  <rect x="0" y="110" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="135" font-family="Arial" font-size="14" fill="#a0aec0">Dashboard</text>
+  
+  <rect x="0" y="150" width="200" height="40" fill="#2d3748" />
+  <text x="20" y="175" font-family="Arial" font-size="14" fill="#ffffff">Course Structure</text>
+  
+  <rect x="0" y="190" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="215" font-family="Arial" font-size="14" fill="#a0aec0">Analytics</text>
+  
+  <rect x="0" y="230" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="255" font-family="Arial" font-size="14" fill="#a0aec0">Student Progress</text>
+  
+  <!-- Other Navigation Sections -->
+  <rect x="0" y="280" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="312" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">World Building</text>
+  
+  <rect x="0" y="330" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="355" font-family="Arial" font-size="14" fill="#a0aec0">World Map</text>
+  
+  <rect x="0" y="370" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="395" font-family="Arial" font-size="14" fill="#a0aec0">Module Manager</text>
+  
+  <rect x="0" y="410" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="435" font-family="Arial" font-size="14" fill="#a0aec0">Sprite Library</text>
+  
+  <rect x="0" y="450" width="200" height="40" fill="#4a5568" />
+  <text x="20" y="475" font-family="Arial" font-size="14" fill="#a0aec0">Game Preview</text>
+  
+  <rect x="0" y="500" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="532" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Content Creation</text>
+  
+  <rect x="0" y="550" width="200" height="50" fill="#2c5282" />
+  <text x="20" y="582" font-family="Arial" font-size="16" fill="#ffffff" font-weight="bold">Narrative Design</text>
+  
+  <!-- Main Content Area -->
+  <rect x="200" y="60" width="1000" height="640" fill="#ffffff" />
+  
+  <!-- Module Title and Navigation -->
+  <rect x="220" y="80" width="650" height="60" rx="5" fill="#ebf8ff" stroke="#90cdf4" stroke-width="1" />
+  <text x="240" y="115" font-family="Arial" font-size="18" fill="#2c5282" font-weight="bold">Module 1: Algorithmic Foundations</text>
+  
+  <!-- Navigation pills for content sections -->
+  <rect x="220" y="150" width="960" height="40" rx="5" fill="#edf2f7" />
+  
+  <rect x="230" y="155" width="80" height="30" rx="5" fill="#e2e8f0" />
+  <text x="270" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Overview</text>
+  
+  <rect x="320" y="155" width="80" height="30" rx="5" fill="#e2e8f0" />
+  <text x="360" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Lessons</text>
+  
+  <rect x="410" y="155" width="100" height="30" rx="5" fill="#e2e8f0" />
+  <text x="460" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Assignments</text>
+  
+  <rect x="520" y="155" width="80" height="30" rx="5" fill="#4299e1" />
+  <text x="560" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff">Files</text>
+  
+  <rect x="610" y="155" width="100" height="30" rx="5" fill="#e2e8f0" />
+  <text x="660" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Game Assets</text>
+  
+  <!-- File controls -->
+  <rect x="880" y="80" width="300" height="60" rx="5" fill="#e6fffa" stroke="#38b2ac" stroke-width="1" />
+  <rect x="900" y="95" width="120" height="30" rx="5" fill="#38b2ac" />
+  <text x="960" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">+ Upload File</text>
+  
+  <rect x="1030" y="95" width="130" height="30" rx="5" fill="#38b2ac" />
+  <text x="1095" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="bold">Create Folder</text>
+  
+  <!-- File Filter -->
+  <rect x="880" y="155" width="130" height="30" rx="5" fill="#e2e8f0" />
+  <text x="945" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Filter Files ▼</text>
+  
+  <rect x="1020" y="155" width="150" height="30" rx="5" fill="#e2e8f0" />
+  <text x="1095" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568">Sort By: Date ▼</text>
+  
+  <!-- Files Container -->
+  <rect x="220" y="200" width="960" height="440" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Folder Navigation Breadcrumbs -->
+  <rect x="240" y="220" width="920" height="30" rx="5" fill="#f7fafc" />
+  <text x="260" y="240" font-family="Arial" font-size="14" fill="#4299e1" font-weight="bold">Root</text>
+  <text x="300" y="240" font-family="Arial" font-size="14" fill="#718096">/</text>
+  <text x="315" y="240" font-family="Arial" font-size="14" fill="#4299e1" font-weight="bold">Module 1</text>
+  <text x="390" y="240" font-family="Arial" font-size="14" fill="#718096">/</text>
+  <text x="405" y="240" font-family="Arial" font-size="14" fill="#4299e1">Materials</text>
+  
+  <!-- Folders -->
+  <!-- Materials Folder -->
+  <rect x="240" y="270" width="280" height="50" rx="5" fill="#edf2f7" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="250" y="280" width="30" height="30" fill="#4299e1" opacity="0.5" />
+  <path d="M 255 290 L 255 300 L 275 300 L 275 290 Z" fill="#4299e1" />
+  <path d="M 252 290 L 262 280 L 272 280 L 282 290 L 282 310 L 252 310 Z" fill="#4299e1" opacity="0.8" />
+  <text x="290" y="300" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Materials</text>
+  <text x="450" y="300" font-family="Arial" font-size="12" fill="#a0aec0">Modified 2 days ago</text>
+  
+  <!-- Exercises Folder -->
+  <rect x="240" y="330" width="280" height="50" rx="5" fill="#edf2f7" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="250" y="340" width="30" height="30" fill="#4299e1" opacity="0.5" />
+  <path d="M 255 350 L 255 360 L 275 360 L 275 350 Z" fill="#4299e1" />
+  <path d="M 252 350 L 262 340 L 272 340 L 282 350 L 282 370 L 252 370 Z" fill="#4299e1" opacity="0.8" />
+  <text x="290" y="360" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Exercises</text>
+  <text x="450" y="360" font-family="Arial" font-size="12" fill="#a0aec0">Modified 3 days ago</text>
+  
+  <!-- Resources Folder -->
+  <rect x="240" y="390" width="280" height="50" rx="5" fill="#edf2f7" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="250" y="400" width="30" height="30" fill="#4299e1" opacity="0.5" />
+  <path d="M 255 410 L 255 420 L 275 420 L 275 410 Z" fill="#4299e1" />
+  <path d="M 252 410 L 262 400 L 272 400 L 282 410 L 282 430 L 252 430 Z" fill="#4299e1" opacity="0.8" />
+  <text x="290" y="420" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Resources</text>
+  <text x="450" y="420" font-family="Arial" font-size="12" fill="#a0aec0">Modified 1 week ago</text>
+  
+  <!-- Divider -->
+  <line x1="550" y1="270" x2="550" y2="570" stroke="#e2e8f0" stroke-width="2" />
+  
+  <!-- Files -->
+  <!-- Slides -->
+  <rect x="580" y="270" width="280" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="590" y="280" width="30" height="30" fill="#f6ad55" opacity="0.2" />
+  <rect x="595" y="285" width="20" height="25" fill="#f6ad55" opacity="0.5" />
+  <text x="600" y="300" font-family="Arial" font-size="10" fill="#c05621" font-weight="bold">PPT</text>
+  <text x="630" y="290" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Module1_Slides.pptx</text>
+  <text x="630" y="310" font-family="Arial" font-size="12" fill="#a0aec0">5.2 MB</text>
+  <text x="750" y="300" font-family="Arial" font-size="12" fill="#a0aec0">Uploaded 2 days ago</text>
+  
+  <!-- PDF Notes -->
+  <rect x="580" y="330" width="280" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="590" y="340" width="30" height="30" fill="#fc8181" opacity="0.2" />
+  <rect x="595" y="345" width="20" height="25" fill="#fc8181" opacity="0.5" />
+  <text x="600" y="360" font-family="Arial" font-size="10" fill="#c53030" font-weight="bold">PDF</text>
+  <text x="630" y="350" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Algorithm_Notes.pdf</text>
+  <text x="630" y="370" font-family="Arial" font-size="12" fill="#a0aec0">2.8 MB</text>
+  <text x="750" y="360" font-family="Arial" font-size="12" fill="#a0aec0">Uploaded 3 days ago</text>
+  
+  <!-- Code File -->
+  <rect x="580" y="390" width="280" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="590" y="400" width="30" height="30" fill="#9ae6b4" opacity="0.2" />
+  <rect x="595" y="405" width="20" height="25" fill="#9ae6b4" opacity="0.5" />
+  <text x="599" y="420" font-family="Arial" font-size="8" fill="#2f855a" font-weight="bold">CODE</text>
+  <text x="630" y="410" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">complexity_examples.py</text>
+  <text x="630" y="430" font-family="Arial" font-size="12" fill="#a0aec0">12 KB</text>
+  <text x="750" y="420" font-family="Arial" font-size="12" fill="#a0aec0">Uploaded 1 day ago</text>
+  
+  <!-- Assignment File -->
+  <rect x="580" y="450" width="280" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="590" y="460" width="30" height="30" fill="#90cdf4" opacity="0.2" />
+  <rect x="595" y="465" width="20" height="25" fill="#90cdf4" opacity="0.5" />
+  <text x="599" y="480" font-family="Arial" font-size="8" fill="#2c5282" font-weight="bold">DOC</text>
+  <text x="630" y="470" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">Assignment1.1_Brief.docx</text>
+  <text x="630" y="490" font-family="Arial" font-size="12" fill="#a0aec0">324 KB</text>
+  <text x="750" y="480" font-family="Arial" font-size="12" fill="#a0aec0">Uploaded 4 days ago</text>
+  
+  <!-- ZIP File -->
+  <rect x="580" y="510" width="280" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="590" y="520" width="30" height="30" fill="#cbd5e0" opacity="0.2" />
+  <rect x="595" y="525" width="20" height="25" fill="#cbd5e0" opacity="0.5" />
+  <text x="599" y="540" font-family="Arial" font-size="10" fill="#4a5568" font-weight="bold">ZIP</text>
+  <text x="630" y="530" font-family="Arial" font-size="14" fill="#4a5568" font-weight="bold">starter_code.zip</text>
+  <text x="630" y="550" font-family="Arial" font-size="12" fill="#a0aec0">1.2 MB</text>
+  <text x="750" y="540" font-family="Arial" font-size="12" fill="#a0aec0">Uploaded 4 days ago</text>
+  
+  <!-- File Actions -->
+  <rect x="880" y="270" width="120" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="900" y="300" font-family="Arial" font-size="14" fill="#4a5568">Preview</text>
+  <rect x="950" y="285" width="30" height="20" rx="5" fill="#e2e8f0" />
+  <text x="965" y="300" font-family="Arial" font-size="14" fill="#4a5568">▶</text>
+  
+  <rect x="880" y="330" width="120" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="900" y="360" font-family="Arial" font-size="14" fill="#4a5568">Download</text>
+  <rect x="970" y="345" width="20" height="20" rx="5" fill="#e2e8f0" />
+  <text x="980" y="360" font-family="Arial" font-size="14" fill="#4a5568">↓</text>
+  
+  <rect x="880" y="390" width="120" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="900" y="420" font-family="Arial" font-size="14" fill="#4a5568">Share</text>
+  <rect x="950" y="405" width="30" height="20" rx="5" fill="#e2e8f0" />
+  <text x="965" y="420" font-family="Arial" font-size="14" fill="#4a5568">⇆</text>
+  
+  <rect x="880" y="450" width="120" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="900" y="480" font-family="Arial" font-size="14" fill="#4a5568">Rename</text>
+  <rect x="950" y="465" width="30" height="20" rx="5" fill="#e2e8f0" />
+  <text x="965" y="480" font-family="Arial" font-size="14" fill="#4a5568">✎</text>
+  
+  <rect x="880" y="510" width="120" height="50" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="900" y="540" font-family="Arial" font-size="14" fill="#f06a6a">Delete</text>
+  <rect x="950" y="525" width="30" height="20" rx="5" fill="#fed7d7" />
+  <text x="965" y="540" font-family="Arial" font-size="14" fill="#e53e3e">✕</text>
+  
+  <!-- Game Integration Panel -->
+  <rect x="1020" y="270" width="140" height="290" rx="5" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1" />
+  <text x="1090" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#4a5568" font-weight="bold">Game Integration</text>
+  
+  <line x1="1040" y1="305" x2="1140" y2="305" stroke="#e2e8f0" stroke-width="2" />
+  
+  <text x="1040" y="330" font-family="Arial" font-size="12" fill="#4a5568">Attach to:</text>
+  <rect x="1040" y="340" width="100" height="25" rx="5" fill="#e2e8f0" />
+  <text x="1090" y="357" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Quest Item ▼</text>
+  
+  <text x="1040" y="380" font-family="Arial" font-size="12" fill="#4a5568">Required to:</text>
+  <rect x="1040" y="390" width="100" height="25" rx="5" fill="#e2e8f0" />
+  <text x="1090" y="407" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">Unlock ▼</text>
+  
+  <text x="1040" y="430" font-family="Arial" font-size="12" fill="#4a5568">Quest Points:</text>
+  <rect x="1040" y="440" width="100" height="25" rx="5" fill="#e2e8f0" />
+  <text x="1090" y="457" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">10 ▼</text>
+  
+  <text x="1040" y="480" font-family="Arial" font-size="12" fill="#4a5568">XP Award:</text>
+  <rect x="1040" y="490" width="100" height="25" rx="5" fill="#e2e8f0" />
+  <text x="1090" y="507" font-family="Arial" font-size="12" text-anchor="middle" fill="#4a5568">25 ▼</text>
+  
+  <rect x="1040" y="530" width="100" height="30" rx="5" fill="#38b2ac" />
+  <text x="1090" y="550" font-family="Arial" font-size="12" text-anchor="middle" fill="#ffffff" font-weight="bold">Save Settings</text>
+</svg>

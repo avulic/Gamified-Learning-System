@@ -1,7 +1,7 @@
 
 import { Container } from 'inversify';
 
-import { TYPES } from '../types';
+import { ILogger, TYPES } from '../types';
 import AssignmentController from '@/controllers/AssignmentController';
 import AuthController from '@/controllers/AuthController';
 import CourseController from '@/controllers/CourseController';
@@ -22,19 +22,28 @@ import CourseService from '@/services/CourseService';
 import FileService from '@/services/FileService';
 import ModuleService from '@/services/ModuleService';
 import { SubmissionService } from '@/services/SubmissionService';
-import { ProgressService } from '@/services/Progress/ProgressService';
 import UserService from '@/services/UserService';
 
-import { IUserDb } from '@/models/db/mongo';
-import User from '@/models/db/mongo/User';
-import { Model } from 'mongoose';
-import Logger from '@/utils/logger';
+
+import loggerInstance from '@/utils/logger';
 import { ProgressController } from '@/controllers/ProgressController';
-import TaskProgressRepository from '@/repository/Progress/TaskProgressRepository';
 import UserProgressRepository from '@/repository/Progress/UserProgressRepository';
 
 
+import mongoose, { Connection } from 'mongoose';
+import { IUnitOfWork } from '@/repository/interface/IUnitOfWork';
+import { TaskRepository } from '@/repository/TaskRepository';
+import { TaskService } from '@/services/TaskService';
+import AiService from '@/services/AiService';
+import TaskController from '@/controllers/TaskController';
+import SubmissionController from '@/controllers/SubmissionController';
+import AssignmentProgressRepository from '@/repository/AssignmentProgressRepository';
+
+
+
 const container = new Container();
+
+container.bind<Connection>(TYPES.DbConnection).toConstantValue(mongoose.connection);
 
 // Services
 container.bind<UserService>(TYPES.UserService).to(UserService);
@@ -43,8 +52,8 @@ container.bind<CourseService>(TYPES.CourseService).to(CourseService);
 container.bind<ModuleService>(TYPES.ModuleService).to(ModuleService);
 container.bind<SubmissionService>(TYPES.SubmissionService).to(SubmissionService);
 container.bind<FileService>(TYPES.FileService).to(FileService);
-container.bind<ProgressService>(TYPES.ProgressService).to(ProgressService);
-
+container.bind<TaskService>(TYPES.TaskService).to(TaskService);
+container.bind<AiService>(TYPES.AiService).to(AiService);
 
 // Controllers
 container.bind<UserController>(TYPES.UserController).to(UserController);
@@ -52,7 +61,9 @@ container.bind<AssignmentController>(TYPES.AssignmentController).to(AssignmentCo
 container.bind<CourseController>(TYPES.CourseController).to(CourseController);
 container.bind<ModuleController>(TYPES.ModuleController).to(ModuleController);
 container.bind<ProgressController>(TYPES.ProgressController).to(ProgressController);
+container.bind<TaskController>(TYPES.TaskController).to(TaskController);
 container.bind<AuthController>(TYPES.AuthController).to(AuthController);
+container.bind<SubmissionController>(TYPES.SubmissionController).to(SubmissionController);
 
 //Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository);
@@ -63,13 +74,16 @@ container.bind<ModuleRepository>(TYPES.ModuleRepository).to(ModuleRepository);
 container.bind<AssignmentRepository>(TYPES.AssignmentRepository).to(AssignmentRepository);
 container.bind<SubmissionRepository>(TYPES.SubmissionRepository).to(SubmissionRepository);
 container.bind<FileRepository>(TYPES.FileRepository).to(FileRepository);
-container.bind<TaskProgressRepository>(TYPES.TaskProgressRepository).to(TaskProgressRepository);
 container.bind<UserProgressRepository>(TYPES.UserProgressRepository).to(UserProgressRepository);
+container.bind<TaskRepository>(TYPES.TaskRepository).to(TaskRepository);
+container.bind<AssignmentProgressRepository>(TYPES.AssignmentProgressRepository).to(AssignmentProgressRepository);
 
 
-container.bind<Logger>(TYPES.Logger).toDynamicValue(() => {
-    return Logger.getInstance();
-}).inSingletonScope();
+
+
+container
+    .bind<ILogger>(TYPES.Logger)
+    .toConstantValue(loggerInstance);
 
 
 

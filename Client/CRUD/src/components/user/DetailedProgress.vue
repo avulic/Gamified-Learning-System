@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { CourseProgress, CourseProgress, ModuleProgress } from '@/types/Progression';
+import { CourseProgress, ModuleProgress } from '@/types/Progression';
 import { computed } from 'vue';
 
 const props = defineProps<{

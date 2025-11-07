@@ -1,6 +1,6 @@
-import ApiService from '@/services/ApiService';
-import type Question from '@/types/task/Question';
-import { get, post, put, del } from '@/services/ApiService';
+import {apiService} from '@/services/ApiService';
+import { Question } from '@/types/task/Question';
+const { get, post, put } = apiService;
 
 class QuestionService {
     public async createQuestion(question: Question): Promise<Question> {
@@ -45,14 +45,14 @@ class QuestionService {
         }
     }
 
-    public async deleteQuestion(questionId: string): Promise<Question | null> {
-        const response = await del<Question>(`/questions/${questionId}`);
-        return response.data;
-    }
+    // public async deleteQuestion(questionId: string): Promise<Question | null> {
+    //     const response = await del<Question>(`/questions/${questionId}`);
+    //     return response.data;
+    // }
 
-    public async deleteQuestionsByQuiz(quizId: string): Promise<void> {
-        await del(`/questions?quizId=${quizId}`);
-    }
+    // public async deleteQuestionsByQuiz(quizId: string): Promise<void> {
+    //     await del(`/questions?quizId=${quizId}`);
+    // }
 }
 
 export default new QuestionService();

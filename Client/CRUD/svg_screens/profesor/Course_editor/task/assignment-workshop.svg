@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#ff7043" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">Assignment Workshop</text>
+  
+  <!-- Tab Navigation -->
+  <rect x="30" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="60" y="105" font-family="Arial" font-size="14" fill="#ff7043">Lesson Creator</text>
+  
+  <rect x="180" y="80" width="160" height="40" fill="#ff7043" rx="6" ry="6"/>
+  <text x="200" y="105" font-family="Arial" font-size="14" fill="white">Assignment Workshop</text>
+  
+  <rect x="350" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="380" y="105" font-family="Arial" font-size="14" fill="#ff7043">Task Editor</text>
+  
+  <rect x="500" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="510" y="105" font-family="Arial" font-size="14" fill="#ff7043">Entity-Task Mapper</text>
+  
+  <!-- Assignment Metadata -->
+  <rect x="30" y="140" width="740" height="90" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  
+  <text x="50" y="165" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Assignment Title:</text>
+  <rect x="180" y="150" width="300" height="25" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="190" y="167" font-family="Arial" font-size="14" fill="#333">The Great Photosynthesis Challenge</text>
+  
+  <text x="50" y="200" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Quest Description:</text>
+  <rect x="180" y="185" width="570" height="25" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="190" y="202" font-family="Arial" font-size="14" fill="#333">Help the Forest Guide understand how plants create energy from sunlight</text>
+  
+  <!-- Split View: Quest Narrative & Task Management -->
+  <rect x="30" y="250" width="360" height="320" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <rect x="30" y="250" width="360" height="40" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="45" y="275" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Quest Narrative</text>
+  
+  <!-- Narrative Editor -->
+  <rect x="30" y="290" width="360" height="280" fill="white"/>
+  <text x="45" y="315" font-family="Arial" font-size="13" fill="#333" font-weight="bold">Background:</text>
+  <text x="45" y="340" font-family="Arial" font-size="13" fill="#333">The Ancient Forest is showing signs of stress. The Forest Guide has noticed that some plants are not producing energy efficiently.</text>
+  
+  <text x="45" y="380" font-family="Arial" font-size="13" fill="#333" font-weight="bold">Mission:</text>
+  <text x="45" y="405" font-family="Arial" font-size="13" fill="#333">Investigate the photosynthesis process and identify why some plants may be struggling. Create a diagram explaining the entire process to help the Forest Guide.</text>
+  
+  <text x="45" y="445" font-family="Arial" font-size="13" fill="#333" font-weight="bold">Game Context:</text>
+  <text x="45" y="470" font-family="Arial" font-size="13" fill="#333">Successfully completing this quest will unlock the "Plant Whisperer" achievement and provide access to the advanced biology laboratory.</text>
+  
+  <text x="45" y="510" font-family="Arial" font-size="13" fill="#333" font-weight="bold">NPC Dialogue:</text>
+  <text x="45" y="535" font-family="Arial" font-size="13" fill="#333">"The forest speaks to me, but lately some plants seem to whisper rather than sing. Can you help me understand how they create their energy?"</text>
+  
+  <!-- Task Management -->
+  <rect x="410" y="250" width="360" height="320" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <rect x="410" y="250" width="360" height="40" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="425" y="275" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Quest Tasks</text>
+  <text x="720" y="275" font-family="Arial" font-size="20" fill="#ff7043" font-weight="bold">+</text>
+  
+  <!-- Task List -->
+  <rect x="425" y="305" width="330" height="70" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="440" y="330" font-family="Arial" font-size="14" fill="#333" font-weight="bold">1. Research Photosynthesis</text>
+  <text x="440" y="350" font-family="Arial" font-size="12" fill="#555">Visit the library and collect information</text>
+  <text x="440" y="370" font-family="Arial" font-size="12" fill="#ff7043">XP: 50 • Difficulty: ★★☆☆☆</text>
+  
+  <rect x="425" y="385" width="330" height="70" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="440" y="410" font-family="Arial" font-size="14" fill="#333" font-weight="bold">2. Create a Photosynthesis Diagram</text>
+  <text x="440" y="430" font-family="Arial" font-size="12" fill="#555">Design a visual explanation of the process</text>
+  <text x="440" y="450" font-family="Arial" font-size="12" fill="#ff7043">XP: 100 • Difficulty: ★★★☆☆</text>
+  
+  <rect x="425" y="465" width="330" height="70" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="440" y="490" font-family="Arial" font-size="14" fill="#333" font-weight="bold">3. Present to the Forest Guide</text>
+  <text x="440" y="510" font-family="Arial" font-size="12" fill="#555">Explain your findings to help the forest</text>
+  <text x="440" y="530" font-family="Arial" font-size="12" fill="#ff7043">XP: 75 • Difficulty: ★★☆☆☆</text>
+  
+  <!-- Quest Configuration -->
+  <rect x="30" y="590" width="740" height="50" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  
+  <text x="50" y="620" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Rewards:</text>
+  <rect x="120" y="600" width="200" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="130" y="620" font-family="Arial" font-size="13" fill="#333">Total XP: 225 • Plant Whisp. Badge</text>
+  
+  <text x="350" y="620" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Unlock:</text>
+  <rect x="410" y="600" width="150" height="30" fill="white" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="420" y="620" font-family="Arial" font-size="13" fill="#333">Advanced Lab</text>
+  
+  <rect x="580" y="600" width="90" height="30" fill="white" stroke="#ff7043" stroke-width="2" rx="4" ry="4"/>
+  <text x="605" y="620" font-family="Arial" font-size="14" fill="#ff7043">Preview</text>
+  
+  <rect x="680" y="600" width="70" height="30" fill="#ff7043" rx="4" ry="4"/>
+  <text x="700" y="620" font-family="Arial" font-size="14" fill="white">Save</text>
+</svg>

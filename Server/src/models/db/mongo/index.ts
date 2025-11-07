@@ -1,13 +1,15 @@
-export * from './Progress';
-export * from './Analytics';
-export * from './Assignment';
-export * from './Course';
-export * from './Module';
-export * from './User';
-export * from './Notofication';
-export * from './Role';
-export * from './Submission';
-export * from './Task';
-export * from './Answer';
-export * from './File';
 
+export * from './Progress';
+export * from './Analytics.db';
+export * from './Assignment.db';
+export * from './Module.db';
+export * from './Course.db';
+
+export * from './User.db';
+
+export * from './Role.db';
+export * from './Submission.db';
+export * from './Task.db';
+export * from './Answer.db';
+export * from './File.db';
+export * from './Progress';

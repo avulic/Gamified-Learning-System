@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f7fa" rx="8" ry="8"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="60" fill="#ff7043" rx="8" ry="8"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" fill="white" font-weight="bold">Entity-Task Mapper</text>
+  
+  <!-- Tab Navigation -->
+  <rect x="30" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="60" y="105" font-family="Arial" font-size="14" fill="#ff7043">Lesson Creator</text>
+  
+  <rect x="180" y="80" width="160" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="200" y="105" font-family="Arial" font-size="14" fill="#ff7043">Assignment Workshop</text>
+  
+  <rect x="350" y="80" width="140" height="40" fill="#ffded5" rx="6" ry="6"/>
+  <text x="380" y="105" font-family="Arial" font-size="14" fill="#ff7043">Task Editor</text>
+  
+  <rect x="500" y="80" width="140" height="40" fill="#ff7043" rx="6" ry="6"/>
+  <text x="510" y="105" font-family="Arial" font-size="14" fill="white">Entity-Task Mapper</text>
+  
+  <!-- Main Split View -->
+  <rect x="30" y="140" width="320" height="430" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <rect x="30" y="140" width="320" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="50" y="170" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Game Entities</text>
+  
+  <!-- Entity Search -->
+  <rect x="50" y="200" width="280" height="30" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="15" ry="15"/>
+  <text x="70" y="220" font-family="Arial" font-size="13" fill="#999">🔍 Search entities...</text>
+  
+  <!-- Entity Type Filter -->
+  <rect x="50" y="240" width="80" height="25" fill="#ff7043" rx="12" ry="12"/>
+  <text x="65" y="257" font-family="Arial" font-size="12" fill="white">Characters</text>
+  
+  <rect x="140" y="240" width="80" height="25" fill="#f0f3f9" rx="12" ry="12"/>
+  <text x="155" y="257" font-family="Arial" font-size="12" fill="#555">Objects</text>
+  
+  <rect x="230" y="240" width="80" height="25" fill="#f0f3f9" rx="12" ry="12"/>
+  <text x="245" y="257" font-family="Arial" font-size="12" fill="#555">Locations</text>
+  
+  <!-- Entity List -->
+  <rect x="50" y="280" width="280" height="60" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="80" cy="310" r="15" fill="#9fa8da"/>
+  <rect x="75" y="325" width="10" height="10" fill="#7986cb"/>
+  <text x="100" y="310" font-family="Arial" font-size="14" fill="#333">Professor Oak</text>
+  <text x="100" y="330" font-family="Arial" font-size="12" fill="#555">Biology Expert NPC</text>
+  
+  <rect x="50" y="350" width="280" height="60" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="80" cy="380" r="15" fill="#a5d6a7"/>
+  <rect x="75" y="395" width="10" height="10" fill="#66bb6a"/>
+  <text x="100" y="380" font-family="Arial" font-size="14" fill="#333">Forest Guide</text>
+  <text x="100" y="400" font-family="Arial" font-size="12" fill="#555">Quest Giver NPC</text>
+  
+  <rect x="50" y="420" width="280" height="60" fill="#ffded5" stroke="#ff7043" stroke-width="2" rx="4" ry="4"/>
+  <circle cx="80" cy="450" r="15" fill="#80deea"/>
+  <rect x="75" y="465" width="10" height="10" fill="#26c6da"/>
+  <text x="100" y="450" font-family="Arial" font-size="14" fill="#333">Ancient Oak Tree</text>
+  <text x="100" y="470" font-family="Arial" font-size="12" fill="#555">Special Location NPC</text>
+  
+  <rect x="50" y="490" width="280" height="60" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <circle cx="80" cy="520" r="15" fill="#ffcc80"/>
+  <rect x="75" y="535" width="10" height="10" fill="#ffa726"/>
+  <text x="100" y="520" font-family="Arial" font-size="14" fill="#333">Lab Assistant</text>
+  <text x="100" y="540" font-family="Arial" font-size="12" fill="#555">Support NPC</text>
+  
+  <!-- Task View -->
+  <rect x="370" y="140" width="400" height="430" fill="white" stroke="#ddd" stroke-width="1" rx="6" ry="6"/>
+  <rect x="370" y="140" width="400" height="50" fill="#f0f3f9" rx="6" ry="6"/>
+  <text x="390" y="170" font-family="Arial" font-size="16" fill="#555" font-weight="bold">Map Tasks to Ancient Oak Tree</text>
+  
+  <!-- Entity Info -->
+  <rect x="390" y="200" width="360" height="80" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <text x="410" y="225" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Entity Type:</text>
+  <text x="500" y="225" font-family="Arial" font-size="14" fill="#333">Special Location NPC</text>
+  <text x="410" y="255" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Description:</text>
+  <text x="500" y="255" font-family="Arial" font-size="14" fill="#333">Wise, ancient tree that serves as guardian of forest knowledge</text>
+  
+  <!-- Task Assignment Section -->
+  <text x="390" y="310" font-family="Arial" font-size="14" fill="#555" font-weight="bold">Assign Tasks:</text>
+  
+  <rect x="390" y="325" width="360" height="60" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <rect x="400" y="340" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="405" y="355" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="430" y="345" font-family="Arial" font-size="14" fill="#333">Research Photosynthesis</text>
+  <text x="430" y="365" font-family="Arial" font-size="12" fill="#555">Entity Role: Knowledge Provider</text>
+  
+  <rect x="390" y="395" width="360" height="60" fill="#ffded5" stroke="#ff7043" stroke-width="2" rx="4" ry="4"/>
+  <rect x="400" y="410" width="20" height="20" fill="white" stroke="#ff7043" stroke-width="2" rx="3" ry="3"/>
+  <text x="405" y="425" font-family="Arial" font-size="16" fill="#ff7043" font-weight="bold">✓</text>
+  <text x="430" y="415" font-family="Arial" font-size="14" fill="#333">Create a Photosynthesis Diagram</text>
+  <text x="430" y="435" font-family="Arial" font-size="12" fill="#555">Entity Role: Quest Element</text>
+  
+  <rect x="390" y="465" width="360" height="60" fill="#f9f9f9" stroke="#ddd" stroke-width="1" rx="4" ry="4"/>
+  <rect x="400" y="480" width="20" height="20" fill="white" stroke="#ddd" stroke-width="1" rx="3" ry="3"/>
+  <text x="430" y="485" font-family="Arial" font-size="14" fill="#333">Present to the Forest Guide</text>
+  <text x="430" y="505" font-family="Arial" font-size="12" fill="#555">Entity Role: Not Assigned</text>
+  
+  <!-- Dialogue Preview Button -->
+  <rect x="390" y="535" width="170" height="30" fill="#f0f3f9" stroke="#ff7043" stroke-width="2" rx="4" ry="4"/>
+  <text x="430" y="555" font-family="Arial" font-size="14" fill="#ff7043">Preview Dialogue</text>
+  
+  <!-- Save Button -->
+  <rect x="570" y="535" width="180" height="30" fill="#ff7043" rx="4" ry="4"/>
+  <text x="640" y="555" font-family="Arial" font-size="14" fill="white">Save Mapping</text>
+</svg>

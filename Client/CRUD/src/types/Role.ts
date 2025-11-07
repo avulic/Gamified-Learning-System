@@ -1,12 +1,4 @@
-// roles.ts
-
-export enum RoleEnum {
-    User = 'user',
-    Student = 'student',
-    Guest = 'guest',
-    Admin = 'admin',
-    Professor = 'professor'  // Fixed typo: 'Profesor' to 'Professor'
-}
+import { RoleEnum } from "./enums";
 
 export interface IRole {
     name: RoleEnum;
@@ -14,7 +6,7 @@ export interface IRole {
 
 // Example of creating a role
 const userRole: Role = {
-    name: RoleEnum.User
+    name: RoleEnum.USER
 };
 
 // If you need a class with a constructor
@@ -23,7 +15,7 @@ export class Role implements IRole {
 }
 
 // Example of using the class
-const adminRole = new Role(RoleEnum.Admin);
+const adminRole = new Role(RoleEnum.ADMIN);
 
 // Type guard function to check if a string is a valid RoleEnum
 export function isValidRole(role: string): role is RoleEnum {

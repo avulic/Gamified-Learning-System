@@ -1,361 +1,157 @@
+<!-- Improved Details.vue with Type Safety and Robust Handling -->
 <template>
-    <div class="bg-gray-100 p-6">
-        <div v-if="showEdit" class="mb-4">
-            <div class="flex items-center">
-                <InputSwitch v-model="isEditable" class="mr-2" />
-                <label for="edit" class="text-sm text-gray-600">Edit task</label>
-            </div>
-        </div>
+    <div class="task-details-container bg-gray-100 p-6">
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
-
             <TabView>
                 <TabPanel header="Task Details">
                     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-                        <!-- Common fields for all task types -->
+                        <!-- Common Task Fields -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <Field name="title" v-slot="{ field }">
-                                    <span class="block relative">
-                                        <InputText id="title" v-model="currentTask.title" v-bind="field"
-                                            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                            :class="{ 'border-red-500': errors.title }" :disabled="!isEditable" />
-                                        <label for="title"
-                                            class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Task
-                                            Title</label>
-                                    </span>
-                                    <ErrorMessage name="title" class="text-red-500 text-xs mt-1" />
-                                </Field>
-                            </div>
-
-                        </div>
-                        <div class="mt-6">
-                            <Field name="description" v-slot="{ field }">
-                                <span class="block relative">
-                                    <Textarea id="description" v-model="currentTask.description" v-bind="field"
-                                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                        :class="{ 'border-red-500': errors.description }" :disabled="!isEditable"
-                                        rows="3" />
-                                    <label for="description"
-                                        class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Description</label>
-                                </span>
-                                <ErrorMessage name="description" class="text-red-500 text-xs mt-1" />
+                            <Field name="title" v-slot="{ field }">
+                                <InputText 
+                                    v-model="currentTask.title" 
+                                    v-bind="field"
+                                    class="w-full p-3 border rounded-md"
+                                    :class="{ 'border-red-500': errors.title }"
+                                />
+                                <ErrorMessage name="title" class="text-red-500 text-xs mt-1" />
                             </Field>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                            <div>
-                                <Field name="xpReward" v-slot="{ field }">
-                                    <span class="block relative">
-                                        <InputNumber id="xpReward" v-model="currentTask.xpReward" v-bind="field"
-                                            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                            :class="{ 'border-red-500': errors.xpReward }" :disabled="!isEditable" />
-                                        <label for="xpReward"
-                                            class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">XP
-                                            Reward</label>
-                                    </span>
-                                    <ErrorMessage name="xpReward" class="text-red-500 text-xs mt-1" />
-                                </Field>
-                            </div>
-                            <div>
-                                <Field name="weight" v-slot="{ field }">
-                                    <span class="block relative">
-                                        <InputNumber id="weight" v-model="currentTask.weight" v-bind="field"
-                                            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                            :class="{ 'border-red-500': errors.weight }" :disabled="!isEditable" />
-                                        <label for="weight"
-                                            class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Weight</label>
-                                    </span>
-                                    <ErrorMessage name="weight" class="text-red-500 text-xs mt-1" />
-                                </Field>
-                            </div>
-                            <div>
-                                <Field name="status" v-slot="{ field }">
-                                    <span class="block relative">
-                                        <Dropdown id="status" v-model="currentTask.status" v-bind="field"
-                                            :options="Object.values(ProgressTypeEnum)"
-                                            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                            :class="{ 'border-red-500': errors.status }" :disabled="!isEditable" />
-                                        <label for="status"
-                                            class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Status</label>
-                                    </span>
-                                    <ErrorMessage name="status" class="text-red-500 text-xs mt-1" />
-                                </Field>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                            <div>
-                                <Field name="dueDate" v-slot="{ field }">
-                                    <span class="block relative">
-                                        <Calendar id="dueDate" v-model="currentTask.dueDate" v-bind="field"
-                                            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                            :class="{ 'border-red-500': errors.dueDate }" :disabled="!isEditable" />
-                                        <label for="dueDate"
-                                            class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Due
-                                            Date</label>
-                                    </span>
-                                    <ErrorMessage name="dueDate" class="text-red-500 text-xs mt-1" />
-                                </Field>
-                            </div>
-                        </div>
 
-                    </div>
-                </TabPanel>
-
-                <TabPanel header="Content">
-                    <div v-if="Array.isArray(currentTask.content)">
-                        <DataTable :value="questions" tableStyle="min-width: 50rem">
-                            <Column field="id" header="ID"></Column>
-                            <Column field="question" header="Question"></Column>
-                            <Column field="points" header="Points"></Column>
-                            <Column field="correctAnswer" header="Correct Answer"></Column>
-                        </DataTable>
-                    </div>
-                    <div v-if="currentTask.taskType" class="flex justify-start space-x-4">
-                        <Field name="type" v-slot="{ field }">
-                            <span class="block relative">
-                                <Dropdown id="type" v-model="currentTask.taskType" v-bind="field"
-                                    :options="Object.values(TaskTypeEnum)"
-                                    class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                    :class="{ 'border-red-500': errors.type }" :disabled="!isEditable" />
-                                <label for="type"
-                                    class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">Task
-                                    Type</label>
-                            </span>
-                            <ErrorMessage name="type" class="text-red-500 text-xs mt-1" />
-                        </Field>
-                    </div>
-
-                    <div v-if="currentTask.taskType">
-                        <component :is="taskTypeComponent" v-model="currentTask.content" :errors="errors"
-                            :is-editable="isEditable" />
-                    </div>
-
-                    <div class="flex justify-end space-x-4">
-                        <Button label="Add" type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                            :disabled="!isEditable" />
-                        <Button label="Delete" type="button"
-                            class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            @click="deleteTask" :disabled="!isEditable" />
+                        <!-- Task Type Specific Content -->
+                        <component 
+                            v-if="taskTypeComponent"
+                            :is="taskTypeComponent" 
+                            v-model="currentTask.content"
+                            :task-type="currentTask.taskType"
+                            :errors="errors"
+                        />
                     </div>
                 </TabPanel>
             </TabView>
-
-
-            <div class="flex justify-end space-x-4">
-                <Button label="Save" type="submit"
-                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    :disabled="!isEditable" />
-                <Button label="Delete" type="button"
-                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                    @click="deleteTask" :disabled="!isEditable" />
-            </div>
         </Form>
     </div>
-    <!-- <Toast /> -->
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { Form, Field, ErrorMessage, useForm, SubmissionHandler } from 'vee-validate';
-import { object, string, number, date, ObjectSchema, InferType } from 'yup';
-import Task, { TaskTypeEnum, TextTask, TextContent, UploadTask } from '@/types/task/Task';
-import Quiz from '@/types/quiz/Quiz';
-import { ProgressTypeEnum } from '@/types/Progression';
-import { QuestionType, TextQuestion } from '@/types/task/question/Question';
-import Question from '@/components/question/Question.vue';
-import MultiChoice from '@/components/question/MultiChoice.vue';
-import TrueFalse from '@/components/question/TrueFalse.vue';
+import { TaskTypeEnum, ProgressTypeEnum, QuestionType } from '@/types/enums';
+import { QuestionTask, QuizTask, Task } from '@/types/task/Task';
+import { ref, computed } from 'vue';
+import * as Yup from 'yup';
+
+import QuestionComponent from './Question.vue';
+import QuizComponent from './Quiz.vue';
+import FileUploadComponent from './Upload.vue';
+import CodeComponent from './Code.vue';
+
+// Type-safe component mapping
+const taskTypeComponentMap = {
+    [TaskTypeEnum.QUESTION]: QuestionComponent,
+    [TaskTypeEnum.QUIZ]: QuizComponent,
+    [TaskTypeEnum.FILE_UPLOAD]: FileUploadComponent,
+    [TaskTypeEnum.CODE]: CodeComponent,
+};
+
+// Type guard for task type
+function isTaskType<T extends Task>(
+    task: Task, 
+    type: TaskTypeEnum
+): task is T {
+    return task.taskType === type;
+}
+
+// Task creation utility
+function createTask(type: TaskTypeEnum): Task {
+    const baseTask = {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        taskType: type,
+        status: ProgressTypeEnum.NOT_STARTED,
+        points: 0,
+        order: 0,
+        xpReward: 0,
+        requiredForCompletion: false,
+        dueDate: new Date(),
+        assignmentId: '',
+        prerequisites: []
+    };
+
+    switch (type) {
+        case TaskTypeEnum.QUESTION:
+            return {
+                ...baseTask,
+                content: {
+                    id: crypto.randomUUID(),
+                    question: '',
+                    questionType: QuestionType.TEXT,
+                    correctAnswer: ''
+                }
+            } as QuestionTask;
+        case TaskTypeEnum.QUIZ:
+            return {
+                ...baseTask,
+                content: {
+                    questions: [],
+                    timeLimit: 0,
+                    passingScore: 0
+                }
+            } as QuizTask;
+        // Add other task type creations
+        default:
+            throw new Error(`Unsupported task type: ${type}`);
+    }
+}
+
+// Validation schema with type-safe validation
+const schema = Yup.object({
+    title: Yup.string().required('Title is required'),
+    description: Yup.string().required('Description is required'),
+    taskType: Yup.mixed<TaskTypeEnum>()
+        .oneOf(Object.values(TaskTypeEnum))
+        .required('Task type is required'),
+    xpReward: Yup.number()
+        .required('XP reward is required')
+        .min(0, 'XP reward must be non-negative'),
+    status: Yup.mixed<ProgressTypeEnum>()
+        .oneOf(Object.values(ProgressTypeEnum))
+        .required('Status is required')
+});
 
 const props = defineProps<{
-    task?: Task;
+    initialTask?: Task;
+    taskType?: TaskTypeEnum;
 }>();
 
 const emit = defineEmits<{
-    saveTask: [task: Task];
-    deleteTask: [taskId: string];
+    (e: 'save', task: Task): void;
+    (e: 'cancel'): void;
 }>();
 
+// Initialize task with prop or create new
 const currentTask = ref<Task>(
-    {
-        id: '1',
-        assignmentId: '1',
-        taskType: TaskTypeEnum.TEXT,
-        status: ProgressTypeEnum.NOT_STARTED,
-        dueDate: new Date(),
-        title: 'Reading Task',
-        description: 'Read the following text',
-        xpReward: 50,
-        requiredForCompletion: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        content: [{
-            questions: [{
-                id: 'q1',
-                taskId: '1',
-                question: 'Is the sky blue?',
-                points: 5,
-                correctAnswer: "Yes"
-            } as TextQuestion],
-            minWords: 1,
-            maxWords: 100
-        } as TextContent],
-        estimatedReadTime: 300
-    } as TextTask
+    props.initialTask || 
+    createTask(props.taskType || TaskTypeEnum.QUESTION)
 );
 
-const questions = computed(() => {
-    if (Array.isArray(currentTask.value.content)) {
-        return currentTask.value.content.flatMap(content => content.questions);
-    }
-    return [];
-});
+// Computed dynamic component
+const taskTypeComponent = computed(() => 
+    taskTypeComponentMap[currentTask.value.taskType]
+);
 
-const taskTypeComponent = computed(() => {
-    switch (currentTask.value.taskType) {
-        case TaskTypeEnum.QUESTION:
-            return Question;
-        case TaskTypeEnum.MULTI_CHOICE:
-            return MultiChoice;
-        case TaskTypeEnum.QUIZ:
-            return TrueFalse;
-        default:
-            return null;
-    }
-});
-
-const isEditable = ref(true);
-const showEdit = ref(props.task !== null);
-
-
-
-const taskTypeOptions = [
-    { label: 'Question', value: TaskTypeEnum.QUESTION },
-    { label: 'Multiple Choice', value: TaskTypeEnum.MULTI_CHOICE },
-    { label: 'File Upload', value: TaskTypeEnum.FILE_UPLOAD },
-];
-
-// const taskTypeComponent = computed(() => {
-//     switch (currentTask.value.type) {
-//         case TaskTypeEnum.QUESTION:
-//             return Question;
-//         case TaskTypeEnum.MULTI_CHOICE:
-//             return MultiChoice;
-//         // case TaskTypeEnum.FILE_UPLOAD:
-//         //     return FileUploadTask;
-//         // case TaskTypeEnum.TEXT:
-//         //     return TextSubmissionTask;
-//         default:
-//             return null;
-//     }
-// });
-
-
-
-// const onSubmit = getSubmitFn(schema, (values: Task) => {
-//     emit('saveTask', values);
-// });
-
-const schema = object({
-    title: string().required('Title is required'),
-    taskType: string().required('Task type is required'),
-    description: string().required('Description is required'),
-    xpReward: number().required('XP reward is required').min(0, 'XP reward must be non-negative'),
-    weight: number().required('Weight is required').positive('Weight must be positive'),
-    status: string().required('Status is required'),
-    dueDate: date().nullable(),
-});
-
+// Submit handler with type checking
 const onSubmit = (values: any) => {
     const updatedTask: Task = {
         ...currentTask.value,
         ...values,
-        updatedAt: new Date(),
+        updatedAt: new Date()
     };
 
-    switch (updatedTask.taskType) {
-        case TaskTypeEnum.TEXT:
-            emit('saveTask', updatedTask as TextTask);
-            break;
-        case TaskTypeEnum.FILE_UPLOAD:
-            emit('saveTask', updatedTask as UploadTask);
-            break;
-        case TaskTypeEnum.QUIZ:
-            emit('saveTask', updatedTask as Quiz);
-            break;
-        default:
-            console.error('Unknown task type');
+    // Validate task type before emitting
+    if (isTaskType(updatedTask, updatedTask.taskType)) {
+        emit('save', updatedTask);
+    } else {
+        console.error('Invalid task type');
     }
 };
-
-function getSubmitFn<Schema extends ObjectSchema<Record<string, any>>>(
-    schema: Schema,
-    callback: (values: InferType<Schema>) => void
-) {
-    return (values: Record<string, any>) => {
-        return callback(values as InferType<Schema>);
-    };
-}
-
-const deleteTask = () => {
-    if (currentTask.value.id) {
-        emit('deleteTask', currentTask.value.id);
-    }
-};
-
-
-// type CommonTaskFields = {
-// id: string;
-// assignmentId: string;
-// taskType: TaskTypeEnum;
-// status: ProgressTypeEnum;
-// title: string;
-// description: string;
-// xpReward: number;
-// requiredForCompletion: boolean;
-// dueDate?: Date;
-// };
-
-// const commonFields = computed((): CommonTaskFields => ({
-// id: currentTask.value.id,
-// assignmentId: currentTask.value.assignmentId,
-// taskType: currentTask.value.taskType,
-// status: currentTask.value.status,
-// title: currentTask.value.title,
-// description: currentTask.value.description,
-// xpReward: currentTask.value.xpReward,
-// requiredForCompletion: currentTask.value.requiredForCompletion,
-// dueDate: currentTask.value.dueDate,
-// }));
-
-// const { handleSubmit, errors } = useForm({
-// validationSchema: schema,
-// initialValues: commonFields,
-// });
-
-// const onSubmit = handleSubmit((values: CommonTaskFields) => {
-// const updatedTask: Task = {
-// ...currentTask.value,
-// ...values,
-// };
-
-// switch (updatedTask.taskType) {
-// case TaskTypeEnum.TEXT:
-// emit('saveTask', updatedTask as TextTask);
-// break;
-// case TaskTypeEnum.FILE_UPLOAD:
-// emit('saveTask', updatedTask as UploadTask);
-// break;
-// case TaskTypeEnum.QUIZ:
-// emit('saveTask', updatedTask as Quiz);
-// break;
-// default:
-// console.error('Unknown task type');
-// }
-// });
-
-
-
-
-
-
 </script>

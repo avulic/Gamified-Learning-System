@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="4">
- <tileset firstgid="1" source="./[Base]BaseChip_pipo.tsx"/>
- <tileset firstgid="1001" source="./[A]Grass_pipo.tsx"/>
- <tileset firstgid="1529" source="./[A]Water_pipo.tsx"/>
- <tileset firstgid="4601" source="./[A]Flower_pipo.tsx"/>
+ <tileset firstgid="1" source="/assets/maps/[Base]BaseChip_pipo.tsx"/>
+ <tileset firstgid="1001" source="/assets/maps/[A]Grass_pipo.tsx"/>
+ <tileset firstgid="1529" source="/assets/maps/[A]Water_pipo.tsx"/>
+ <tileset firstgid="4601" source="/assets/maps/[A]Flower_pipo.tsx"/>
  <layer id="4" name="ground" width="40" height="60">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1303,1304,1,1,1,1,1,1,1,1,1,1,1,1070,1078,6,6,6,1077,1071,1071,1071,1071,1078,6,6,6,6,6,6,6,
