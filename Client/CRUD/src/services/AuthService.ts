@@ -18,7 +18,7 @@ class AuthService {
     public async signIn(user: UserSignIn): Promise<AuthResponse<JwtToken>> {
         try {
             const response = await apiService.post<JwtToken>('/signin', user);
-            
+
             if (!response.data) {
                 throw new AuthError('Invalid response from server', response.status);
             }
@@ -35,7 +35,7 @@ class AuthService {
             const errorMessage = error.status === 500
                 ? 'Server error occurred. Please try again later.'
                 : error.message || 'Failed to login. Please check your credentials and try again.';
-            
+
             throw new AuthError(errorMessage, error.status || 500);
         }
     }
@@ -43,7 +43,7 @@ class AuthService {
     public async signUp(user: UserSignUp): Promise<AuthResponse<void>> {
         try {
             const response = await apiService.post('/signup', user);
-            
+
             return {
                 success: true,
                 message: 'Registration successful! You can now log in.',
@@ -51,10 +51,10 @@ class AuthService {
             };
         } catch (error: any) {
             const errorMessage = error.status === 500
-            ? 'Server error occurred. Please try again later.'
-            : error.message || 'Failed to register. Please try again.';
-        
-        throw new AuthError(errorMessage, error.status || 500);
+                ? 'Server error occurred. Please try again later.'
+                : error.message || 'Failed to register. Please try again.';
+
+            throw new AuthError(errorMessage, error.status || 500);
         }
     }
 
@@ -90,7 +90,7 @@ class AuthService {
         }
     }
 
-    public getCurentUserValues(): User | null {
+    public getCurrentUserValues(): User | null {
         const user = this.currentUserSubject.value
         if (!user) {
             return null;
@@ -107,7 +107,7 @@ class AuthService {
     }
 
     public currentUserHasPermission(requiredRoles: Array<Role | RoleEnum>): boolean {
-        const user: User | null = this.getCurentUserValues();
+        const user: User | null = this.getCurrentUserValues();
 
         if (!user || !user.roles) {
             return false;
@@ -124,7 +124,7 @@ class AuthService {
     }
 
     public isAuthenticated(): boolean {
-        const user:User|null = this.getCurentUserValues();
+        const user: User | null = this.getCurrentUserValues();
         if (!user) return false;
         if (!user.exp) return false;
 
@@ -133,7 +133,7 @@ class AuthService {
 
         if (!isValid) {
             this.removeToken();
-        }      
+        }
 
         return isValid;
     }

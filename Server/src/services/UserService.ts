@@ -4,7 +4,7 @@ import { User as IUser, Role as IRole, Course } from '@/models/app';
 import { ClientError } from '@/models/app/Errors/ClientError';
 import { NotFoundError } from '@/models/app/Errors/NotFoundError';
 import { UnauthorizedError } from '@/models/app/Errors/UnauthorizedError';
-import { EnrolledCourse } from '@/models/app/User.entity';
+import { EnrolledCourse, User, UserToken } from '@/models/app/User.entity';
 import { Roles } from '@/models/enums';
 import { IUnitOfWork } from '@/repository/interface/IUnitOfWork';
 import { MongoUnitOfWork } from '@/repository/MongoUnitOfWork';
@@ -17,6 +17,7 @@ import { injectable, inject } from 'inversify';
 import jwt from 'jsonwebtoken';
 import { Logger } from 'winston';
 import CourseService from './CourseService';
+import { AccessService } from '@/access/AccessService';
 
 
 @injectable()
@@ -31,11 +32,11 @@ class UserService {
     public async createUser(userData: IUser): Promise<IUser> {
         await this.validateUserData(userData);
 
-        const roles: IRole[] = await this.getRoles(userData.roles.map(r => r.name as Roles));
+        const roles: IRole[] = await this.getRoles(userData.roles.map(r => r as Roles));
 
         const userWithRoles: IUser = {
             ...userData,
-            roles: roles.map(r => ({ id: r.id, name: r.name })),
+            roles: roles.map(r => r.name),
             preferences: {
                 notifications: true,
                 theme: 'light',
@@ -151,23 +152,42 @@ class UserService {
         return courses;
     }
 
-    public async updateUser(userId: string, updatedUserData: IUser): Promise<IUser> {
-        const existingUser = await this.userRepository.findById(userId, {});
+    public async updateUser(userId: string, updatedUserData: IUser, actingUser: UserToken): Promise<IUser> {
+
+        const existingUser: User | null = await this.userRepository.findById(userId, {});
         if (!existingUser) {
             throw new NotFoundError(`User with ID ${userId} not found`);
         }
 
+
+        // 2) Prepare ABAC context for "user:update"
+        const ctx = {
+            targetUser: existingUser,
+            updatedFields: Object.keys(updatedUserData),
+            now: new Date()
+        };
+
+        // 3) Authorization: RBAC + ABAC (🔥 core usage)
+        await AccessService.authorize(
+            actingUser,          // subject
+            "user",              // RBAC object type
+            "update",            // RBAC action
+            existingUser,        // ABAC resource
+            ctx,                 // ABAC attributes
+            { throwOnDeny: true }
+        );
+
         await this.validateUserDataForUpdate(updatedUserData, existingUser);
         if (updatedUserData.roles) {
-            const roles = await this.getRoles(updatedUserData.roles.map(r => r.name) as Roles[]);
-            updatedUserData.roles = roles.map(r => ({ id: r.id, name: r.name }));
+            const roles = await this.getRoles(updatedUserData.roles.map(r => r) as Roles[]);
+            //updatedUserData.roles = roles.map(r => ({ id: r.id, name: r.name }));
         }
 
         const updatedUser = await this.userRepository.update(userId, updatedUserData);
         if (!updatedUser) {
-            this.logger.info('User unsuccessful update ', { userId });
             throw new NotFoundError(`User with ID ${userId} not found`);
         }
+
         this.logger.info('User updated successfully', { userId });
         return updatedUser;
     }
@@ -311,12 +331,14 @@ class UserService {
                 id: user.id,
                 username: user.username,
                 roles: user.roles.map(role => role),
-                data: { ...user, password: undefined }
+                attrs: { ...user, password: undefined } //TO_DO: check if this is safe
             };
 
             return jwt.sign(payload, authConfig.JWT_SECRET, {
                 algorithm: 'HS256',
-                expiresIn: authConfig.JWT_EXPIRATION // string | number
+                expiresIn: authConfig.JWT_EXPIRATION, // string | number
+                issuer: authConfig.JWT_ISSUER,
+                audience: authConfig.JWT_AUDIENCE,
             });
         } catch (error) {
             this.logger.error('Failed to generate token', { userId: user.id, error });

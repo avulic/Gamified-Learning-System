@@ -13,7 +13,7 @@ import { Roles } from '../models/enums';
  */
 
 export default class UserRoute {
-     public router: Router = Router();
+    public router: Router = Router();
 
     constructor(private userController: UserController) {
         this.setRoutes();
@@ -168,7 +168,7 @@ export default class UserRoute {
          *       404:
          *         description: User not found
          */
-        this.router.put('/users/:id', asyncHandler(this.userController.updateUser));
+        this.router.put('/users/:id', authJwt, asyncHandler(this.userController.updateUser));
 
         /**
          * @swagger

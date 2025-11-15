@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Navbar from './components/Navbar.vue';
+import Navbar from '@/features/common/components/Navbar.vue';
 
 var isMenuOpen = false
-
-const redirect = () => window.location.href = "http://localhost:3000"
 
 
 const toggle = () => {
@@ -21,7 +19,11 @@ const toggle = () => {
     </header>
 
     <main class="flex-1 p-8">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <Transition name="fade" persisted>
+          <component :is="Component" :key="$route.fullPath" />
+        </Transition>
+      </RouterView>
     </main>
   </div>
 </template>

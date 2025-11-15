@@ -1,36 +1,19 @@
+// src/middlewares/authorizeRoles.ts
+
+//OPTIONAL middleware to check if user has one of the allowed roles, but Casbian remains the source of truth for roles/permissions, bussiness logic 
+
 import { Request, Response, NextFunction } from 'express';
-import { JwtPayload } from "jsonwebtoken";
-import { ForbiddenError } from "../models/app/Errors/ForbiddenError";
-import { UnauthorizedError } from "../models/app/Errors/UnauthorizedError";
-import { CustomRequest } from './authJwt';
-import UserService from '../services/UserService';
-import { Roles } from '../models/enums';
-import User, { IUserDb } from '@/models/db/mongo/User.db';
+import { ForbiddenError } from '@/models/app/Errors/ForbiddenError';
+import { UserToken } from '@/models/app/User.entity';
 
-
-
-
-export const authorizeRoles = (roles: Roles[]) => {
+export const authorizeRoles = (allowedRoles: string[]) => {
     return (req: Request, res: Response, next: NextFunction): void => {
-        try {
-            // Find the user with the requested ID.
-            User.findOne({username:(req as CustomRequest).token.payload.username}).then((user)=>{
-                if(!user)
-                    throw new UnauthorizedError("User not found");
-                
-                if (!user.roles) {
-                    throw new UnauthorizedError("User roles not found");
-                }
-    
-                const hasAuthorizedRole = user.roles.some(role => roles.includes(role.name as Roles));
-                if (!hasAuthorizedRole) {
-                    throw new ForbiddenError("Insufficient permissions");
-                }
+        const user = (req as any).user as UserToken;
+        if (!user) return next(new ForbiddenError('User not authenticated'));
 
-                next();
-            });            
-        } catch (error) {
-            next(error);
-        }
+        const hasRole = user.roles?.some(role => allowedRoles.includes(role));
+        if (!hasRole) return next(new ForbiddenError('Insufficient permissions'));
+
+        next();
     };
 };

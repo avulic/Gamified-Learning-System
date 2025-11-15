@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { ClientSession, Types } from 'mongoose';
 import { MongoRepository } from "./MongoRepository";
-import { 
-    BaseTaskSubmission, 
+import {
+    BaseTaskSubmission,
     QuizSubmission,
     QuestionSubmission,
     FileUploadSubmission,
@@ -14,7 +14,7 @@ import { BaseTaskSubmission as ISubmission } from "@/models/app";
 import { TaskTypeEnum } from '@/models/enums';
 
 @injectable()
-export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTaskSubmissionDb, BaseTaskSubmissionDocument> {
+export class SubmissionRepository extends MongoRepository<ISubmission, IBaseTaskSubmissionDb, BaseTaskSubmissionDocument> {
     constructor() {
         super(BaseTaskSubmission);
     }
@@ -28,16 +28,16 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
     }
 
     async findById(
-        id: string, 
+        id: string,
         options?: { populate?: string[], session?: ClientSession }
     ): Promise<ISubmission | null> {
         const { populate = [], session } = options || {};
-        
+
         const found = await BaseTaskSubmission
             .findById(id)
             .populate(populate)
             .session(session || null as any);
-            
+
         return found ? this.toDomain(found.toObject()) : null;
     }
 
@@ -47,12 +47,12 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         options?: { populate?: string[], session?: ClientSession }
     ): Promise<ISubmission[]> {
         const { populate = [], session } = options || {};
-        
+
         const found = await BaseTaskSubmission
             .find({ assignmentId: new Types.ObjectId(assignmentId) })
             .populate(populate)
             .session(session || null as any);
-            
+
         return found.map(submission => this.toDomain(submission.toObject()));
     }
 
@@ -61,12 +61,12 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         options?: { populate?: string[], session?: ClientSession }
     ): Promise<ISubmission[]> {
         const { populate = [], session } = options || {};
-        
+
         const found = await BaseTaskSubmission
             .find({ userId: new Types.ObjectId(userId) })
             .populate(populate)
             .session(session || null as any);
-            
+
         return found.map(submission => this.toDomain(submission.toObject()));
     }
 
@@ -76,7 +76,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         options?: { populate?: string[], session?: ClientSession }
     ): Promise<ISubmission[]> {
         const { populate = [], session } = options || {};
-        
+
         const found = await this.model
             .find({
                 userId: new Types.ObjectId(userId),
@@ -84,7 +84,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
             })
             .populate(populate)
             .session(session || null as any);
-            
+
         return found.map(submission => this.toDomain(submission.toObject()));
     }
 
@@ -95,10 +95,10 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         const { populate = [], session } = options || {};
 
         const found = await this.model
-            .find({taskType})
+            .find({ taskType })
             .populate(populate)
             .session(session || null as any);
-            
+
         return found.map(submission => this.toDomain(submission.toObject()));
     }
 
@@ -108,7 +108,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         options?: { populate?: string[], session?: ClientSession }
     ): Promise<ISubmission | null> {
         const { populate = [], session } = options || {};
-        
+
         const found = await this.model
             .findOne({
                 userId: new Types.ObjectId(userId),
@@ -117,7 +117,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
             .sort({ 'currentState.submittedAt': -1 })
             .populate(populate)
             .session(session || null as any);
-            
+
         return found ? this.toDomain(found.toObject()) : null;
     }
 
@@ -126,7 +126,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         options?: { session?: ClientSession }
     ): Promise<ISubmission[]> {
         const { session } = options || {};
-        
+
         // Group submissions by task type
         const submissionsByType = submissions.reduce((acc, submission) => {
             const type = submission.taskType;
@@ -160,7 +160,7 @@ export class SubmissionRepository extends  MongoRepository<ISubmission, IBaseTas
         averageScore: number
     }> {
         const { session } = options || {};
-        
+
         const [stats] = await BaseTaskSubmission.aggregate([
             { $match: { assignmentId: new Types.ObjectId(assignmentId) } },
             {

@@ -1,4 +1,4 @@
-import {apiService} from '@/services/ApiService';
+import { apiService } from '@/services/ApiService';
 import type User from '@/types/User/User';
 import type UserSignUp from '@/types/User/UserDetails';
 
@@ -26,7 +26,7 @@ class UserService {
     }
 
     public async getAllUsers(): Promise<UserDetails[]> {
-        try{
+        try {
             const response = await apiService.get<UserDetails[]>('/users');
 
             return response.data;
@@ -40,10 +40,12 @@ class UserService {
         return response.data;
     }
 
-    public async getUserById(userId: string): Promise<User | null> {
-        const response = await apiService.get<User>(`/users/${userId}`);
+    public async getUserDataById(userId: string): Promise<UserDetails | null> {
+        const response = await apiService.get<UserDetails>(`/users/${userId}`);
         return response.data;
     }
+
+
 
     public async updateUser(userId: string, updatedUserData: UserDetails): Promise<UserDetails | null> {
         try {
@@ -73,7 +75,7 @@ class UserService {
         try {
             const response = await apiService.get<UserDetails[]>('/users/roles', {
                 params: {
-                    roles 
+                    roles
                 }
             });
             return response.data;

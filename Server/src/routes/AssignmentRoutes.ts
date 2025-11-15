@@ -2,6 +2,8 @@ import express from 'express';
 import AssignmentController from '../controllers/AssignmentController';
 import { asyncHandler } from '../utils/asyncHandler';
 import { Router } from 'express';
+import { authJwt } from '@/middlewares/authJwt';
+
 
 export default class AssignmentRoute {
     public router: Router = Router();
@@ -36,6 +38,7 @@ export default class AssignmentRoute {
          *         description: Server error
          */
         this.router.post('/assignments', asyncHandler(this.AssignmentController.createAssignment));
+
 
         // /**
         //  * @swagger
@@ -83,7 +86,9 @@ export default class AssignmentRoute {
          *       404:
          *         description: Assignment not found
          */
-        this.router.get('/assignments/:id',asyncHandler( this.AssignmentController.getAssignmentById));
+        this.router.get('/assignments/:id', asyncHandler(this.AssignmentController.getAssignmentById));
+
+        //this.router.post('/:assignmentId/submit', authJwt, asyncHandler(this.AssignmentController.submit));
 
         /**
          * @swagger
@@ -105,7 +110,7 @@ export default class AssignmentRoute {
          *       404:
          *         description: Assignment not found
          */
-        this.router.get('/assignments',asyncHandler( this.AssignmentController.getAllAssignments));
+        this.router.get('/assignments', asyncHandler(this.AssignmentController.getAllAssignments));
 
         /**
          * @swagger

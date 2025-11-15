@@ -4,39 +4,33 @@ import { BaseEntity } from './Base.entity';
 import { AutoMap } from 'automapper-classes';
 
 export class Preferences {
-    @AutoMap()
-    notifications?: boolean;
-    @AutoMap()
-    theme?: string;
-    @AutoMap()
-    language?: string;
+    notifications: boolean = true;
+    theme: string = 'light';
+    language: string = 'en';
 }
 
 export class EnrolledCourse {
-    @AutoMap()
-    courseId!: string;
-    @AutoMap()
-    courseName!: string;
+    courseId: string = '';
+    courseName: string = '';
 }
 
 export class User extends BaseEntity {
-    @AutoMap()
-    name!: string;
+    id: string = '';
+    name: string = '';
+    lastName: string = '';
+    email: string = '';
+    username: string = '';
+    password: string = '';
+    roles: string[] = [];
+    profilePicture?: string = undefined;
+    preferences?: Preferences = undefined;
+    enrolledCourses?: EnrolledCourse[] = undefined;
+}
 
-    @AutoMap()
-    lastName!: string;
-    @AutoMap()
-    email!: string;
-    @AutoMap()
+
+export class UserToken extends BaseEntity {
+    id!: string;
     username!: string;
-    @AutoMap()
-    password!: string;
-    @AutoMap(()=> [String])
-    roles!: {id?: string, name: string}[];
-    @AutoMap()
-    profilePicture?: string;
-    @AutoMap(()=> [Preferences])
-    preferences?: Preferences;
-    @AutoMap(()=> [EnrolledCourse])
-    enrolledCourses?: EnrolledCourse[];
+    roles!: string[];
+    attrs?: Record<string, any>;
 }

@@ -56,6 +56,10 @@ import Tooltip from 'primevue/tooltip';
 import ProgressSpinner from 'primevue/progressspinner';
 
 
+import Chart from 'primevue/chart'
+import Avatar from 'primevue/avatar'
+
+
 import ConfirmationService from 'primevue/confirmationservice'
 
 const app = createApp(App);
@@ -76,6 +80,11 @@ app.use(ConfirmationService)
 app.use(ToastService);
 app.use(router)
 
+
+
+
+app.component('Chart', Chart);
+app.component('Avatar', Avatar);
 
 
 app.component('InputText', InputText);

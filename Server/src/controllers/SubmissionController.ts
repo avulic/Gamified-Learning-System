@@ -1,5 +1,6 @@
 import { CustomRequest } from '@/middlewares/authJwt';
 import { BaseTaskSubmission as Submission } from '@/models/app';
+import { UserToken } from '@/models/app/User.entity';
 import { AssignmentSubmissionDto } from '@/models/dto/request';
 import { SubmissionService } from '@/services/SubmissionService';
 import { ILogger, TYPES } from '@/types';
@@ -18,15 +19,12 @@ class SubmissionController {
 
     public submitTasks = async (req: Request, res: Response): Promise<void> => {
         try {
-            const userId = "67c623aa93b42c36efb8d9ea"//(req as CustomRequest).token.payload.id;
-            if (!userId) {
-                res.status(401).json({ error: 'User not authenticated' });
-                return;
-            }
+            //const userId = "67c623aa93b42c36efb8d9ea"//(req as CustomRequest).token.payload.id;
+            const user = (req as any).user as UserToken;
 
             const submissionsData: AssignmentSubmissionDto = req.body;
 
-            const progress = await this.submissionService.submitTasks(userId, submissionsData);
+            const progress = await this.submissionService.submitTasks(user, submissionsData);
 
             res.status(201).json({
                 message: 'Submissions processed successfully',

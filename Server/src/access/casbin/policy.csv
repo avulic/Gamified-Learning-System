@@ -1,0 +1,21 @@
+# p, role, resource, action, effect
+# admin gets everything
+p, admin, *, *, allow
+
+# professor
+p, professor, course, (create|update|view|delete), allow
+p, professor, assignment, (create|update|grade|view), allow
+
+# assistant (can view & grade)
+p, assistant, course, view, allow
+p, assistant, assignment, (view|grade), allow
+
+# student
+p, student, course, view, allow
+p, student, assignment, (view|submit), allow
+p, student, user, (view|update), allow
+
+# role hierarchy (assistant inherits student, professor inherits assistant, admin inherits professor)
+g, assistant, student
+g, professor, assistant
+g, admin, professor

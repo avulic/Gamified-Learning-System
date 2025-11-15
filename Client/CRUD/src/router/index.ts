@@ -9,29 +9,31 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('../views/HomeView.vue')
+            component: () => import('@/views/HomeView.vue')
         },
         {
             path: '/about',
             name: 'about',
-            component: () => import('../views/AboutView.vue'),
+            component: () => import('@/views/AboutView.vue'),
             meta: { authorize: [RoleEnum.ADMIN] }
         },
         {
-            path: '/students/courses',
-            name: 'students/courses',
-            component: () => import('@/views/student/CourseView.vue'),
+            path: '/courses',
+            name: 'courses',
+            component: () => import('@/features/courses/views/CourseView.vue'),
             meta: { authorize: [] }
         },
         {
-            path: '/students/courses/:id',
-            name: 'students/courses/detail',
-            component: () => import('@/views/course/CourseDetailsProfesor.vue') // New file, see below
+            path: '/courses/:courseId',
+            name: 'courses/detail',
+            component: () => import('@/features/courses/views/CourseDetailsView.vue'),
+            props: true
         },
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: () => import('@/views/stuff/DashboardView.vue'),
+            //component: () => import('@/features/dashboard/views/ProfesorDashboardView.vue'),
+            component: () => import('@/views/DashboardView.vue'),
             meta: { authorize: [] }
         },
         {
@@ -49,55 +51,45 @@ const router = createRouter({
         {
             path: '/signin',
             name: 'signin',
-            component: () => import('@/views/auth/SignInView.vue')
+            component: () => import('@/features/auth/views/SignInView.vue')
         },
         {
             path: '/signup',
             name: 'signup',
-            component: () => import('@/views/auth/SignUpView.vue')
+            component: () => import('@/features/auth/views/SignUpView.vue')
         },
         {
             path: '/error',
             name: 'error',
-            component: () => import('../views/ErrorView.vue')
+            component: () => import('@/views/ErrorView.vue')
         },
     ]
 });
 
 // Enhanced router guard with proper type narrowing
 router.beforeEach(async (to, from, next) => {
-    const authorize = to.meta.authorize as RoleEnum[] | undefined;
-
-    if (authorize !== undefined && authorize.length > 0) {
-        try {
-            const userLoggedIn = AuthService.isAuthenticated();
-            if (!userLoggedIn) {
-                return next({
-                    name: 'signin',
-                    query: { returnUrl: to.path }
-                });
-            }
-
-            // Public route check
-            if (authorize.length === 0) {
-                return next();
-            }
-
-            // Permission verification
-            const userHasPermission = AuthService.currentUserHasPermission(authorize);
-            if (!userHasPermission) {
-                return next({ name: 'error' });
-            }
-
+    try {
+        const authorize = to.meta.authorize as RoleEnum[] | undefined;
+        if (!authorize || authorize.length === 0) {
             return next();
-        } catch (err) {
-            console.error('Error in router guard:', err);
+        }
+
+        const userLoggedIn = AuthService.isAuthenticated();
+        if (!userLoggedIn) {
+            return next({ name: 'signin', query: { returnUrl: to.path } });
+        }
+
+        const userHasPermission = AuthService.currentUserHasPermission(authorize);
+        if (!userHasPermission) {
             return next({ name: 'error' });
         }
-    }
 
-    // Route has no authorization requirements
-    next();
+        next();
+    } catch (err) {
+        console.error('Router guard error:', err);
+        next({ name: 'error' });
+    }
 });
+
 
 export default router;

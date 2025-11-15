@@ -6,14 +6,16 @@ export default interface UserDetails {
     lastName: string;
     email: string;
     roles: string[];
-    profilePicture: string; 
+    profilePicture: string;
     preferences?: {
         notifications: boolean;
         theme: string;
         language: string;
-    }  | null;
+    };
     enrolledCourses?: Array<{
         courseId: string;
         courseName: string;
     }>;
+    createdAt?: string;
+    updatedAt?: string;
 }

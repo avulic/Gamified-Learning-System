@@ -6,7 +6,7 @@ import { injectable, unmanaged } from "inversify";
 @injectable()
 export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document> implements IBaseRepository<TDomain, ClientSession> {
     constructor(
-        @unmanaged() protected model: Model<TDbDocument>, 
+        @unmanaged() protected model: Model<TDbDocument>,
         @unmanaged() protected populateOnFind: string[] = []
     ) { }
 
@@ -16,8 +16,8 @@ export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document
     async create(item: TDomain, options?: { populate?: string[] }, session?: ClientSession): Promise<TDomain> {
         try {
             const { populate = [] } = options || {};
-        
-            const dbItem = this.toDatabase(item);    
+
+            const dbItem = this.toDatabase(item);
             let created;
             if (session) {
                 // save() with session instead of create()
@@ -26,9 +26,9 @@ export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document
             } else {
                 created = (await this.model.create([dbItem]))[0];
             }
-        
+
             //console.log('Post-save created:', JSON.stringify(created, null, 2));
-        
+
             let populatedItem = created;
             if (populate.length > 0) {
                 const query = this.model.findById(created._id).populate(populate);
@@ -37,7 +37,7 @@ export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document
                 }
                 populatedItem = await query.exec();
             }
-        
+
             return this.toDomain(populatedItem.toObject());
         } catch (error) {
             throw error;
@@ -57,7 +57,7 @@ export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document
             query.session(session);
         }
         const found = await query.exec();
-        return found ? this.toDomain(found.toObject()) : null;
+        return found ? this.toDomain(found.toObject({ versionKey: false })) : null;
     }
 
     async findOne(query: FilterQuery<TDb>, session?: ClientSession): Promise<TDomain | null> {
@@ -100,27 +100,27 @@ export abstract class MongoRepository<TDomain, TDb, TDbDocument extends Document
         }
     }
 
-    async findByIdAndUpdate(id: string,update: Partial<TDomain> | any, options: {  session?: ClientSession,populate?: string[],new?: boolean } = {}): Promise<TDomain | null> {
+    async findByIdAndUpdate(id: string, update: Partial<TDomain> | any, options: { session?: ClientSession, populate?: string[], new?: boolean } = {}): Promise<TDomain | null> {
         const { populate = [], session, new: returnNew = true } = options;
-    
+
         // Don't convert to DB model if it's a $set operation
-        const updateObj = update.$set 
-            ? update 
+        const updateObj = update.$set
+            ? update
             : { $set: this.toDatabase(update as TDomain) };
-    
+
         const query = this.model.findByIdAndUpdate(
-            id, 
-            updateObj, 
-            { 
+            id,
+            updateObj,
+            {
                 new: returnNew,
-                session 
+                session
             }
         );
-    
+
         if (populate.length > 0) {
             query.populate(populate);
         }
-    
+
         const result = await query.exec();
         return result ? this.toDomain(result.toObject()) : null;
     }

@@ -8,11 +8,13 @@ import AssignmentProgressModel, { IAssignmentProgressDb } from "@/models/db/mong
 import { IGradeDb } from "@/models/db/mongo/Grade.db";
 import { IQuestionDb, IMultiChoiceQuestionDb, ITrueFalseQuestionDb, ITextQuestionDb, IBaseQuestionDb, IMultiChoiceOptionDb } from "@/models/db/mongo/Question.db";
 import SubmissionDb, { IBaseTaskSubmissionDb, ICodeSubmissionDb, IFileUploadSubmissionDb, IQuestionSubmissionDb, IQuizSubmissionDb, ITaskSubmissionDb } from "@/models/db/mongo/Submission.db";
-import { AssignmentSubmissionDto, AssignmentSubmissionResponseDto, CreateAssignmentDto, 
-    CreateBaseTaskDto, CreateCourseDetailsDto, CreateCourseDto, 
+import {
+    AssignmentSubmissionDto, AssignmentSubmissionResponseDto, CreateAssignmentDto,
+    CreateBaseTaskDto, CreateCourseDetailsDto, CreateCourseDto,
     CreateFileDto, CreateModuleDto,
     CreateUserDto,
-    TaskSubmissionDto, } from "@/models/dto/request";
+    TaskSubmissionDto,
+} from "@/models/dto/request";
 import { CreateBaseAnswerDto, CreateMultiChoiceAnswerDto, CreateTextAnswerDto, CreateTrueFalseAnswerDto } from "@/models/dto/request/CreateAnswer.dto";
 import { CreateBaseQuestionDto, CreateMultiChoiceQuestionDto, CreateQuestionDto, CreateTextQuestionDto, CreateTrueFalseQuestionDto } from "@/models/dto/request/CreateQuestion.dto";
 import { SubmissionResponseDto } from "@/models/dto/response";
@@ -30,48 +32,63 @@ function getParamName(func: Function): string {
     const funcStr = func.toString();
     const match = funcStr.match(/(?:function\s*\w*\s*|\()\s*([^)]*)\)/);
     if (!match) return '';
-    
+
     // Get the first parameter name
     const params = match[1].split(',');
     const firstParam = params[0].trim();
     return firstParam;
 }
-
 function autoMap<TSource extends object, TTarget extends object>(
     source: TSource,
     targetType: new () => TTarget,
     transformations: Partial<Record<keyof TTarget, (value: any) => any>> = {}
 ): TTarget {
-    const target = {} as TTarget; // Don't initialize with new targetType()
-    const usedSourceProps = new Set<string>();
-    
-    // Apply transformations only if source property exists
-    for (const targetKey in transformations) {
-        const transform = transformations[targetKey];
-        if (!transform) continue;
 
-        const paramName = getParamName(transform);
-        const sourceKey = paramName || targetKey;
-        
-        if (sourceKey in source) {
-            const sourceValue = (source as any)[sourceKey];
-            const result = transform(sourceValue);
-            if (result !== undefined) {
-                (target as any)[targetKey] = result;
+    const target = new targetType();
+    const targetKeys = Object.keys(target);
+
+    for (const targetKey of targetKeys) {
+
+        // manual transform first
+        if (transformations[targetKey]) {
+            const transform = transformations[targetKey]!;
+            const paramName = getParamName(transform);
+            const sourceKey = paramName || targetKey;
+
+            if (sourceKey in source) {
+                (target as any)[targetKey] = transform((source as any)[sourceKey]);
             }
-            usedSourceProps.add(sourceKey);
+
+            continue;
+        }
+
+        // same name property exists in source
+        if (targetKey in source) {
+            const value = (source as any)[targetKey];
+
+            // deep copy arrays
+            if (Array.isArray(value)) {
+                (target as any)[targetKey] = value.map(v =>
+                    typeof v === 'object' && v !== null
+                        ? JSON.parse(JSON.stringify(v))
+                        : v
+                );
+                continue;
+            }
+
+            // deep copy objects
+            if (value && typeof value === 'object') {
+                (target as any)[targetKey] = JSON.parse(JSON.stringify(value));
+                continue;
+            }
+
+            (target as any)[targetKey] = value;
         }
     }
-    
-    // Copy remaining properties only if they exist in source
-    for (const key in source) {
-        if (!usedSourceProps.has(key) && (source as any)[key] !== undefined) {
-            (target as any)[key] = (source as any)[key];
-        }
-    }
-    
+
     return target;
 }
+
 
 function toId(id: string | undefined) {
     if (!id) return new Types.ObjectId();
@@ -175,14 +192,14 @@ class TaskMapper extends BaseMapper<BaseTask, IBaseTaskDb, CreateBaseTaskDto> {
     private readonly baseEntityTransforms = {
         id: (_id: mongoose.Types.ObjectId | undefined) => _id?.toString(),
         assignmentId: (assignmentId: mongoose.Types.ObjectId) => assignmentId.toString(),
-        prerequisites: (prerequisites: mongoose.Types.ObjectId[] | undefined) => 
+        prerequisites: (prerequisites: mongoose.Types.ObjectId[] | undefined) =>
             prerequisites?.map(p => p.toString())
     };
 
     private readonly baseDbTransforms = {
         _id: (id: string | undefined) => id ? toId(id) : undefined,
         assignmentId: (id: string) => toId(id),
-        prerequisites: (prereqs: string[] | undefined) => 
+        prerequisites: (prereqs: string[] | undefined) =>
             prereqs?.map(p => toId(p))
     };
 
@@ -221,7 +238,7 @@ class TaskMapper extends BaseMapper<BaseTask, IBaseTaskDb, CreateBaseTaskDto> {
                             ...this.baseEntityTransforms,
                             content: (content) => ({
                                 ...content,
-                                questions: content.questions.map(q => 
+                                questions: content.questions.map(q =>
                                     this.questionMapper.toEntity(q)
                                 )
                             })
@@ -278,7 +295,7 @@ class TaskMapper extends BaseMapper<BaseTask, IBaseTaskDb, CreateBaseTaskDto> {
                             ...this.baseDbTransforms,
                             content: (content) => ({
                                 ...content,
-                                questions: content.questions.map(q => 
+                                questions: content.questions.map(q =>
                                     this.questionMapper.toDb(q)
                                 )
                             })
@@ -318,8 +335,8 @@ class AssignmentMapper extends BaseMapper<Assignment, IAssignmentDb, CreateAssig
         try {
             return autoMap<Assignment, IAssignmentDb>(entity, this.getDbType(), {
                 _id: (id) => toId(id),
-                parentId: (parentId) =>toId(parentId),
-                createdBy: (createdBy) =>toId(createdBy),
+                parentId: (parentId) => toId(parentId),
+                createdBy: (createdBy) => toId(createdBy),
                 tasks: (tasks) => tasks?.map(t => this.taskMapper.toDb(t)),
                 rubric: (rubric) => rubric ? {
                     criteria: rubric.criteria?.map(c => ({
@@ -342,7 +359,7 @@ class AssignmentMapper extends BaseMapper<Assignment, IAssignmentDb, CreateAssig
                 createdBy: (createdBy) => createdBy?.toString(),
                 tasks: (tasks) => tasks?.map(t => this.taskMapper.toEntity(t)),
                 rubric: (rubric) => rubric ? {
-                    criteria: rubric.criteria ?.map(c => ({
+                    criteria: rubric.criteria?.map(c => ({
                         criterion: c.criterion,
                         points: c.points
                     }))
@@ -388,24 +405,24 @@ class CourseMapper extends BaseMapper<Course, ICourseDb, CreateCourseDetailsDto>
 
 
     toEntity(dbModel: ICourseDb): Course {
-            try {
-                return autoMap<ICourseDb, Course>(dbModel, this.getEntityType(), {
-                    id: (_id) => _id?.toString(),
-                    modules: (modules) => modules?.map(m => 
-                        this.moduleMapper.toEntity(m) as Module
-                    ),
-                    materials: (fileIds) => fileIds?.map(fileId => {
-                            const fileData = typeof fileId === 'object' ? fileId : { _id: fileId };
-                            return this.fileMapper.toEntity(fileData as IFileDb) as File;
-                        }
-                    ),
-                    assignments: (assignmentIds) => assignmentIds?.map(assignmentId => 
-                        this.assignmentMapper.toEntity({_id:assignmentId} as unknown as IAssignmentDb) as Assignment
-                    ),
-                    prerequisites: (prerequisites) => prerequisites?.map(id => id.toString() as unknown as Course),
-                    instructors: (instructors) => instructors?.map(instructor => 
-                        this.userMapper.toEntity({_id:instructor.id, name: instructor.name} as unknown as IUserDb) as User)
-                });
+        try {
+            return autoMap<ICourseDb, Course>(dbModel, this.getEntityType(), {
+                id: (_id) => _id?.toString(),
+                modules: (modules) => modules?.map(m =>
+                    this.moduleMapper.toEntity(m) as Module
+                ),
+                materials: (fileIds) => fileIds?.map(fileId => {
+                    const fileData = typeof fileId === 'object' ? fileId : { _id: fileId };
+                    return this.fileMapper.toEntity(fileData as IFileDb) as File;
+                }
+                ),
+                assignments: (assignmentIds) => assignmentIds?.map(assignmentId =>
+                    this.assignmentMapper.toEntity({ _id: assignmentId } as unknown as IAssignmentDb) as Assignment
+                ),
+                prerequisites: (prerequisites) => prerequisites?.map(id => id.toString() as unknown as Course),
+                instructors: (instructors) => instructors?.map(instructor =>
+                    this.userMapper.toEntity({ _id: instructor.id, name: instructor.name } as unknown as IUserDb) as User)
+            });
         } catch (error) {
             console.log('toEntity error:', error);
             throw error;
@@ -428,11 +445,11 @@ class CourseMapper extends BaseMapper<Course, ICourseDb, CreateCourseDetailsDto>
                         console.error('Invalid ObjectId structure:', instructorId);
                         throw new Error('Invalid instructor ID structure');
                     }
-                    
+
                     const instructorObj = {
                         _id: instructorId,
                         name: i.name
-                    };                    
+                    };
                     return instructorObj;
                 }),
                 assignmentIds: (assignments) => (assignments)?.map(a => toId(a.id)),
@@ -467,7 +484,7 @@ class CourseMapper extends BaseMapper<Course, ICourseDb, CreateCourseDetailsDto>
         return autoMap<CreateCourseDetailsDto, Course>(requestModel, this.getEntityType(), {
             modules: (modules) => (modules)?.map(m => this.moduleMapper.fromRequest(m) as Module),
             materials: (fileIds) => (fileIds)?.map(f => this.fileMapper.fromRequest(f) as File),
-            assignments: (assignmentIds) => (assignmentIds)?.map(a =>this.assignmentMapper.fromRequest(a) as Assignment),
+            assignments: (assignmentIds) => (assignmentIds)?.map(a => this.assignmentMapper.fromRequest(a) as Assignment),
             prerequisites: (prerequisitesCourseIds) => prerequisitesCourseIds?.map(id => id),
             instructors: (instructors) => (instructors)?.map(i => ({
                 id: i.id,
@@ -482,7 +499,7 @@ class CourseMapper extends BaseMapper<Course, ICourseDb, CreateCourseDetailsDto>
             modules: (modules) => (modules)?.map(m => {
                 const module = this.moduleMapper.fromRequest(m);
                 return {
-                    id: module.id? module.id.toString() : undefined,
+                    id: module.id ? module.id.toString() : undefined,
                     title: module.title,
                     order: module.order
                 }
@@ -516,7 +533,7 @@ class ModuleMapper extends BaseMapper<Module, IModuleDb, CreateModuleDto> {
             return autoMap<IModuleDb, Module>(dbModel, this.getEntityType(), {
                 id: (_id) => _id?.toString(),
                 courseId: (courseId) => courseId?.toString(),
-                lessons: (lessons) => lessons?.map(l => ({ 
+                lessons: (lessons) => lessons?.map(l => ({
                     id: l._id.toString(),
                     title: l.title,
                     content: l.content || '',
@@ -546,12 +563,12 @@ class ModuleMapper extends BaseMapper<Module, IModuleDb, CreateModuleDto> {
                 this.getDbType(),
                 {
                     _id: (id) => toId(id),
-                    courseId: (courseId) =>toId(courseId),
-                    prerequisitesModulesId: (prerequisites: Module[] | undefined) => 
+                    courseId: (courseId) => toId(courseId),
+                    prerequisitesModulesId: (prerequisites: Module[] | undefined) =>
                         prerequisites?.map(m => toId(m.id)),
-                    assignmentIds: (assignments: Assignment[] | undefined) => 
+                    assignmentIds: (assignments: Assignment[] | undefined) =>
                         assignments?.map(a => toId(a.id)),
-                    lessons: (lessons: Lesson[] | undefined) => 
+                    lessons: (lessons: Lesson[] | undefined) =>
                         lessons?.map(l => ({
                             _id: toId(l.id),
                             title: l.title,
@@ -560,7 +577,7 @@ class ModuleMapper extends BaseMapper<Module, IModuleDb, CreateModuleDto> {
                             assignmentIds: l.assignments?.map(a => toId(a.id)),
                             fileIds: l.files?.map(f => toId(f.id))
                         } as ILessonDb)),
-                    fileIds: (files: File[] | undefined) => 
+                    fileIds: (files: File[] | undefined) =>
                         files?.map(f => toId(f.id))
 
                 }
@@ -575,18 +592,18 @@ class ModuleMapper extends BaseMapper<Module, IModuleDb, CreateModuleDto> {
         try {
             return autoMap<CreateModuleDto, Module>(
                 requestModel, this.getEntityType(), {
-                    prerequisites: (prerequisitesModulesId) => prerequisitesModulesId?.map(id => toId(id)),
-                    files:  (files) => (files)?.map(f => this.fileMapper.fromRequest(f) as File),
-                    assignments: (assignments) => assignments?.map(a => this.assignmentMapper.fromRequest(a) as Assignment),
-                    lessons: (lessons) => lessons?.map(l => ({
-                        id: l.id ? l.id : undefined,
-                        title: l.title,
-                        content: l.content || '',
-                        order: l.order || 0,
-                        assignments: l.assignments?.map(a =>this.assignmentMapper.fromRequest(a) as Assignment),
-                        files:  l.files?.map(f => this.fileMapper.fromRequest(f) as File),
-                    })),
-                }
+                prerequisites: (prerequisitesModulesId) => prerequisitesModulesId?.map(id => toId(id)),
+                files: (files) => (files)?.map(f => this.fileMapper.fromRequest(f) as File),
+                assignments: (assignments) => assignments?.map(a => this.assignmentMapper.fromRequest(a) as Assignment),
+                lessons: (lessons) => lessons?.map(l => ({
+                    id: l.id ? l.id : undefined,
+                    title: l.title,
+                    content: l.content || '',
+                    order: l.order || 0,
+                    assignments: l.assignments?.map(a => this.assignmentMapper.fromRequest(a) as Assignment),
+                    files: l.files?.map(f => this.fileMapper.fromRequest(f) as File),
+                })),
+            }
             );
         } catch (error) {
             console.log('fromRequest error:', error);
@@ -609,10 +626,9 @@ class RoleMapper extends BaseMapper<Role, IRoleDb, any> {
                 throw new Error(`Invalid role name: ${dbModel.name}`);
             }
             return autoMap<IRoleDb, Role>(dbModel, this.getEntityType(), {
-                id: (_id) => _id?.toString(),  // Changed to use parameter
                 name: (name) => name as Roles
             });
-            
+
         } catch (error) {
             console.log('toEntity error:', error);
             throw error;
@@ -651,7 +667,7 @@ class UserMapper extends BaseMapper<User, IUserDb, CreateUserDto> {
         try {
             return autoMap<IUserDb, User>(dbModel, this.getEntityType(), {
                 id: (_id) => _id?.toString(),
-                roles: (roles) => (roles)?.map(r => this.roleMapper.toEntity(r)),
+                roles: (roles) => (roles)?.map(r => r.name),
                 enrolledCourses: (enrolledCourses) => (enrolledCourses)?.map(course => ({
                     courseId: course.courseId.toString(),
                     courseName: course.courseName
@@ -666,7 +682,7 @@ class UserMapper extends BaseMapper<User, IUserDb, CreateUserDto> {
     toDb(entity: User): IUserDb {
         try {
             return autoMap<User, IUserDb>(entity, this.getDbType(), {
-                _id: (id) =>toId(id),
+                _id: (id) => toId(id),
                 roles: (roles) => roles.map(r => this.roleMapper.toDb(r)),
                 enrolledCourses: (courses) => (courses)?.map(course => ({
                     courseId: toId(course.courseId),
@@ -683,11 +699,11 @@ class UserMapper extends BaseMapper<User, IUserDb, CreateUserDto> {
         if (!dto) throw new Error('DTO cannot be null');
 
         try {
-           
+
             return autoMap<CreateUserDto, User>(dto, this.getEntityType(), {
-                roles: (roles) => (roles)?.map(r => ({ 
-                    id: '', 
-                    name: r 
+                roles: (roles) => (roles)?.map(r => ({
+                    id: '',
+                    name: r
                 })),
                 preferences: (preferences) => preferences || {
                     notifications: true,

@@ -14,7 +14,7 @@ import { TYPES } from "@/types";
 export class MongoUnitOfWork implements IUnitOfWork {
     constructor(
         @inject(TYPES.DbConnection) private readonly connection: Connection,
-    ) {}
+    ) { }
 
     async beginTransaction(): Promise<ClientSession> {
         const session = await this.connection.startSession();

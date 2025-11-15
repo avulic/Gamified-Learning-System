@@ -11,6 +11,7 @@ import { Roles } from '@/models/enums';
 import { CreateUserDto } from '@/models/dto/request';
 import { UserResponseDto } from '@/models/dto/response';
 import { userMapper } from '@/utils/mapper/autoMapper';
+import { UserToken } from '@/models/app/User.entity';
 @injectable()
 class UserController {
     constructor(
@@ -104,8 +105,11 @@ class UserController {
             //     return;
             // }
 
+            //delete user.password;;
+            const { password, ...userDto } = user;
 
-            res.status(200).json(user);
+
+            res.status(200).json(userDto);
         } catch (err) {
             next(err);
         }
@@ -125,12 +129,15 @@ class UserController {
 
     public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
+            const user = (req as any).user as UserToken;
+
             const userId = req.params.id;
             const updatedUserDto: CreateUserDto = req.body;
-            const user = userMapper.fromRequest(updatedUserDto);
-            const updatedUser = await this.userService.updateUser(userId, user);
 
-            const response: UserResponseDto = updatedUser as unknown as UserResponseDto;
+            const userData = userMapper.fromRequest(updatedUserDto);
+            const updatedUser = await this.userService.updateUser(userId, userData, user);
+
+            const response = updatedUser;
 
             res.status(200).json(response);
         } catch (err) {

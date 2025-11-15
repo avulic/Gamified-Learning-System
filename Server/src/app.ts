@@ -7,7 +7,7 @@ import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import specs from "./swagger";
 
-import  errorHandler  from './middlewares/errorHandler.middleware'
+import errorHandler from './middlewares/errorHandler.middleware'
 import { container } from './config/inversify.config';
 import { TYPES } from '@/types';
 
@@ -31,9 +31,11 @@ import TaskRoute from "./routes/TaskRouts";
 import TaskController from "./controllers/TaskController";
 import SubmissionController from "./controllers/SubmissionController";
 import SubmissionRoute from "./routes/SubmissionRoutes";
+import { initEnforcer } from './access/casbin/CasbinEnforcer';
+import { AccessService } from "./access/AccessService";
+import { AuditLogModel } from "./models/app/Access/AuditLog.entity";
 
-
-
+import '@/access/casbin/registry/registration';
 
 export function createApp(): Application {
     console.log("Initializing App...");
@@ -44,19 +46,36 @@ export function createApp(): Application {
     return app;
 }
 
-function setConfig(app: Application) {
+async function setConfig(app: Application) {
     app.use(express.json({ limit: "50mb" }));
     app.use(express.urlencoded({ limit: "50mb", extended: true }));
     app.use(cors());
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-    
+    await initEnforcer();
+
+    // optional: configure AccessService audit or enforcer override
+    AccessService.configure({
+        auditFn: async (user, policyId, resourceType, resourceId, ctx, result) => {
+            // Map to your AuditLogModel fields
+            await AuditLogModel.create({
+                userId: user?.id ?? 'anonymous',
+                actorId: ctx?.actorId ?? null,
+                action: ctx?.action ?? null,
+                resourceType,
+                resourceId,
+                decision: result.allowed ? 'allow' : 'deny',
+                meta: { policyId, reason: result.reason, ctxMeta: result.meta },
+                timestamp: new Date()
+            });
+        }
+    });
 }
 
 function setRoutes(app: Application) {
     const authController = container.get<AuthController>(TYPES.AuthController);
     const authRoute = new AuthRoute(authController);
     app.use("/api", authRoute.router);
-    
+
     const userController = container.get<UserController>(TYPES.UserController);
     const userRoute = new UserRoute(userController);
     app.use("/api", userRoute.router);
