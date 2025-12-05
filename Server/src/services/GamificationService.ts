@@ -1,74 +1,223 @@
-import { injectable, inject } from 'inversify';
-import { TYPES } from '@/types';
+// GamificationService.ts
+import { injectable, inject } from "inversify";
+import { TYPES } from "@/types";
+import { IUserProgress } from "@/models/app/Progress/UserProgress.entity";
+import UserProgressRepository from "@/repository/Progress/UserProgressRepository";
+import AssignmentProgressRepository from "@/repository/Progress/AssignmentProgressRepository";
+import { Task } from "@/models/app/Task.entity";
+import { ClientSession } from "mongoose";
+import { NotFoundError } from "@/models/app/Errors/NotFoundError";
+import { Logger } from "winston";
+import { Assignment } from "@/models/app/Assignment.entity";
+import { ProgressTypeEnum, SubmissionStatus, SubmissionTypeEnum, TaskTypeEnum } from "@/models/enums";
 
-import { NotFoundError } from '@/models/app/Errors/NotFoundError';
-import UserProgressRepository from '@/repository/Progress/UserProgressRepository';
+
 
 @injectable()
-export class GamificationService {
+export default class GamificationService {
+
     constructor(
         @inject(TYPES.UserProgressRepository) private userProgressRepo: UserProgressRepository,
-       
+        @inject(TYPES.AssignmentProgressRepository) private assignmentProgressRepo: AssignmentProgressRepository,
+        @inject(TYPES.Logger) private logger: Logger
     ) { }
 
-    // async awardXP(userId: string, xp: number): Promise<IUserProgress> {
-    //     const userProgress = await this.userProgressRepo.findByUserId(userId);
-    //     if (!userProgress) {
-    //         throw new NotFoundError('User progress not found');
-    //     }
+    // -------------------------------------------------------
+    // SECTION 1 — User Progress Helpers
+    // -------------------------------------------------------
 
-    //     userProgress.totalXpEarned += xp;
-    //     const updatedProgress = await this.userProgressRepo.update(userProgress);
+    async getOrCreateUserProgress(userId: string, session?: ClientSession): Promise<IUserProgress> {
+        let progress = await this.userProgressRepo.findByUserId(userId, session);
 
-    //     // Check for level up
-    //     const newLevel = this.calculateLevel(updatedProgress.totalXpEarned);
-    //     if (newLevel > updatedProgress.level) {
-    //         updatedProgress.level = newLevel;
-    //         // TODO: Trigger level up event or notification
-    //     }
+        const UserProgress = {
+            id: "",
+            userId,
+            totalXP: 0,
+            level: 1,
+            overallProgress: 0,
+            completedTasks: [],
+            xpHistory: [],
+            achievements: [],
+            dailyStreak: 0,
+            lastActiveDate: null
+        } as IUserProgress;
 
-    //     return updatedProgress;
-    // }
+        if (!progress) {
+            progress = await this.userProgressRepo.create(UserProgress, {}, session);
+        }
 
-    // async checkAchievements(userId: string): Promise<IAchievement[]> {
-    //     const userProgress = await this.userProgressRepo.findByUserId(userId);
-    //     if (!userProgress) {
-    //         throw new NotFoundError('User progress not found');
-    //     }
+        return progress;
+    }
 
-    //     const allAchievements = await this.achievementRepo.findAll();
-    //     const newAchievements: IAchievement[] = [];
+    // -------------------------------------------------------
+    // SECTION 2 — XP Awarding
+    // -------------------------------------------------------
 
-    //     for (const achievement of allAchievements) {
-    //         if (!userProgress.achievements.includes(achievement.id) && this.hasMetCriteria(userProgress, achievement)) {
-    //             userProgress.achievements.push(achievement.id);
-    //             newAchievements.push(achievement);
-    //         }
-    //     }
+    async awardXP(
+        userId: string,
+        xp: number,
+        meta?: { taskId?: string; assignmentId?: string; reason?: string },
+        session?: ClientSession
+    ): Promise<IUserProgress> {
+        if (xp <= 0) return this.getOrCreateUserProgress(userId);
 
-    //     if (newAchievements.length > 0) {
-    //         await this.userProgressRepo.update(userProgress);
-    //         // TODO: Trigger achievement unlocked event or notification
-    //     }
+        const progress = await this.getOrCreateUserProgress(userId, session);
+        progress.totalXP += xp;
 
-    //     return newAchievements;
-    // }
+        // Log event
+        progress.xpHistory.push({
+            xp,
+            taskId: meta?.taskId,
+            assignmentId: meta?.assignmentId,
+            reason: meta?.reason || "xp_awarded",
+            awardedAt: new Date(),
+        });
 
-    // private calculateLevel(xp: number): number {
-    //     return Math.floor(Math.sqrt(xp / 100));
-    // }
+        // Level Up
+        const newLevel = this.calculateLevel(progress.totalXP);
+        progress.level = newLevel;
 
-    // private hasMetCriteria(userProgress: IUserProgress, achievement: IAchievement): boolean {
-    //     // Implement achievement criteria checks
-    //     // Example:
-    //     switch (achievement.type) {
-    //         case 'XP_MILESTONE':
-    //             return userProgress.totalXpEarned >= achievement.requiredValue;
-    //         case 'COURSE_COMPLETION':
-    //             return userProgress.completedCourses.length >= achievement.requiredValue;
-    //         // Add more achievement types as needed
-    //         default:
-    //             return false;
-    //     }
-    // }
+        await this.updateDailyStreakInternal(progress);
+        await this.userProgressRepo.update(progress.id!, progress, session);
+
+        return progress;
+    }
+
+    private calculateLevel(xp: number): number {
+        // Smooth growth: feels good across many ranges
+        return Math.floor(Math.sqrt(xp / 150)) + 1;
+    }
+
+    // -------------------------------------------------------
+    // SECTION 3 — Task Completion Handling
+    // -------------------------------------------------------
+
+    async onTaskCompleted(
+        userId: string,
+        task: Task,
+        assignmentId: string,
+        session?: ClientSession
+    ): Promise<void> {
+        const progress = await this.getOrCreateUserProgress(userId, session);
+
+        // Prevent duplicate XP for same task
+        const alreadyCompleted = progress.completedTasks.includes(task.id!);
+        if (!alreadyCompleted) {
+            progress.completedTasks.push(task.id!);
+
+            // Award XP
+            await this.awardXP(
+                userId,
+                task.xpReward || 50, // fallback default XP
+                {
+                    taskId: task.id!,
+                    assignmentId,
+                    reason: "task_first_completion"
+                },
+                session
+            );
+        }
+
+        // Update overall progress
+        await this.calculateOverallProgress(userId);
+    }
+
+    // -------------------------------------------------------
+    // SECTION 4 — Assignment Completion Handling
+    // -------------------------------------------------------
+
+    async onAssignmentCompleted(
+        userId: string,
+        assignment: Assignment,
+        assignmentProgress: any,
+        session?: ClientSession
+    ): Promise<void> {
+        const bonusXP = assignment.points || 100;
+
+        await this.awardXP(
+            userId,
+            bonusXP,
+            {
+                assignmentId: assignment.id!,
+                reason: "assignment_completed"
+            },
+            session
+        );
+
+        // Recalculate global progress
+        await this.calculateOverallProgress(userId);
+    }
+
+    // -------------------------------------------------------
+    // SECTION 5 — Overall Progress
+    // -------------------------------------------------------
+
+    async calculateOverallProgress(userId: string): Promise<number> {
+        const all = await this.assignmentProgressRepo.findByUser(userId);
+        if (all.length === 0) return 0;
+
+        let totalPct = 0;
+
+        for (const ap of all) {
+            const tasks = ap.tasksProgress;
+            if (!tasks.length) continue;
+
+            const completed = tasks.filter(t => t.status === SubmissionStatus.COMPLETED).length;
+            const pct = (completed / tasks.length) * 100;
+
+            totalPct += pct;
+        }
+
+        const avg = Math.round(totalPct / all.length);
+
+        const progress = await this.getOrCreateUserProgress(userId);
+        progress.overallProgress = avg;
+        await this.userProgressRepo.update(progress.id!, progress);
+
+        return avg;
+    }
+
+    // -------------------------------------------------------
+    // SECTION 6 — Daily Streak
+    // -------------------------------------------------------
+
+    private async updateDailyStreakInternal(progress: IUserProgress): Promise<void> {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (!progress.lastActiveDate) {
+            progress.dailyStreak = 1;
+        } else {
+            const last = new Date(progress.lastActiveDate);
+            last.setHours(0, 0, 0, 0);
+
+            const diff = today.getTime() - last.getTime();
+
+            if (diff === 0) {
+                return; // Already active today
+            }
+
+            if (diff === 86400000) {
+                progress.dailyStreak += 1; // consecutive day
+            } else {
+                progress.dailyStreak = 1; // reset
+            }
+        }
+
+        progress.lastActiveDate = new Date();
+    }
+
+    // -------------------------------------------------------
+    // SECTION 7 — Achievements (optional hook)
+    // -------------------------------------------------------
+
+    async checkAndUnlockAchievements(userId: string): Promise<void> {
+        // Implement your achievement criteria here
+        // Example:
+        // - First task completed
+        // - 10 tasks completed
+        // - 7-day streak
+        // - Level milestones
+        // etc.
+    }
 }

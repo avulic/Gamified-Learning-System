@@ -9,6 +9,9 @@ const TYPES = {
     TaskProgressService: Symbol.for("TaskProgressService"),
     TaskService: Symbol.for("TaskService"),
     AiService: Symbol.for("AiService"),
+    GamificationService: Symbol.for("GamificationService"),
+    ProgressTrackingService: Symbol.for("ProgressTrackingService"),
+    AccessService: Symbol.for("AccessService"),
 
     UserController: Symbol.for("UserController"),
     AssignmentController: Symbol.for("AssignmentController"),

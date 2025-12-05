@@ -73,9 +73,10 @@ export class SubmissionRepository extends MongoRepository<ISubmission, IBaseTask
     async findByUserAndAssignment(
         userId: string,
         assignmentId: string,
-        options?: { populate?: string[], session?: ClientSession }
+        options?: { populate?: string[] },
+        session?: ClientSession
     ): Promise<ISubmission[]> {
-        const { populate = [], session } = options || {};
+        const { populate = [] } = options || {};
 
         const found = await this.model
             .find({

@@ -14,7 +14,7 @@ import { SubmissionStatus, TaskTypeEnum, ProgressTypeEnum, GradingStatus, Submis
 import { BaseEntity } from './Base.entity';
 import { Answer, BaseAnswer } from './Answer.entity';
 import { CodeTestCase } from './Task.entity';
-import { IGrade } from './Grade.entity';
+import { Grade } from './Grade.entity';
 
 
 
@@ -61,12 +61,12 @@ export class BaseTaskSubmission {
     taskType!: SubmissionTypeEnum;
     timeSpent?: number;
     currentState!: {
-        status: SubmissionStatus;
+        status: ProgressTypeEnum;
         attemptNumber: number;
         submittedAt: Date;
         content: any;
     };
-    grade?: IGrade
+    grade?: Grade
 
     version!: number;
     history!: Array<{

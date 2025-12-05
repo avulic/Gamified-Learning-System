@@ -5,15 +5,18 @@ p, admin, *, *, allow
 # professor
 p, professor, course, (create|update|view|delete), allow
 p, professor, assignment, (create|update|grade|view), allow
+p, professor, submission, (create|update|view|delete), allow
 
 # assistant (can view & grade)
 p, assistant, course, view, allow
 p, assistant, assignment, (view|grade), allow
+p, assistant, submission, (create|update|view|delete), allow
 
 # student
 p, student, course, view, allow
 p, student, assignment, (view|submit), allow
 p, student, user, (view|update), allow
+p, student, submission, (create|update|view|delete), allow
 
 # role hierarchy (assistant inherits student, professor inherits assistant, admin inherits professor)
 g, assistant, student

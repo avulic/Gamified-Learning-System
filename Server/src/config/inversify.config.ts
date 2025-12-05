@@ -23,7 +23,8 @@ import FileService from '@/services/FileService';
 import ModuleService from '@/services/ModuleService';
 import { SubmissionService } from '@/services/SubmissionService';
 import UserService from '@/services/UserService';
-
+import GamificationService from '@/services/GamificationService';
+import ProgressTrackingService from '@/services/ProgressTrackingService';
 
 import loggerInstance from '@/utils/logger';
 import { ProgressController } from '@/controllers/ProgressController';
@@ -37,7 +38,8 @@ import { TaskService } from '@/services/TaskService';
 import AiService from '@/services/AiService';
 import TaskController from '@/controllers/TaskController';
 import SubmissionController from '@/controllers/SubmissionController';
-import AssignmentProgressRepository from '@/repository/AssignmentProgressRepository';
+import AssignmentProgressRepository from '@/repository/Progress/AssignmentProgressRepository';
+import { AccessService } from '@/access/AccessService';
 
 
 
@@ -54,6 +56,9 @@ container.bind<SubmissionService>(TYPES.SubmissionService).to(SubmissionService)
 container.bind<FileService>(TYPES.FileService).to(FileService);
 container.bind<TaskService>(TYPES.TaskService).to(TaskService);
 container.bind<AiService>(TYPES.AiService).to(AiService);
+container.bind<GamificationService>(TYPES.GamificationService).to(GamificationService);
+container.bind<ProgressTrackingService>(TYPES.ProgressTrackingService).to(ProgressTrackingService);
+container.bind<AccessService>(TYPES.AccessService).to(AccessService);
 
 // Controllers
 container.bind<UserController>(TYPES.UserController).to(UserController);

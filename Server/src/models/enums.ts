@@ -58,17 +58,17 @@ export enum EnrollmentStatus {
 }
 
 export enum TaskStatus {
-	NOT_STARTED = 'NOT_STARTED',
-	IN_PROGRESS = 'IN_PROGRESS',
-	COMPLETED = 'COMPLETED',
-	FAILED = 'FAILED'
+    NOT_STARTED = 'NOT_STARTED',
+    IN_PROGRESS = 'IN_PROGRESS',
+    COMPLETED = 'COMPLETED',
+    FAILED = 'FAILED'
 }
 
 export enum ProgressType {
     NOT_STARTED = 'NOT_STARTED',
-	IN_PROGRESS = 'IN_PROGRESS',
-	COMPLETED = 'COMPLETED',
-	FAILED = 'FAILED'
+    IN_PROGRESS = 'IN_PROGRESS',
+    COMPLETED = 'COMPLETED',
+    FAILED = 'FAILED'
 }
 
 export enum GradingStatus {
@@ -91,4 +91,11 @@ export enum HttpStatusCode {
     NOT_FOUND = 404,
     INTERNAL_SERVER = 500,
     CONFLICT = 429
+}
+
+export enum SubmissionPolicy {
+    BEST_SCORE = 'BEST_SCORE',
+    FIRST_PASS = 'FIRST_PASS',
+    LATEST = 'LATEST',
+    BEST_PASS_THEN_LOCK = 'BEST_PASS_THEN_LOCK'
 }

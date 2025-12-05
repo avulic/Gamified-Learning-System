@@ -18,6 +18,7 @@ import jwt from 'jsonwebtoken';
 import { Logger } from 'winston';
 import CourseService from './CourseService';
 import { AccessService } from '@/access/AccessService';
+import { ClientSession } from 'mongoose';
 
 
 @injectable()
@@ -123,8 +124,8 @@ class UserService {
         }
     }
 
-    public async getUserById(userId: string): Promise<IUser> {
-        const user = await this.userRepository.findById(userId, { populate: ['roles'] });
+    public async getUserById(userId: string, session?: ClientSession): Promise<IUser> {
+        const user = await this.userRepository.findById(userId, { populate: ['roles'] }, session);
         if (!user) {
             this.logger.warn('Attempt to get non-existent user', { userId });
             throw new NotFoundError(`User with ID ${userId} not found`);

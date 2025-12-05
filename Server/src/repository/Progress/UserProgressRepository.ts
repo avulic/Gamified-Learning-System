@@ -39,6 +39,12 @@ export class UserProgressRepository extends MongoRepository<IUserProgress, IUser
         return dbProgress ? this.toDomain(dbProgress) : null;
     }
 
+    async findByUserId(userId: string, session?: any): Promise<IUserProgress | null> {
+        const dbProgress = await this.model.findOne({ userId: userId }).session(session);
+        this.logger.info(dbProgress)
+        return dbProgress ? this.toDomain(dbProgress) : null;
+    }
+
     async updateUserProgress(userId: string, courseId: string, update: IUserProgress): Promise<IUserProgress | null> {
         const dbUpdate = this.toDatabase(update);
         const updatedDbProgress = await this.model.findOneAndUpdate(

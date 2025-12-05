@@ -5,7 +5,7 @@ import { BaseTask } from "./Task.entity";
 import { User } from "./User.entity";
 
 
-export class IGrade {
+export class Grade {
     id!: string;
     status!: GradingStatus;
     gradedBy?: Types.ObjectId;
