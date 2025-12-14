@@ -53,7 +53,7 @@ export class ModuleService {
     }
 
     async getModulesByCourseIdDetail(id: string, session?: ClientSession): Promise<IModule[]> {
-        const modules = await this.moduleRepository.find({ courseId: id } as IModule, { populate: ['lessons', 'fileIds', 'lessons.fileIds'], session });
+        const modules = await this.moduleRepository.findByCourseId(id, { populate: ['lessons', 'fileIds', 'lessons.fileIds'] }, session);
         if (!modules || modules.length === 0) {
             throw new NotFoundError('Module not found');
         }

@@ -1,233 +1,381 @@
 <template>
-    <div class="p-4 bg-gray-200">
-        <div v-if="showEdit" class=" top-0 left-0 mt-4 ml-4">
-            <div class="flex px-3 mb-6 md:mb-0">
-                <InputSwitch name="edit" v-model="isEditing" class="" />
-                <div class="ml-2" for="edit">Edit user</div>
-            </div>
+    <div :key="$route.fullPath">
+        <!-- <Button label="Back to Courses" icon="pi pi-arrow-left" @click="$router.push('/courses')"
+            class="mb-4 p-button-text" /> -->
+        <div v-if="loading" class="flex justify-center items-center h-64">
+            <ProgressSpinner />
         </div>
-        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, values }">
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-1/2 px-3">
-                        <Field name="title" v-model="editableCourse.title" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="title">Course Title</label>
-                                <InputText id="title" v-model="editableCourse.title" v-bind="field" type="text"
-                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="title" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                    <div class="md:w-1/2 px-3">
-                        <Field name="description" v-model="editableCourse.description" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="description">Description</label>
+        <div v-else class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">{{ course.title }}</h1>
+                <p class="mt-2 text-gray-600">{{ course.description }}</p>
+            </div>
+            <template v-if="isEditable">
+                <div class="mb-6 flex gap-2">
+                    <Button label="Add Module" icon="pi pi-plus" @click="openModuleDialog" class="p-button-raised" />
+                    <Button label="Save Course" icon="pi pi-save" @click="saveCourse"
+                        class="p-button-raised p-button-success" />
+                </div>
+            </template>
+            <ModuleList :modules="course.modules" @add-lesson="openLessonDialog" @delete-module="confirmDeleteModule"
+                @add-assignment="openAssignmentDialog" @delete-lesson="confirmDeleteLesson"
+                @update-assignment="handleUpdateAssignment" :isEditable="isEditable" />
 
-                                <Textarea id="description" v-model="editableCourse.description" v-bind="field"
-                                    :class="{ 'p-invalid': errorMessage }" class="md:w-full" :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="description" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-full px-3">
-                        <Field name="instructors" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <MultiSelect v-model="editableCourse.instructors" display="chip"
-                                    :options="instructorOptions" optionLabel="name" valueLabel="id"
-                                    placeholder="Select Cities" :maxSelectedLabels="3" class="w-full md:w-20rem"
-                                    :disabled="!isEditing" />
-                                <label for="instructors">Instructors</label>
-                            </span>
-                            <ErrorMessage name="instructors" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-1/2 px-3">
-                        <Field name="category" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="category">Categories</label>
-                                <MultiSelect v-model="editableCourse.categories" :options="categoryOptions"
-                                    optionLabel="name" optionValue="id" :showClear="true" :filter="true"
-                                    placeholder="Select Categories" :maxSelectedLabels="3" class="w-full md:w-20rem"
-                                    :disabled="!isEditing" @change="handleCategoryChange" />
-                                <label for="category">Instructors</label>
-                            </span>
-                            <ErrorMessage name="category" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-1/2 px-3">
-                        <Field name="xpReward" v-model="editableCourse.xpReward" v-slot="{ field, errorMessage }">
-                            <span class="p-float-label">
-                                <label for="xpReward">XP Reward</label>
-                                <InputNumber id="xpReward" v-model="editableCourse.xpReward"
-                                    :class="{ 'p-invalid': errorMessage }" :disabled="!isEditing" />
-                            </span>
-                            <ErrorMessage name="xpReward" class="text-red-600 text-xs italic" />
-                        </Field>
-                    </div>
-                    <div class="md:w-1/2 px-3">
-                        <Field name="isPublished" v-model="editableCourse.isPublished" type="checkbox"
-                            v-slot="{ field }">
-                            <div class="flex items-center">
-                                <Checkbox id="isPublished" v-model="editableCourse.isPublished" v-bind="field" binary
-                                    :disabled="!isEditing" />
-                                <label for="isPublished" class="ml-2">Is Published</label>
-                            </div>
-                        </Field>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <Button label="Save" type="submit" :disabled="!isEditing" />
-                <Button label="Delete" type="button" @click="deleteCourse" class="p-button-danger"
-                    :disabled="!isEditing" />
-            </div>
-        </Form>
+            <template v-if="isEditable">
+                <ModuleDialog v-model:visible="dialogs.module" :new-module="forms.module" @add="handleAddModule" />
+                <LessonDialog v-model:visible="dialogs.lesson" :new-lesson="forms.lesson" @add="handleAddLesson" />
+                <Dialog v-model:visible="dialogs.assignment" modal header="Assignment Details"
+                    :style="{ width: '80vw' }" :closable="true" :closeOnEscape="true">
+                    <AssignmentDetails :assignmentProp="null" :isEditable="true" @add="handleAddAssignment" />
+                </Dialog>
+
+                <MaterialDialog v-model:visible="dialogs.material" :new-material="forms.material"
+                    @add="handleAddMaterial" />
+            </template>
+            <Toast />
+        </div>
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted, watch, watchEffect } from 'vue';
-import { useForm, Field, Form, SubmissionHandler, ErrorMessage } from 'vee-validate';
-import { array, boolean, date, number, object, string } from "yup";
+<script lang="ts" setup>
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
+import type { Course, Lesson, Assignment, Resource } from '@/types';
 
+import ModuleList from '@/features/modules/components/ModuleList.vue';
+import ModuleDialog from '@/features/courses/components/dialogs/ModuleDialog.vue';
+import LessonDialog from '@/features/courses/components/dialogs/LessonDialog.vue';
+import MaterialDialog from '@/features/courses/components/dialogs/MaterialDialog.vue';
 
-import type UserDetails from '@/types/User/UserDetails';
+import { ProgressTypeEnum } from '@/types/Progression';
 import CourseService from '@/services/CourseService';
-import UserService from '@/services/UserService';
+import ModuleService from '@/services/ModuleService';
+import LessonService from '@/services/LessonService';
 
-import User from '@/types/User/User';
-import { Course } from '@/types';
-import { RoleEnum } from '@/types/enums';
+import AssignmentDetails from '@/features/assignments/components/Details.vue'
+import { ParentType } from '@/types/enums';
+import { Module } from '@/types/Module';
+
+import { useRoleAccess } from '@/composables/useRoleAccess';
+import { onBeforeRouteLeave } from 'vue-router';
+
+const confirm = useConfirm();
+const toast = useToast();
+
+
 const props = defineProps<{
-    editableCourse: Course | undefined;
+    item: string | undefined | null;
 }>();
-
 
 const emit = defineEmits<{
-    onSaveCourse: [editableCourse: Course];
-    onEditCourse: [editableCourse: Course];
-    onDeleteCourse: [courseId: string];
+    (e: 'update:course', course: Course): void;
+    (e: 'save:course', course: Course): void;
 }>();
 
-const showEdit = ref(false);
-const isEditing = ref(false);
-const instructorOptions = ref<{ id: string; name: string }[]>([]);
+const loading = ref(true);
 
-const editableCourse = ref<Course>({
-    id: "",
-    title: "",
-    description: "",
-    instructors: [],
-    modules: [],
-    isPublished: false,
-    categories: [],
-    xpReward: 0,
-    assignments: [],
-    enrolledStudentCount: 10,
-    enrollmentCode: "das",
-    materials: [],
-    lastUpdated: new Date(),
-    prerequisites: [],
-    version: 1
+const course = ref<Course>(getEmptyCourse());
+const isEditable = computed(() => {
+    return useRoleAccess().isProfessor.value || useRoleAccess().isAdmin.value;
 });
 
-const categoryOptions = ref([
-    { id: '1', name: 'Category 1' },
-    { id: '2', name: 'Category 2' },
-]);
-
-const handleCategoryChange = (event: { value: string[] | null }) => {
-    if (event.value === null || event.value.length === 0) {
-        editableCourse.value.categories = [];
-    } else {
-        editableCourse.value.categories = event.value;
-    }
-};
-
-const handleInstructorChange = (event: any, handleChange: (value: any) => void) => {
-    // Extract the array of instructor IDs from the event
-    const selectedInstructors = Array.isArray(event.value) ? event.value : [];
-
-    // Update the form field
-    handleChange(selectedInstructors);
-
-    // Update the editableCourse ref
-    editableCourse.value.instructors = selectedInstructors;
-};
-
-const schema = object({
-    title: string().required('Course title is required'),
-    description: string().required('Course description is required'),
-    instructors: array().of(string()).min(1, 'At least one instructor is required'),
-    category: array().of(string()),
-    xpReward: number().positive('XP Reward must be positive').required('XP Reward is required'),
-    isPublished: boolean(),
-});
+function getEmptyCourse(): Course {
+    return {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        modules: [],
+        instructors: [],
+        prerequisites: [],
+        categories: [],
+        isPublished: false,
+        version: 1,
+        lastUpdated: new Date(),
+        enrolledStudentCount: 0,
+        xpReward: 0,
+        materials: [],
+        assignments: [],
+        enrollmentCode: ''
+    };
+}
 
 onMounted(async () => {
-    try {
-        const instructors = await UserService.getUsersByRoles([RoleEnum.PROFESSOR]);
-        instructorOptions.value = instructors.map(instructor => ({
-            id: instructor.id, name: `${instructor.name}`
-        }));
-    } catch (error) {
-        console.error('Failed to fetch instructors:', error);
+    if (!props.item) {
+        showError('Course not found');
+        loading.value = false;  // Add this line
+        return;
     }
+
+    course.value = await CourseService.getCourseDetailsById(props.item) as Course;
+    loading.value = false;
 });
 
 
-watchEffect(() => {
-    if (props.editableCourse) {
-        editableCourse.value = { ...props.editableCourse, categories: props.editableCourse.categories || [], instructors: props.editableCourse.instructors || [], };
 
-        showEdit.value = true;
-        isEditing.value = false;
-    } else {
-        editableCourse.value = {
-            id: "",
-            title: "",
-            description: "",
-            instructors: [],
-            modules: [],
-            isPublished: false,
-            categories: [],
-            xpReward: 0,
-            assignments: [],
-            enrolledStudentCount: 10,
-            enrollmentCode: "das",
-            materials: [],
-            lastUpdated: new Date(),
-            prerequisites: [],
-            version: 1
+
+// Dialog state management
+const dialogs = ref({
+    module: false,
+    lesson: false,
+    assignment: false,
+    material: false
+});
+
+// Form state management
+const forms = ref({
+    module: getEmptyModule(),
+    lesson: getEmptyLesson(),
+    assignment: getEmptyAssignment(ParentType.COURSE),
+    material: getEmptyMaterial()
+});
+
+// Computed properties
+
+
+function getEmptyModule(): Module {
+    return {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        order: course.value.modules?.length || 0,
+        courseId: course.value.id,
+        lessons: [],
+        learningObjectives: [],
+        estimatedDuration: 60,
+        difficulty: 1,
+        publishedAt: new Date(),
+        xpReward: 0,
+        badgeReward: '',
+        prerequisites: [],
+        assignments: [],
+        fileIds: []
+    };
+}
+
+function getEmptyAssignment(parentType: ParentType): Assignment {
+    return {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        tasks: [],
+        parentType,
+        createdBy: '', // Should be set from auth context
+        rubric: { criteria: [] },
+        peerReviewSettings: {
+            enabled: false,
+            reviewsPerStudent: 0,
+            dueDate: new Date()
+        },
+        submissionWindow: {
+            start: new Date(),
+            end: new Date(),
+            allowLateSubmissions: false,
+            lateSubmissionPenalty: 10
+        },
+        maxAttempts: 2,
+        passingScore: 100,
+        points: 20,
+        timeLimit: 0
+    };
+}
+
+function getEmptyLesson(): Lesson {
+    return {
+        id: crypto.randomUUID(),
+        title: '',
+        description: '',
+        type: 'lesson',
+        moduleId: '',
+        content: '',
+        estimatedDuration: 0,
+        order: 0,
+        assignments: [],
+        files: []
+    };
+}
+
+function getEmptyMaterial(): Resource {
+    return {
+        id: crypto.randomUUID(),
+        uploadedBy: '',
+        parentId: course.value.id || '',
+        filename: '',
+        originalName: '',
+        encoding: undefined,
+        mimetype: '',
+        size: 0,
+        url: '',
+        uploadedAt: new Date().toISOString(),
+        version: 1,
+        isPublic: false,
+        tags: [],
+        status: 'READY',
+        lastModified: new Date().toISOString(),
+        parentType: ParentType.COURSE
+    } as Resource;
+}
+
+// Dialog handlers
+function openModuleDialog() {
+    forms.value.module = getEmptyModule();
+    dialogs.value.module = true;
+}
+
+function openLessonDialog(moduleId: string) {
+    const module = course.value.modules?.find((m: Module) => m.id === moduleId);
+    if (module) {
+        forms.value.lesson = {
+            ...getEmptyLesson(),
+            moduleId,
+            order: module.lessons?.length || 0
         };
-        showEdit.value = false;
-        isEditing.value = true;
+        dialogs.value.lesson = true;
     }
-});
+}
 
-function onSubmit() {
-    if (props.editableCourse) {
-        emit('onEditCourse', editableCourse.value);
-        clearForm();
+function openAssignmentDialog(moduleId: string, lessonId: string) {
+    dialogs.value.assignment = true;
+}
+
+
+async function handleUpdateAssignment(lessonId: string, updatedAssignment: Assignment) {
+    showSuccess('Assignment updated');
+}
+
+
+async function handleAddLesson(value: Partial<Lesson>) {
+    const module = course.value.modules?.find((m: Module) => m.id === value.moduleId);
+    if (module) {
+        const newLessonData: Lesson = {
+            ...getEmptyLesson(),
+            id: crypto.randomUUID(),
+            title: value.title!,
+            description: value.description!,
+            content: value.content!,
+            order: value.order!,
+            moduleId: value.moduleId!
+        };
+
+        module.lessons = [...(module.lessons || []), newLessonData];
+        dialogs.value.lesson = false;
+        showSuccess('Lesson added');
     }
-    emit('onSaveCourse', editableCourse.value);
+}
 
-};
+async function handleAddAssignment(value: Assignment) {
 
-const deleteCourse = () => {
-    if (props.editableCourse) {
-        emit('onDeleteCourse', props.editableCourse.id);
-    }
-};
-
-function clearForm() {
+    dialogs.value.assignment = false;
+    showSuccess('Assignment added');
 
 }
+
+async function handleAddMaterial(value: Resource) {
+    // Implement material handling logic here
+    showSuccess('Material added');
+}
+
+
+async function handleAddModule(value: Partial<Module>) {
+    const newModuleData: Module = {
+        ...getEmptyModule(),
+        title: value.title!,
+        description: value.description!,
+        order: course.value.modules?.length || 0,
+        courseId: course.value.id!,
+        difficulty: value.difficulty || 1,
+        xpReward: value.xpReward || 0,
+        learningObjectives: value.learningObjectives || []
+    };
+
+    course.value.modules = [...(course.value.modules || []), newModuleData];
+    emit('update:course', course.value);
+}
+
+
+
+function confirmDeleteModule(moduleId: string) {
+    confirm.require({
+        message: 'Are you sure you want to delete this module?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => handleDeleteModule(moduleId)
+    });
+}
+
+function confirmDeleteLesson(moduleId: string, lessonId: string) {
+    confirm.require({
+        message: 'Are you sure you want to delete this lesson?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => handleDeleteLesson(moduleId, lessonId)
+    });
+}
+
+async function handleDeleteModule(moduleId: string) {
+    const deleted = await ModuleService.deleteModule(moduleId);
+    if (deleted) {
+        course.value.modules = course.value.modules?.filter((m: Module) => m.id !== moduleId) || [];
+        showSuccess('Module deleted');
+    }
+
+}
+
+async function handleDeleteLesson(moduleId: string, lessonId: string) {
+    const deleted = await LessonService.deleteLesson(lessonId);
+    if (deleted) {
+        const module = course.value.modules?.find((m: Module) => m.id === moduleId);
+        if (module) {
+            module.lessons = module.lessons?.filter((l: Lesson) => l.id !== lessonId) || [];
+            showSuccess('Lesson deleted');
+        }
+    }
+}
+
+async function saveCourse() {
+    if (!validateCourse(course.value)) {
+        showError('Please fill in all required fields');
+        return;
+    }
+
+    try {
+        const savedCourse = await CourseService.createCourse(course.value);
+        if (savedCourse) {
+            showSuccess('Course saved successfully');
+            emit('save:course', savedCourse);
+        }
+    } catch (error) {
+        showError('Failed to save course');
+    }
+}
+
+function validateCourse(course: Course): boolean {
+    if (!course.title || !course.description) return false;
+    if (!course.modules?.length) return false;
+
+    // Add more validation as needed
+    return true;
+}
+
+// Toast notifications
+function showSuccess(message: string) {
+    toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: message,
+        life: 3000
+    });
+}
+
+function showError(message: string) {
+    toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: message,
+        life: 3000
+    });
+}
+// In onBeforeRouteLeave
+
+
 </script>

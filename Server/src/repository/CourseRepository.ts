@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { MongoRepository } from "./MongoRepository";
-import CourseModel, {ICourseDb, CourseDocument} from '@/models/db/mongo/Course.db';
+import CourseModel, { ICourseDb, CourseDocument } from '@/models/db/mongo/Course.db';
 import { Course as ICourse } from "@/models/app";
 import { ClientSession, Types } from 'mongoose';
-import { courseMapper} from '@/utils/mapper/autoMapper';
+import { courseMapper } from '@/utils/mapper/autoMapper';
 import { DatabaseError } from '@/models/app/Errors/ServerError';
 
 interface PopulateOptions {
@@ -31,14 +31,14 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
         return courseMapper.toDb(domainModel);
     }
 
-    async findByCoursename(coursename: string, options?: { populate?: string[]}, context?: ClientSession): Promise<ICourse | null> {
+    async findByCoursename(coursename: string, options?: { populate?: string[] }, context?: ClientSession): Promise<ICourse | null> {
         const { populate = ['roles'] } = options || {};
         const course = await this.model.findOne({ coursename }).populate(populate).session(context!) as ICourseDb;
         const courseEnt = this.toDomain(course);
         return courseEnt;
     }
 
-    async findByInstructor(instructorId: string, options?: { populate?: string[]}, context?: ClientSession): Promise<ICourse[]> {
+    async findByInstructor(instructorId: string, options?: { populate?: string[] }, context?: ClientSession): Promise<ICourse[]> {
         try {
             const { populate = [] } = options || {};
             const courseDocuments = await this.model.find({ 'instructors._id': instructorId })
@@ -53,12 +53,12 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
             //     select: 'title order'
             //   }).lean();
         } catch (error: any) {
-            throw new DatabaseError('Database error:'+ error);
+            throw new DatabaseError('Database error:' + error);
         }
     }
 
-    async findByIds(courseIds: string[], options?: { populate?: string[]}, context?: ClientSession): Promise<ICourse[]> {
-        const { populate = []} = options || {};
+    async findByIds(courseIds: string[], options?: { populate?: string[] }, context?: ClientSession): Promise<ICourse[]> {
+        const { populate = [] } = options || {};
 
         const courseDocuments = await this.model.find({
             _id: { $in: courseIds }
@@ -75,7 +75,7 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
 
     async findAll(options?: { populate?: string[] }, context?: ClientSession): Promise<ICourse[] | null> {
         const query = this.model.find();
-        
+
         this.handleQueryPopulation(query, options);
 
         if (context) {
@@ -87,14 +87,14 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
     }
 
     async findByIdWithPopulate(
-        id: string, 
+        id: string,
         fieldsToPopulate?: string[],
         session?: ClientSession
     ): Promise<ICourse | null> {
         try {
             // Start with the basic query
             const baseQuery = this.model.findById(id);
-            
+
             // Apply population if needed
             let populatedQuery = baseQuery;
             if (fieldsToPopulate?.length) {
@@ -103,19 +103,19 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
                     populatedQuery = populatedQuery.populate(field) as any;
                 });
             }
-            
+
             // Apply session if needed
             if (session) {
                 populatedQuery = populatedQuery.session(session) as any;
             }
-            
+
             // Execute the query
             const course = await populatedQuery.exec();
-            
+
             if (!course) {
                 return null;
             }
-            
+
             return this.toDomain(course.toObject());
         } catch (error) {
             console.error('Error in findById:', error);
@@ -138,7 +138,7 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
     ): Promise<ICourse | null> {
         const query = this.model.findByIdAndUpdate(
             courseId,
-            { 
+            {
                 $push: { modules: moduleData }
             },
             { new: true }
@@ -154,7 +154,7 @@ export class CourseRepository extends MongoRepository<ICourse, ICourseDb, Course
 
     private handleQueryPopulation(query: any, options?: { populate?: string[] }) {
         const { populate = [] } = options || {};
-        
+
         if (populate.includes('modules')) {
             // If modules are explicitly requested to populate, populate the full document
             query.populate({

@@ -11,9 +11,9 @@ export function useCourseManagement(instructorId?: string) {
     async function loadCourses() {
         loading.value = true
         try {
-            courses.value = instructorId 
-                ? await CourseService.getCoursesByInstructor(instructorId)
-                : await CourseService.getAllCourses()
+            courses.value = //instructorId 
+                //? await CourseService.getCoursesByInstructor(instructorId)
+                await CourseService.getAllCourses()
         } catch (err) {
             error.value = err as Error
         } finally {

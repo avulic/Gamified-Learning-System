@@ -68,9 +68,9 @@
         <!-- <Details :editable-course="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
             @onEditCourse="saveCourse">
         </Details> -->
-        <Details :course="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
+        <!-- <Details :editableCourse="selectedCourse" @onSaveCourse="saveCourse" @onDeleteCourse="deleteCourse"
             @onEditCourse="saveCourse" :isEditable="true">
-        </Details>
+        </Details> -->
     </Dialog>
 
 
@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, computed } from 'vue';
+import { ref, onMounted, reactive, computed, defineEmits } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import DataTable from 'primevue/datatable';
@@ -87,16 +87,21 @@ import Column from 'primevue/column';
 import type { Course } from '@/types/Course';
 import CourseService from '@/services/CourseService';
 //import Details from '@/components/course/Details.vue'
-import Details from '@/features/courses/components/CourseDetailsProfesor.vue'
+import Details from '@/features/courses/components/Details.vue'
 import { FilterMatchMode } from 'primevue/api';
 import { useRoleAccess } from '@/composables/useRoleAccess'
 import { useCourseManagement } from '@/composables/useCourseManagement';
+
 
 const toast = useToast();
 const confirm = useConfirm();
 
 const props = defineProps<{
     instructorId?: string
+}>()
+
+const emit = defineEmits<{
+    (e: 'openDetails', course: Course): void;
 }>()
 
 const { isProfessor, currentUser } = useRoleAccess()
@@ -120,6 +125,7 @@ const filters = ref({
 
 onMounted(async () => {
     await loadCourses();
+    console.log('Courses loaded:', courses.value);
 });
 
 const openNew = () => {
@@ -162,7 +168,9 @@ const editProduct = async (prod: Course) => {
         const courseSelectedDetails = await CourseService.getCourseDetailsById(prod.id);
         selectedCourse.value = courseSelectedDetails
 
-        showModal.value = true;
+        //showModal.value = true;
+
+        emit('openDetails', prod);
     } catch (error) {
         console.error('Error fetching course details:', error);
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load course details', life: 3000 });

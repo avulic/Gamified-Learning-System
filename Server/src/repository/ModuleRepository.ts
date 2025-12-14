@@ -37,10 +37,16 @@ export class ModuleRepository extends MongoRepository<IModule, IModuleDb, Module
         return module ? this.toDomain(module) : null;
     }
 
+    async findByCourseId(courseId: string, options?: { populate?: string[] }, context?: ClientSession): Promise<IModule[] | null> {
+        const { populate = [] } = options || {};
+        const module = await this.model.find({ "courseId": courseId }).populate(populate).session(context!);
+        return module ? module.map(m => this.toDomain(m.toObject({ versionKey: false }))) : null;
+    }
+
     async findAll(options?: { populate?: string[] }, context?: ClientSession): Promise<IModule[] | null> {
         const { populate = [] } = options || {};
         const module = await this.model.find().populate(populate).session(context!);
-        return module ? module.map(this.toDomain) : null;
+        return module ? module.map(m => this.toDomain(m.toObject({ versionKey: false }))) : null;
     }
 
     async bulkCreate(modules: IModule[], context: ClientSession): Promise<IModule[]> {

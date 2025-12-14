@@ -47,7 +47,7 @@ import { Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import UserService from '@/services/UserService';
 import type UserDetails from '@/types/User/UserDetails';
-import Details from '@/components/user/Details.vue';
+import Details from '@/features/profile/components/Details.vue';
 import { RoleEnum } from '@/types/enums';
 import { isValidRole } from '@/types/Role';
 
@@ -98,7 +98,7 @@ async function loadUsers() {
     loading.value = true;
     try {
         users.value = await UserService.getAllUsers();
-        
+
     } catch (error) {
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load users', life: 3000 });
     } finally {
@@ -158,7 +158,7 @@ async function deleteUser(id: string) {
 }
 
 function editUser(editUser: UserDetails) {
-    user.value = { ...editUser }; 
+    user.value = { ...editUser };
     showModal.value = true;
 }
 
@@ -180,6 +180,4 @@ async function saveUser() {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

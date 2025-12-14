@@ -5,7 +5,7 @@
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">{{ dashboardTitle }}</h2>
+
                 <Dropdown v-if="isAdmin" v-model="selectedTable" :options="availableTables" optionLabel="label"
                     optionValue="value" placeholder="Select Management View" class="w-64" />
             </div>
@@ -17,10 +17,10 @@
             <CourseList v-if="showCourseList" :instructor-id="isProfessor ? currentUser?.id : undefined" />
 
             <!-- Module Management -->
-            <ModuleList v-if="showModuleList" :course-ids="professorCourseIds" />
+            <ModuleList v-if="showModuleList" :modules="[]" :is-editable="false" />
 
             <!-- Assignment Management -->
-            <AssignmentList v-if="showAssignmentList" :parent-ids="professorResourceIds" />
+            <AssignmentList v-if="showAssignmentList" :assignments="[]" :is-editable="false" />
 
             <!-- Course Management -->
             <!-- <CourseProfesor v-if="details" :course="course" :isEditable="isProfessor" /> -->
@@ -31,10 +31,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import UserList from '@/components/user/UserList.vue'
-import CourseList from '@/components/course/CourseList.vue'
-import ModuleList from '@/components/module/ModuleList.vue'
-import AssignmentList from '@/components/assignment/AssignmentList.vue'
+import UserList from '@/features/profile/components/UserList.vue'
+import CourseList from '@/features/courses/components/CourseList.vue'
+import ModuleList from '@/features/modules/components/ModuleList.vue'
+import AssignmentList from '@/features/assignments/components/AssignmentList.vue'
 import { useRoleAccess } from '@/composables/useRoleAccess'
 import CourseService from '@/services/CourseService'
 import CourseProfesor from '@/components/course/CourseDetailsProfesor.vue'
@@ -75,12 +75,6 @@ const availableTables = computed(() => {
     }
 
     return tables
-})
-
-const dashboardTitle = computed(() => {
-    if (isAdmin.value) return 'System Management'
-    if (isProfessor.value) return 'Course Management'
-    return 'Dashboard'
 })
 
 const showUserList = computed(() =>

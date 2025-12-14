@@ -5,20 +5,19 @@ import { File } from "./File.entity";
 
 
 export class Course {
-    id?: string;
-    title!: string;
-    description!: string;
-    modules!: Module[] | [];
-    instructors!: User[] | [];
-    prerequisites!: string[] | [];
-    categories!: string[];
-    enrollmentCode!: string;
-    isPublished!: boolean;
-    version!: number;
-    lastUpdated!: Date;
-    enrolledStudentCount!: number;
-    xpReward!: number;
-    materials!: File[] | [];
-    assignments!: Assignment[] | [];
-
+    id: string | undefined = undefined;
+    title: string = "";
+    description: string = "";
+    modules: Module[] = [];
+    instructors: User[] = [];
+    prerequisites: string[] = [];
+    categories: string[] = [];
+    enrollmentCode: string = "";
+    isPublished: boolean = false;
+    version: number = 0;
+    lastUpdated: Date = new Date();
+    enrolledStudentCount: number = 0;
+    xpReward: number = 0;
+    materials: File[] = [];
+    assignments: Assignment[] = [];
 }

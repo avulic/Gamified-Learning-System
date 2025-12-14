@@ -1,5 +1,5 @@
 
-import { Answer, Assignment, Course, Module, Role, Task, User, File, BaseTask, BaseAnswer, BaseTaskSubmission, FileUploadTask, QuestionTask, QuizTask, CodeTask, CodeSubmission, FileUploadSubmission, MultiChoiceQuestion, Question, QuestionSubmission, QuizSubmission, TaskSubmission, TextQuestion, TrueFalseQuestion, BaseQuestion, MultiChoiceAnswer, TextAnswer, TrueFalseAnswer, QuizTaskContent, MultiChoiceOption, IGrade } from "@/models/app";
+import { Answer, Assignment, Course, Module, Role, Task, User, File, BaseTask, BaseAnswer, BaseTaskSubmission, FileUploadTask, QuestionTask, QuizTask, CodeTask, CodeSubmission, FileUploadSubmission, MultiChoiceQuestion, Question, QuestionSubmission, QuizSubmission, TaskSubmission, TextQuestion, TrueFalseQuestion, BaseQuestion, MultiChoiceAnswer, TextAnswer, TrueFalseAnswer, QuizTaskContent, MultiChoiceOption, Grade } from "@/models/app";
 import { Lesson } from "@/models/app/Lesson.entity";
 import { AssignmentProgress } from "@/models/app/Progress/AssignmentProgress.entity";
 import { EnrolledCourse, Preferences } from "@/models/app/User.entity";
@@ -38,56 +38,115 @@ function getParamName(func: Function): string {
     const firstParam = params[0].trim();
     return firstParam;
 }
+
+
+
+
 function autoMap<TSource extends object, TTarget extends object>(
+
+
     source: TSource,
+
+
     targetType: new () => TTarget,
+
+
     transformations: Partial<Record<keyof TTarget, (value: any) => any>> = {}
+
+
 ): TTarget {
 
-    const target = new targetType();
-    const targetKeys = Object.keys(target);
 
-    for (const targetKey of targetKeys) {
+    const target = {} as TTarget; // Don't initialize with new targetType()
 
-        // manual transform first
-        if (transformations[targetKey]) {
-            const transform = transformations[targetKey]!;
-            const paramName = getParamName(transform);
-            const sourceKey = paramName || targetKey;
 
-            if (sourceKey in source) {
-                (target as any)[targetKey] = transform((source as any)[sourceKey]);
+    const usedSourceProps = new Set<string>();
+
+
+
+
+
+    // Apply transformations only if source property exists
+
+
+    for (const targetKey in transformations) {
+
+
+        const transform = transformations[targetKey];
+
+
+        if (!transform) continue;
+
+
+
+
+
+        const paramName = getParamName(transform);
+
+
+        const sourceKey = paramName || targetKey;
+
+
+
+
+
+        if (sourceKey in source) {
+
+
+            const sourceValue = (source as any)[sourceKey];
+
+
+            const result = transform(sourceValue);
+
+
+            if (result !== undefined) {
+
+
+                (target as any)[targetKey] = result;
+
+
             }
 
-            continue;
+
+            usedSourceProps.add(sourceKey);
+
+
         }
 
-        // same name property exists in source
-        if (targetKey in source) {
-            const value = (source as any)[targetKey];
 
-            // deep copy arrays
-            if (Array.isArray(value)) {
-                (target as any)[targetKey] = value.map(v =>
-                    typeof v === 'object' && v !== null
-                        ? JSON.parse(JSON.stringify(v))
-                        : v
-                );
-                continue;
-            }
-
-            // deep copy objects
-            if (value && typeof value === 'object') {
-                (target as any)[targetKey] = JSON.parse(JSON.stringify(value));
-                continue;
-            }
-
-            (target as any)[targetKey] = value;
-        }
     }
 
+
+
+
+
+    // Copy remaining properties only if they exist in source
+
+
+    for (const key in source) {
+
+
+        if (!usedSourceProps.has(key) && (source as any)[key] !== undefined) {
+
+
+            (target as any)[key] = (source as any)[key];
+
+
+        }
+
+
+    }
+
+
+
+
+
     return target;
+
+
 }
+
+
 
 
 function toId(id: string | undefined) {

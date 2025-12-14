@@ -3,7 +3,7 @@ import AuthService from '@/services/AuthService'
 import { RoleEnum } from '@/types/enums'
 
 export function useRoleAccess() {
-    const currentUser = computed(() => AuthService.getCurentUserValues())
+    const currentUser = computed(() => AuthService.getCurrentUserValues())
 
     const isAdmin = computed(() =>
         AuthService.currentUserHasPermission([RoleEnum.ADMIN])

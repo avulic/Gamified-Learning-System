@@ -32,20 +32,20 @@ const router = createRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            //component: () => import('@/features/dashboard/views/ProfesorDashboardView.vue'),
-            component: () => import('@/views/DashboardView.vue'),
+            //component: () => import('@/features/dashboard/views/ProfessorDashboardView.vue'),
+            component: () => import('@/features/dashboard/views/DashboardView.vue'),
             meta: { authorize: [] }
         },
         {
             path: '/questMapper',
             name: 'questMapper',
-            component: () => import('@/views/stuff/profesor/QuestMapperView.vue'),
+            component: () => import('@/features/tileMap/views/QuestMapperView.vue'),
             meta: { authorize: [] }
         },
         {
             path: '/profile',
             name: 'profile',
-            component: () => import('@/views/ProfileView.vue'),
+            component: () => import('@/features/profile/ProfileView.vue'),
             meta: { authorize: [] }
         },
         {
